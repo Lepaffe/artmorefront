@@ -23,6 +23,7 @@ import CollectionScreen from './screens/CollectionScreen';
 import MyArtistsScreen from './screens/MyArtistsScreen';
 
 import ArtworkScreen from './screens/ArtworkScreen';
+import ArtistScreen from './screens/ArtistScreen';
 
 import selectedArtwork from './reducers/selectedArtwork'
 import selectedArtist from './reducers/selectedArtist'
@@ -111,6 +112,7 @@ export default function App() {
           <Stack.Screen name="PersonalInfoScreen" component={PersonalInfoScreen} />
           <Stack.Screen name="SignInScreen" component={SignInScreen} />
           <Stack.Screen name="ArtworkScreen" component={ArtworkScreen}/>
+          <Stack.Screen name="ArtistScreen" component={ArtistScreen}/>
           <Stack.Screen name="BottomNav" component={BottomNav} options={{ headerShown: false }} />
         </Stack.Navigator>
       </NavigationContainer>
