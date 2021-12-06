@@ -5,10 +5,16 @@ import { AntDesign } from '@expo/vector-icons'
 
 const ArtworkScreen = (props) => {
 
-    /*useEffect(() => {
-        aller chercher l'artiste lié à l'oeuvre en BDD et le mettre dans le store
-        const data = fetch('/getArtist/:artworkId')
-    }, [])*/
+    useEffect(() => {
+        const getArtist = async () => {
+            const data = await fetch(`http://192.168.1.16:3000/get-artist-detail/${props.selectedArtwork._id}`);
+            const dataJSON = await data.json();
+            console.log(dataJSON)
+            props.setSelectedArtist(dataJSON.artist);
+        }
+        getArtist();
+
+    }, [])
 
     return (
         <ScrollView style={styles.container}>

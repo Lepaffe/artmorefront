@@ -6,63 +6,19 @@ import { connect } from 'react-redux'
 
 const SwipeScreen = (props) => {
 
-    const [artworkList, setArtworkList] = useState([
-        {
-            _id: '2RTFE34543',
-            name: "Artwork 1",
-            year: '2021',
-            size: '34x543cm',
-            location: 'Paris',
-            desc: 'Blablabla',
-            medium: 'Painting 1',
-            technic: 'Watercolor',
-            movement: 'ArtPop',
-            category: 'abstract',
-            cloudinary: 'https://res.cloudinary.com/lepaffe/image/upload/v1638785259/Artmore/IMG_5502_f5zdik.jpg'
-
-        },
-
-        {
-            _id: '2RTFE34543',
-            name: "Artwork 2",
-            year: '2021',
-            size: '34x543cm',
-            location: 'Paris',
-            desc: 'Blablabla',
-            medium: 'Painting 2',
-            technic: 'Watercolor',
-            movement: 'ArtPop',
-            category: 'abstract',
-            cloudinary: 'https://res.cloudinary.com/lepaffe/image/upload/v1638785260/Artmore/IMG_5503_cjcsf8.jpg'
-
-        },
-
-        {
-            _id: '2RTFE34543',
-            name: "Artwork 3",
-            year: '2021',
-            size: '34x543cm',
-            location: 'Paris',
-            desc: 'Blablabla',
-            medium: 'Painting 3',
-            technic: 'Watercolor',
-            movement: 'ArtPop',
-            category: 'abstract',
-            cloudinary: 'https://res.cloudinary.com/lepaffe/image/upload/v1638785262/Artmore/IMG_5504_knunpw.jpg'
-
-        },
-    ])
+    const [artworkList, setArtworkList] = useState([])
 
     const swipeRef = useRef(null);
 
-    /*useEffect(() => {
+    useEffect(() => {
         const getArtworkList = async () => {
-            const data = await fetch('/getArtworkList');
+            const data = await fetch('http://192.168.1.16:3000/get-artwork-list');
             const dataJSON = await data.json();
-            setArtworkList(dataJSON);
-            getArtworkList();
-     
-    }, [])*/
+            setArtworkList(dataJSON.artworks);
+        }
+        getArtworkList();
+
+    }, [])
 
     const handleLike = (cardIndex) => {
         console.log('like', artworkList[cardIndex])
@@ -87,28 +43,28 @@ const SwipeScreen = (props) => {
         <View style={styles.container}>
 
             <View style={styles.swiperContainer}>
-
-                <Swiper
-                    ref={swipeRef}
-                    cards={artworkList}
-                    renderCard={(artwork) => {
-                        return (
-                            <Image
-                                source={{ uri: artwork.cloudinary }}
-                                style={styles.card}
-                            />
-                        )
-                    }}
-                    onSwipedLeft={cardIndex => handleDislike(cardIndex)}
-                    onSwipedRight={cardIndex => handleLike(cardIndex)}
-                    onSwipedBottom={cardIndex => addArtworkToCollection(cardIndex)}
-                    onTapCard={cardIndex => openArtworkDetail(cardIndex)}
-                    disableTopSwipe={true}
-                    cardIndex={0}
-                    backgroundColor={'transparent'}
-                    stackSize={5}
-                    animateCardOpacity
-                />
+                {artworkList.length > 1 &&
+                    (<Swiper
+                        ref={swipeRef}
+                        cards={artworkList}
+                        renderCard={(artwork) => {
+                            return (
+                                <Image
+                                    source={{ uri: artwork.cloudinary }}
+                                    style={styles.card}
+                                />
+                            )
+                        }}
+                        onSwipedLeft={cardIndex => handleDislike(cardIndex)}
+                        onSwipedRight={cardIndex => handleLike(cardIndex)}
+                        onSwipedBottom={cardIndex => addArtworkToCollection(cardIndex)}
+                        onTapCard={cardIndex => openArtworkDetail(cardIndex)}
+                        disableTopSwipe={true}
+                        cardIndex={0}
+                        backgroundColor={'transparent'}
+                        stackSize={5}
+                        animateCardOpacity
+                    />)}
 
             </View >
 
