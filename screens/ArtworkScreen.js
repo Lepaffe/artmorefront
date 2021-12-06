@@ -7,10 +7,12 @@ const ArtworkScreen = (props) => {
 
     useEffect(() => {
         const getArtist = async () => {
+            console.log('ok')
             const data = await fetch(`http://192.168.1.16:3000/get-artist-detail/${props.selectedArtwork._id}`);
             const dataJSON = await data.json();
-            console.log(dataJSON)
+            console.log(dataJSON.artist)
             props.setSelectedArtist(dataJSON.artist);
+            console.log(selectedArtist)
         }
         getArtist();
 
@@ -56,9 +58,9 @@ const ArtworkScreen = (props) => {
 
             <ScrollView horizontal={true} style={styles.minipicturesContainer}>
 
-                {/*{props.selectedArtist.artistArtwork.map((artwork, i) => {
-                    <Image source={{ uri: artwork.url }} style={styles.minipicture}/>
-                })}*/}
+                {/*props.selectedArtist.artistArtwork.map((artwork, i) => {
+                    <Image source={{ uri: artwork.url }} style={styles.minipicture} />
+                })*/}
 
                 <Image source={{ uri: "https://picsum.photos/1080/1080?random=1" }} style={styles.minipicture} />
                 <Image source={{ uri: "https://picsum.photos/1080/1080?random=3" }} style={styles.minipicture} />
