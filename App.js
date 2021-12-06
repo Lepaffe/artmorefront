@@ -22,25 +22,31 @@ import ExhibitionScreen from './screens/ExhibitionScreen';
 import CollectionScreen from './screens/CollectionScreen';
 import MyArtistsScreen from './screens/MyArtistsScreen';
 
+import SwipeScreen from './screens/SwipeScreen'
+import ArtworkScreen from './screens/ArtworkScreen';
+
 import selectedArtwork from './reducers/selectedArtwork'
+import selectedArtist from './reducers/selectedArtist'
 
 import MyIcon from './composants/myIcons'; // impot composant MyIcon
+
+import { Provider } from 'react-redux';
+import { createStore, combineReducers } from 'redux';
+
+const store = createStore(combineReducers({ selectedArtwork, selectedArtist }));
 
 const Stack = createStackNavigator();
 const BottomTab = createBottomTabNavigator();
 const TopTab = createMaterialTopTabNavigator();
-/*import { Provider } from 'react-redux';
-import { createStore, combineReducers } from 'redux';
 
-const store = createStore(combineReducers({ selectedArtwork }))*/
-const TopNav= ()=> {
+const TopNav = () => {
   return (
     <TopTab.Navigator
       tabBarOptions={{
-        activeTintColor: '#000000', 
+        activeTintColor: '#000000',
         inactiveTintColor: '#88889C',
-        style: { backgroundColor: '#FFFFFF', marginTop:40 }
-    }}>
+        style: { backgroundColor: '#FFFFFF', marginTop: 40 }
+      }}>
       <TopTab.Screen name="my collection" component={CollectionScreen} />
       <TopTab.Screen name="my Artists" component={MyArtistsScreen} />
     </TopTab.Navigator>
@@ -57,34 +63,35 @@ const BottomNav = () => {
           let iconLib;
           if (route.name === 'SwipeScreen') {
             iconName = "swap-horizontal";
-            iconLib="Ionicons";
+            iconLib = "Ionicons";
           } else if (route.name === 'TopNav') {
             iconName = "hearto";
             iconLib = 'AntDesign';
           } else if (route.name === 'DailyScreen') {
             iconName = "ios-eye-outline";
-            iconLib='Ionicons';
+            iconLib = 'Ionicons';
           } else if (route.name === 'ExhibitionScreen') {
             iconName = "calendar";
-            iconLib='AntDesign';
+            iconLib = 'AntDesign';
           }
           return (
-          <MyIcon
+            <MyIcon
               type={iconLib}
-              name={iconName} 
+              name={iconName}
               size={25}
-              style={{margin:10, marginBottom: 0}}
+              style={{ margin: 10, marginBottom: 0 }}
               color={color}
-          />
-          )},
+            />
+          )
+        },
       })}
       tabBarOptions={{
-        activeTintColor: '#000000', 
+        activeTintColor: '#000000',
         inactiveTintColor: '#88889C',
         showLabel: false,
         style: { backgroundColor: '#FFFFFF' }
       }}>
-      <BottomTab.Screen style={{color:'#FFFFFF'}} name="SwipeScreen" component={SwipeScreen} />
+      <BottomTab.Screen style={{ color: '#FFFFFF' }} name="SwipeScreen" component={SwipeScreen} />
       <BottomTab.Screen name="TopNav" component={TopNav} />
       <BottomTab.Screen name="DailyScreen" component={DailyScreen} />
       <BottomTab.Screen name="ExhibitionScreen" component={ExhibitionScreen} />
@@ -93,21 +100,20 @@ const BottomNav = () => {
 };
 
 
-
 export default function App() {
   return (
-    //<Provider store={store}>
-    <NavigationContainer>
-    <Stack.Navigator>
-      <Stack.Screen name="LandingScreen" component={LandingScreen} />
-      <Stack.Screen name="LoginScreen" component={LoginScreen} />
-      <Stack.Screen name="MediumScreen" component={MediumScreen} />
-      <Stack.Screen name="MovementScreen" component={MovementScreen} />
-      <Stack.Screen name="PersonalInfoScreen" component={PersonalInfoScreen} />
-      <Stack.Screen name="SignInScreen" component={SignInScreen} />
-      <Stack.Screen name="BottomNav" component={BottomNav} options={{ headerShown: false }} />
-    </Stack.Navigator>
-  </NavigationContainer>
-    //</Provider>
-  );
+    <Provider store={store}>
+      <NavigationContainer>
+        <Stack.Navigator>
+          <Stack.Screen name="LandingScreen" component={LandingScreen} />
+          <Stack.Screen name="LoginScreen" component={LoginScreen} />
+          <Stack.Screen name="MediumScreen" component={MediumScreen} />
+          <Stack.Screen name="MovementScreen" component={MovementScreen} />
+          <Stack.Screen name="PersonalInfoScreen" component={PersonalInfoScreen} />
+          <Stack.Screen name="SignInScreen" component={SignInScreen} />
+          <Stack.Screen name="BottomNav" component={BottomNav} options={{ headerShown: false }} />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </Provider>
+  )
 }
