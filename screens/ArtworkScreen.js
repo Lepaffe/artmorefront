@@ -26,7 +26,6 @@ const ArtworkScreen = (props) => {
                 </TouchableOpacity>
             </View>
 
-
             <View style={styles.mainInfoContainer}>
                 <Text style={styles.name}>{props.selectedArtwork.name}</Text>
                 <Text onPress={()=> props.navigation.navigate('ArtistScreen')} style={styles.artist}>{props.selectedArtist.name}</Text>

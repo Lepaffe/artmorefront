@@ -5,6 +5,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
+import MyAppBar from './composants/MyAppBar';
 
 //SCREENS
 import LandingScreen from './screens/LandingScreen';
@@ -23,6 +24,7 @@ import CollectionScreen from './screens/CollectionScreen';
 import MyArtistsScreen from './screens/MyArtistsScreen';
 
 import ArtworkScreen from './screens/ArtworkScreen';
+import ArtistScreen from './screens/ArtistScreen';
 
 import selectedArtwork from './reducers/selectedArtwork'
 import selectedArtist from './reducers/selectedArtist'
@@ -40,11 +42,12 @@ const TopTab = createMaterialTopTabNavigator();
 
 const TopNav = () => {
   return (
+
     <TopTab.Navigator
-      tabBarOptions={{
-        activeTintColor: '#000000',
-        inactiveTintColor: '#88889C',
-        style: { backgroundColor: '#FFFFFF', marginTop: 40 }
+      screenOptions={{
+        tabBarActiveTintColor: '#000000',
+        tabBarInactiveTintColor: '#88889C',
+        tabBarStyle: { backgroundColor: '#FFFFFF', marginTop: 40 }
       }}>
       <TopTab.Screen name="my collection" component={CollectionScreen} />
       <TopTab.Screen name="my Artists" component={MyArtistsScreen} />
@@ -111,6 +114,7 @@ export default function App() {
           <Stack.Screen name="PersonalInfoScreen" component={PersonalInfoScreen} />
           <Stack.Screen name="SignInScreen" component={SignInScreen} />
           <Stack.Screen name="ArtworkScreen" component={ArtworkScreen}/>
+          <Stack.Screen name="ArtistScreen" options={{header:MyAppBar}} component={ArtistScreen}/>
           <Stack.Screen name="BottomNav" component={BottomNav} options={{ headerShown: false }} />
         </Stack.Navigator>
       </NavigationContainer>

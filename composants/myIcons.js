@@ -10,6 +10,7 @@ const MyIcon = ({type, name, size, style, color}) => {
         case "Ionicons": return <IoniconsIcon name={name} size={size || 24} style={style} color={color || 'white'} />
         case "FontAwesome": return <FontAwesomeIcon name={name} size={size || 24} style={style} color={color || 'white'} />
         case "FontAwesome5": return <FontAwesome5Icon name={name} size={size || 24} style={style} color={color || 'white'} />
+
         default: return <IoniconsIcon name={name} size={size || 24} style={style} color={color || 'white'} />
     }
 }
