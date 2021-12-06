@@ -22,7 +22,6 @@ import ExhibitionScreen from './screens/ExhibitionScreen';
 import CollectionScreen from './screens/CollectionScreen';
 import MyArtistsScreen from './screens/MyArtistsScreen';
 
-import SwipeScreen from './screens/SwipeScreen'
 import ArtworkScreen from './screens/ArtworkScreen';
 
 import selectedArtwork from './reducers/selectedArtwork'
@@ -111,6 +110,7 @@ export default function App() {
           <Stack.Screen name="MovementScreen" component={MovementScreen} />
           <Stack.Screen name="PersonalInfoScreen" component={PersonalInfoScreen} />
           <Stack.Screen name="SignInScreen" component={SignInScreen} />
+          <Stack.Screen name="ArtworkScreen" component={ArtworkScreen}/>
           <Stack.Screen name="BottomNav" component={BottomNav} options={{ headerShown: false }} />
         </Stack.Navigator>
       </NavigationContainer>

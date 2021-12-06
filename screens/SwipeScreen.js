@@ -29,8 +29,8 @@ const SwipeScreen = (props) => {
 
     const openArtworkDetail = (cardIndex) => {
         console.log('openArtworkDetail', artworkList[cardIndex])
-        props.setSelectedArtwork(artworkList[cardIndex])
-        //props.navigation.navigate('ArtworkScreen')
+       // props.setSelectedArtwork(artworkList[cardIndex])
+        props.navigation.navigate('ArtworkScreen')
     }
 
     const addArtworkToCollection = (cardIndex) => {
