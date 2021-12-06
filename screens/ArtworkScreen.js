@@ -10,7 +10,6 @@ const ArtworkScreen = (props) => {
         const data = fetch('/getArtist/:artworkId')
     }, [])*/
 
-
     return (
         <ScrollView style={styles.container}>
 

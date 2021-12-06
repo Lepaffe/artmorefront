@@ -1,5 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
+
 // COPOSANTS NAVIGATION
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -13,7 +14,6 @@ import MediumScreen from './screens/MediumScreen';
 import MovementScreen from './screens/MovementScreen';
 import PersonalInfoScreen from './screens/PersonalInfoScreen';
 import SignInScreen from './screens/SignInScreen';
-
 
 import SwipeScreen from './screens/SwipeScreen';
 import DailyScreen from './screens/DailyScreen';
