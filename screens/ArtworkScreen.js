@@ -5,17 +5,22 @@ import { AntDesign } from '@expo/vector-icons'
 
 const ArtworkScreen = (props) => {
 
-    /*useEffect(() => {
-        aller chercher l'artiste lié à l'oeuvre en BDD et le mettre dans le store
-        const data = fetch('/getArtist/:artworkId')
-    }, [])*/
+    useEffect(() => {
+        const getArtist = async () => {
+            const data = await fetch(`http://192.168.1.16:3000/get-artist-detail/${props.selectedArtwork._id}`);
+            const dataJSON = await data.json();
+            console.log(dataJSON)
+            props.setSelectedArtist(dataJSON.artist);
+        }
+        getArtist();
 
+    }, [])
 
     return (
         <ScrollView style={styles.container}>
 
             <View style={styles.imageContainer}>
-                <Image source={{ uri: props.selectedArtwork.urlCloudinary }} style={styles.image} />
+                <Image source={{ uri: props.selectedArtwork.cloudinary }} style={styles.image} />
                 <TouchableOpacity style={styles.button}>
                     <AntDesign
                         name="heart"
@@ -28,7 +33,7 @@ const ArtworkScreen = (props) => {
 
             <View style={styles.mainInfoContainer}>
                 <Text style={styles.name}>{props.selectedArtwork.name}</Text>
-                <Text onPress={()=> props.navigation.navigate('ArtistScreen')} style={styles.artist}>{props.selectedArtist.name}</Text>
+                <Text onPress={() => props.navigation.navigate('ArtistScreen')} style={styles.artist}>{props.selectedArtist.name}</Text>
                 <Text style={styles.instagram}>{props.selectedArtist.instagram}</Text>
             </View>
 
@@ -36,12 +41,12 @@ const ArtworkScreen = (props) => {
                 {props.selectedArtwork.year}  {"\n"}
                 {props.selectedArtwork.size} {"\n"}
                 {props.selectedArtwork.location} {"\n"}
-                {props.selectedArtwork.mediums} {"\n"}
-                {props.selectedArtwork.technics}
+                {props.selectedArtwork.medium} {"\n"}
+                {props.selectedArtwork.technic}
             </Text>
 
             <Text style={styles.description}>
-                {props.selectedArtwork.description}
+                {props.selectedArtwork.desc}
             </Text>
 
             <Text style={styles.moreArtworks}>
@@ -50,7 +55,7 @@ const ArtworkScreen = (props) => {
 
             <ScrollView horizontal={true} style={styles.minipicturesContainer}>
 
-                {/*{props.selectedArtist.artworks.map((artwork, i) => {
+                {/*{props.selectedArtist.artistArtwork.map((artwork, i) => {
                     <Image source={{ uri: artwork.url }} style={styles.minipicture}/>
                 })}*/}
 

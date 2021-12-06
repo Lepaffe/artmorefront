@@ -6,18 +6,19 @@ import { connect } from 'react-redux'
 
 const SwipeScreen = (props) => {
 
-    const [artworkList, setArtworkList] = useState([{ name: "Artwork 1", picture: "https://picsum.photos/1080/1080?random=1" }, { name: "Artwork 2", picture: "https://picsum.photos/1080/1080?random=2" }, { name: "Artwork 3", picture: "https://picsum.photos/1080/1080?random=3" }, { name: "Artwork 4", picture: "https://picsum.photos/1080/1080?random=4" }, { name: "Artwork 5", picture: "https://picsum.photos/1080/1080?random=5" }, { name: "Artwork 6", picture: "https://picsum.photos/1080/1080?random=6" }, { name: "Artwork 7", picture: "https://picsum.photos/1080/1080?random=7" }, { name: "Artwork 8", picture: "https://picsum.photos/1080/1080?random=8" }, { name: "Artwork 9", picture: "https://picsum.photos/1080/1080?random=9" }, { name: "Artwork 10", picture: "https://picsum.photos/1080/1080?random=10" }])
+    const [artworkList, setArtworkList] = useState([])
 
     const swipeRef = useRef(null);
 
-    /*useEffect(() => {
+    useEffect(() => {
         const getArtworkList = async () => {
-            const data = await fetch('/getArtworkList');
+            const data = await fetch('http://192.168.1.16:3000/get-artwork-list');
             const dataJSON = await data.json();
-            setArtworkList(dataJSON);
-            getArtworkList();
-     
-    }, [])*/
+            setArtworkList(dataJSON.artworks);
+        }
+        getArtworkList();
+
+    }, [])
 
     const handleLike = (cardIndex) => {
         console.log('like', artworkList[cardIndex])
@@ -29,7 +30,7 @@ const SwipeScreen = (props) => {
 
     const openArtworkDetail = (cardIndex) => {
         console.log('openArtworkDetail', artworkList[cardIndex])
-       // props.setSelectedArtwork(artworkList[cardIndex])
+        props.setSelectedArtwork(artworkList[cardIndex])
         props.navigation.navigate('ArtworkScreen')
     }
 
@@ -42,30 +43,28 @@ const SwipeScreen = (props) => {
         <View style={styles.container}>
 
             <View style={styles.swiperContainer}>
-
-                <Swiper
-                    ref={swipeRef}
-                    cards={artworkList}
-                    renderCard={(artwork) => {
-                        return (
-                            <Image
-                                source={{ uri: artwork.picture }}
-                                style={styles.card}
-                            />
-                        )
-                    }}
-                    onSwipedLeft={cardIndex => handleDislike(cardIndex)}
-                    onSwipedRight={cardIndex => handleLike(cardIndex)}
-                    //onSwipedTop={cardIndex => openArtworkDetail(cardIndex)}
-                    onSwipedBottom={cardIndex => addArtworkToCollection(cardIndex)}
-                    onTapCard={cardIndex => openArtworkDetail(cardIndex)}
-                    disableTopSwipe={true}
-                    //verticalSwipe={false}
-                    cardIndex={0}
-                    backgroundColor={'transparent'}
-                    stackSize={5}
-                    animateCardOpacity
-                />
+                {artworkList.length > 1 &&
+                    (<Swiper
+                        ref={swipeRef}
+                        cards={artworkList}
+                        renderCard={(artwork) => {
+                            return (
+                                <Image
+                                    source={{ uri: artwork.cloudinary }}
+                                    style={styles.card}
+                                />
+                            )
+                        }}
+                        onSwipedLeft={cardIndex => handleDislike(cardIndex)}
+                        onSwipedRight={cardIndex => handleLike(cardIndex)}
+                        onSwipedBottom={cardIndex => addArtworkToCollection(cardIndex)}
+                        onTapCard={cardIndex => openArtworkDetail(cardIndex)}
+                        disableTopSwipe={true}
+                        cardIndex={0}
+                        backgroundColor={'transparent'}
+                        stackSize={5}
+                        animateCardOpacity
+                    />)}
 
             </View >
 
