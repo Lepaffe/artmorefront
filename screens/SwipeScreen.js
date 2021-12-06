@@ -6,7 +6,52 @@ import { connect } from 'react-redux'
 
 const SwipeScreen = (props) => {
 
-    const [artworkList, setArtworkList] = useState([{ name: "Artwork 1", picture: "https://picsum.photos/1080/1080?random=1" }, { name: "Artwork 2", picture: "https://picsum.photos/1080/1080?random=2" }, { name: "Artwork 3", picture: "https://picsum.photos/1080/1080?random=3" }, { name: "Artwork 4", picture: "https://picsum.photos/1080/1080?random=4" }, { name: "Artwork 5", picture: "https://picsum.photos/1080/1080?random=5" }, { name: "Artwork 6", picture: "https://picsum.photos/1080/1080?random=6" }, { name: "Artwork 7", picture: "https://picsum.photos/1080/1080?random=7" }, { name: "Artwork 8", picture: "https://picsum.photos/1080/1080?random=8" }, { name: "Artwork 9", picture: "https://picsum.photos/1080/1080?random=9" }, { name: "Artwork 10", picture: "https://picsum.photos/1080/1080?random=10" }])
+    const [artworkList, setArtworkList] = useState([
+        {
+            _id: '2RTFE34543',
+            name: "Artwork 1",
+            year: '2021',
+            size: '34x543cm',
+            location: 'Paris',
+            desc: 'Blablabla',
+            medium: 'Painting 1',
+            technic: 'Watercolor',
+            movement: 'ArtPop',
+            category: 'abstract',
+            cloudinary: 'https://res.cloudinary.com/lepaffe/image/upload/v1638785259/Artmore/IMG_5502_f5zdik.jpg'
+
+        },
+
+        {
+            _id: '2RTFE34543',
+            name: "Artwork 2",
+            year: '2021',
+            size: '34x543cm',
+            location: 'Paris',
+            desc: 'Blablabla',
+            medium: 'Painting 2',
+            technic: 'Watercolor',
+            movement: 'ArtPop',
+            category: 'abstract',
+            cloudinary: 'https://res.cloudinary.com/lepaffe/image/upload/v1638785260/Artmore/IMG_5503_cjcsf8.jpg'
+
+        },
+
+        {
+            _id: '2RTFE34543',
+            name: "Artwork 3",
+            year: '2021',
+            size: '34x543cm',
+            location: 'Paris',
+            desc: 'Blablabla',
+            medium: 'Painting 3',
+            technic: 'Watercolor',
+            movement: 'ArtPop',
+            category: 'abstract',
+            cloudinary: 'https://res.cloudinary.com/lepaffe/image/upload/v1638785262/Artmore/IMG_5504_knunpw.jpg'
+
+        },
+    ])
 
     const swipeRef = useRef(null);
 
@@ -29,7 +74,7 @@ const SwipeScreen = (props) => {
 
     const openArtworkDetail = (cardIndex) => {
         console.log('openArtworkDetail', artworkList[cardIndex])
-       // props.setSelectedArtwork(artworkList[cardIndex])
+        props.setSelectedArtwork(artworkList[cardIndex])
         props.navigation.navigate('ArtworkScreen')
     }
 
@@ -49,18 +94,16 @@ const SwipeScreen = (props) => {
                     renderCard={(artwork) => {
                         return (
                             <Image
-                                source={{ uri: artwork.picture }}
+                                source={{ uri: artwork.cloudinary }}
                                 style={styles.card}
                             />
                         )
                     }}
                     onSwipedLeft={cardIndex => handleDislike(cardIndex)}
                     onSwipedRight={cardIndex => handleLike(cardIndex)}
-                    //onSwipedTop={cardIndex => openArtworkDetail(cardIndex)}
                     onSwipedBottom={cardIndex => addArtworkToCollection(cardIndex)}
                     onTapCard={cardIndex => openArtworkDetail(cardIndex)}
                     disableTopSwipe={true}
-                    //verticalSwipe={false}
                     cardIndex={0}
                     backgroundColor={'transparent'}
                     stackSize={5}
