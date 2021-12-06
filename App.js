@@ -14,10 +14,13 @@ import MovementScreen from './screens/MovementScreen';
 import PersonalInfoScreen from './screens/PersonalInfoScreen';
 import SignInScreen from './screens/SignInScreen';
 
-import CollectionScreen from './screens/CollectionScreen';
+
 import SwipeScreen from './screens/SwipeScreen';
 import DailyScreen from './screens/DailyScreen';
 import ExhibitionScreen from './screens/ExhibitionScreen';
+
+import CollectionScreen from './screens/CollectionScreen';
+import MyArtistsScreen from './screens/MyArtistsScreen';
 
 import selectedArtwork from './reducers/selectedArtwork'
 
@@ -25,10 +28,24 @@ import MyIcon from './composants/myIcons'; // impot composant MyIcon
 
 const Stack = createStackNavigator();
 const BottomTab = createBottomTabNavigator();
+const TopTab = createMaterialTopTabNavigator();
 /*import { Provider } from 'react-redux';
 import { createStore, combineReducers } from 'redux';
 
 const store = createStore(combineReducers({ selectedArtwork }))*/
+const TopNav= ()=> {
+  return (
+    <TopTab.Navigator
+      tabBarOptions={{
+        activeTintColor: '#000000', 
+        inactiveTintColor: '#88889C',
+        style: { backgroundColor: '#FFFFFF', marginTop:40 }
+    }}>
+      <TopTab.Screen name="my collection" component={CollectionScreen} />
+      <TopTab.Screen name="my Artists" component={MyArtistsScreen} />
+    </TopTab.Navigator>
+  );
+}
 
 const BottomNav = () => {
   return (
@@ -41,7 +58,7 @@ const BottomNav = () => {
           if (route.name === 'SwipeScreen') {
             iconName = "swap-horizontal";
             iconLib="Ionicons";
-          } else if (route.name === 'CollectionScreen') {
+          } else if (route.name === 'TopNav') {
             iconName = "hearto";
             iconLib = 'AntDesign';
           } else if (route.name === 'DailyScreen') {
@@ -68,7 +85,7 @@ const BottomNav = () => {
         style: { backgroundColor: '#FFFFFF' }
       }}>
       <BottomTab.Screen style={{color:'#FFFFFF'}} name="SwipeScreen" component={SwipeScreen} />
-      <BottomTab.Screen name="CollectionScreen" component={CollectionScreen} />
+      <BottomTab.Screen name="TopNav" component={TopNav} />
       <BottomTab.Screen name="DailyScreen" component={DailyScreen} />
       <BottomTab.Screen name="ExhibitionScreen" component={ExhibitionScreen} />
     </BottomTab.Navigator>
