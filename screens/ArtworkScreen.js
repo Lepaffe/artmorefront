@@ -5,69 +5,86 @@ import { AntDesign } from '@expo/vector-icons'
 
 const ArtworkScreen = (props) => {
 
+    //on récupère l'artiste associé à l'artwork et on le met dans le store
     useEffect(() => {
-        const getArtist = async () => {
+        const getArtistDetail = async () => {
             const data = await fetch(`http://192.168.1.16:3000/get-artist-detail/${props.selectedArtwork._id}`);
             const dataJSON = await data.json();
-            console.log(dataJSON)
             props.setSelectedArtist(dataJSON.artist);
         }
-        getArtist();
-
+        getArtistDetail();
     }, [])
 
+    //petites images de MoreArtworks
+    let moreArtworks;
+    if (props.selectedArtist) {
+        moreArtworks = props.selectedArtist.artistArtwork.map((artwork) =>
+            artwork.cloudinary !== props.selectedArtwork.cloudinary &&
+            <TouchableOpacity onPress={() => openArtworkDetailFromSameArtist(artwork)}>
+                < Image
+                    source={{ uri: artwork.cloudinary }}
+                    style={styles.minipicture}
+                    key={artwork._id}
+                />
+            </TouchableOpacity>
+        )
+
+    }
+    const openArtworkDetailFromSameArtist = artwork => {
+        console.log(artwork)
+        props.setSelectedArtwork(artwork);
+        props.navigation.navigate('ArtworkScreen');
+    }
+
     return (
+
         <ScrollView style={styles.container}>
+            {props.selectedArtist && //sans cette condition, le UseEffect ne se charge pas car direct un message d'erreur comme quoi "props.selectedArtist = null"
+                <>
+                    <View style={styles.imageContainer}>
+                        <Image source={{ uri: props.selectedArtwork.cloudinary }} style={styles.image} />
+                        <TouchableOpacity style={styles.button}>
+                            <AntDesign
+                                name="heart"
+                                size={35}
+                                color="rgb(255, 86, 94)"
+                                onPress={() => console.log('addToCollection')}
+                            />
+                        </TouchableOpacity>
+                    </View>
 
-            <View style={styles.imageContainer}>
-                <Image source={{ uri: props.selectedArtwork.cloudinary }} style={styles.image} />
-                <TouchableOpacity style={styles.button}>
-                    <AntDesign
-                        name="heart"
-                        size={35}
-                        color="rgb(255, 86, 94)"
-                        onPress={() => console.log('addToCollection')}
-                    />
-                </TouchableOpacity>
-            </View>
 
-            <View style={styles.mainInfoContainer}>
-                <Text style={styles.name}>{props.selectedArtwork.name}</Text>
-                <Text onPress={() => props.navigation.navigate('ArtistScreen')} style={styles.artist}>{props.selectedArtist.name}</Text>
-                <Text style={styles.instagram}>{props.selectedArtist.instagram}</Text>
-            </View>
+                    <View style={styles.mainInfoContainer}>
+                        <Text style={styles.name}>{props.selectedArtwork.name}</Text>
 
-            <Text style={styles.info}>
-                {props.selectedArtwork.year}  {"\n"}
-                {props.selectedArtwork.size} {"\n"}
-                {props.selectedArtwork.location} {"\n"}
-                {props.selectedArtwork.medium} {"\n"}
-                {props.selectedArtwork.technic}
-            </Text>
+                        <View style={styles.artistinfo}>
+                            <Text onPress={() => props.navigation.navigate('ArtistScreen')} style={styles.artist}>{props.selectedArtist.name}</Text>
+                            <Text style={styles.instagram}>{props.selectedArtist.instagram}</Text>
+                        </View>
 
-            <Text style={styles.description}>
-                {props.selectedArtwork.desc}
-            </Text>
+                    </View>
 
-            <Text style={styles.moreArtworks}>
-                MORE ARTWORKS
-            </Text>
+                    <Text style={styles.info}>
+                        {props.selectedArtwork.year}  {"\n"}
+                        {props.selectedArtwork.size} {"\n"}
+                        {props.selectedArtwork.location} {"\n"}
+                        {props.selectedArtwork.medium} {"\n"}
+                        {props.selectedArtwork.technic}
+                    </Text>
 
-            <ScrollView horizontal={true} style={styles.minipicturesContainer}>
+                    <Text style={styles.description}>
+                        {props.selectedArtwork.desc}
+                    </Text>
 
-                {/*{props.selectedArtist.artistArtwork.map((artwork, i) => {
-                    <Image source={{ uri: artwork.url }} style={styles.minipicture}/>
-                })}*/}
+                    <Text style={styles.moreArtworks}>
+                        MORE ARTWORKS
+                    </Text>
 
-                <Image source={{ uri: "https://picsum.photos/1080/1080?random=1" }} style={styles.minipicture} />
-                <Image source={{ uri: "https://picsum.photos/1080/1080?random=3" }} style={styles.minipicture} />
-                <Image source={{ uri: "https://picsum.photos/1080/1080?random=4" }} style={styles.minipicture} />
-                <Image source={{ uri: "https://picsum.photos/1080/1080?random=5" }} style={styles.minipicture} />
-                <Image source={{ uri: "https://picsum.photos/1080/1080?random=6" }} style={styles.minipicture} />
-                <Image source={{ uri: "https://picsum.photos/1080/1080?random=7" }} style={styles.minipicture} />
-
-            </ScrollView>
-
+                    <ScrollView horizontal={true} style={styles.minipicturesContainer}>
+                        {moreArtworks}
+                    </ScrollView>
+                </>
+            }
         </ScrollView >
     )
 }
@@ -80,6 +97,9 @@ function mapDispatchToProps(dispatch) {
     return {
         setSelectedArtist: function (artist) {
             dispatch({ type: 'setSelectedArtist', artist })
+        },
+        setSelectedArtwork: function (artwork) {
+            dispatch({ type: "setSelectedArtwork", artwork })
         }
     }
 }
@@ -116,6 +136,9 @@ const styles = StyleSheet.create({
     },
     artist: {
         fontSize: 20
+    },
+    artistinfo: {
+        alignItems: 'center'
     },
     info: {
         marginBottom: 25
