@@ -2,17 +2,20 @@ import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 
 import SwipeScreen from './screens/SwipeScreen'
-import selectedArtwork from './reducers/selectedArtwork'
+import ArtworkScreen from './screens/ArtworkScreen';
 
-/*import { Provider } from 'react-redux';
+import selectedArtwork from './reducers/selectedArtwork'
+import selectedArtist from './reducers/selectedArtist'
+
+import { Provider } from 'react-redux';
 import { createStore, combineReducers } from 'redux';
 
-const store = createStore(combineReducers({ selectedArtwork }))*/
+const store = createStore(combineReducers({ selectedArtwork, selectedArtist }));
 
 export default function App() {
   return (
-    //<Provider store={store}>
-    <SwipeScreen />
-    //</Provider>
+    <Provider store={store}>
+      <ArtworkScreen />
+    </Provider>
   );
 }

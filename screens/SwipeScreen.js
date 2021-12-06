@@ -2,9 +2,9 @@ import React, { useEffect, useState, useRef } from 'react'
 import { View, StyleSheet, Image, TouchableOpacity } from 'react-native'
 import { AntDesign, Entypo } from '@expo/vector-icons'
 import Swiper from 'react-native-deck-swiper'
-//import { connect } from 'react-redux'
+import { connect } from 'react-redux'
 
-const SwipeScreen = () => {
+const SwipeScreen = (props) => {
 
     const [artworkList, setArtworkList] = useState([{ name: "Artwork 1", picture: "https://picsum.photos/1080/1080?random=1" }, { name: "Artwork 2", picture: "https://picsum.photos/1080/1080?random=2" }, { name: "Artwork 3", picture: "https://picsum.photos/1080/1080?random=3" }, { name: "Artwork 4", picture: "https://picsum.photos/1080/1080?random=4" }, { name: "Artwork 5", picture: "https://picsum.photos/1080/1080?random=5" }, { name: "Artwork 6", picture: "https://picsum.photos/1080/1080?random=6" }, { name: "Artwork 7", picture: "https://picsum.photos/1080/1080?random=7" }, { name: "Artwork 8", picture: "https://picsum.photos/1080/1080?random=8" }, { name: "Artwork 9", picture: "https://picsum.photos/1080/1080?random=9" }, { name: "Artwork 10", picture: "https://picsum.photos/1080/1080?random=10" }])
 
@@ -29,7 +29,7 @@ const SwipeScreen = () => {
 
     const openArtworkDetail = (cardIndex) => {
         console.log('openArtworkDetail', artworkList[cardIndex])
-        //props.setSelectedArtwork(artworkList[cardIndex])
+        props.setSelectedArtwork(artworkList[cardIndex])
         //props.navigation.navigate('ArtworkDetail)
     }
 
@@ -104,16 +104,14 @@ const SwipeScreen = () => {
     )
 }
 
-export default SwipeScreen;
-
-/*function mapDispatchToProps(dispatch) {
+function mapDispatchToProps(dispatch) {
     return {
         setSelectedArtwork: function (artwork) {
             dispatch({ type: "setSelectedArtwork", artwork })
         }
     }
 }
-export default connect(null, mapDispatchToProps)(SwipeScreen);*/
+export default connect(null, mapDispatchToProps)(SwipeScreen);
 
 const styles = StyleSheet.create({
     container: {
