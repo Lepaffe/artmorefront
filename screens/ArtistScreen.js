@@ -107,7 +107,7 @@ const ArtistScreen = (props) => {
     alignSelf: 'stretch',
   }}
  
-/>
+                />
 
                
           
