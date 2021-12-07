@@ -4,6 +4,8 @@ import { connect } from 'react-redux'
 import { AntDesign } from '@expo/vector-icons'
 import { Avatar, ListItem, Divider } from 'react-native-elements';
 import MyAppBar from '../composants/MyAppBar';
+import MasonryList from '@react-native-seoul/masonry-list';
+
 
 
 const ArtistScreen = (props) => {
@@ -11,7 +13,6 @@ const ArtistScreen = (props) => {
     let moreArtworks;
     if (props.selectedArtist) {
         moreArtworks = props.selectedArtist.artistArtwork.map((artwork) =>
-            artwork.cloudinary !== props.selectedArtwork.cloudinary &&
            
                 < Image
                     source={{ uri: artwork.cloudinary }}
@@ -23,13 +24,18 @@ const ArtistScreen = (props) => {
 
     }
 
-    const Item = ({ cloudinary }) => (
+    const renderItem = ({ item }) => { console.log(item)
+        return (
         < Image
-                    source={{ uri: cloudinary }}
+                    source={{ uri: item.cloudinary }}
                     style={styles.minipicture}
-                    
+                    key={item._id}
                 />
-      );
+      )};
+
+    const [images, setImages] = useState(props.selectedArtist.artistArtwork.cloudinary);
+
+    
     /*useEffect(() => {
         aller chercher l'artiste lié à l'oeuvre en BDD et le mettre dans le store
         const data = fetch('/getArtist/:artworkId')
@@ -79,21 +85,21 @@ const ArtistScreen = (props) => {
             <Text style={styles.moreArtworks}>
                 ARTWORKS
             </Text>
+                <View style={{flex: 1}}>
 
-    
-                <SafeAreaView style={styles.container}>
-      
-          <View 
-            style={{
-              flex: 1,
-              flexDirection: 'column',
-            }}>
                 
+                <MasonryList
+  data={props.selectedArtist.artistArtwork}
+  keyExtractor={item => item.id}
+  numColumns={2}
+  showsVerticalScrollIndicator={false}
+  renderItem={renderItem}
+ 
+/>
+
                {moreArtworks}
-        
-          </View>
-      
-    </SafeAreaView>
+          
+    </View>
 
 
 
@@ -169,15 +175,26 @@ const styles = StyleSheet.create({
     minipicture: {
         justifyContent: 'center',
         alignItems: 'center',
-        
-        height: 200,
-       
-        margin: 5,
+        height:300 ,
+        resizeMode: 'contain',
+        margin: 10,
     },
     avatar: {
         width: 80,
         height: 80,
         
-    }
+    },
+    grid: {
+        marginTop: 12,
+        width: '33%',
+        flexDirection: 'row',
+        justifyContent: 'center',
+        paddingStart: 16,
+        paddingEnd: 16,
+        paddingTop: 8,
+        marginRight: 10,
+        paddingBottom: 8,
+        borderRadius: 8,
+      },
 })
 
