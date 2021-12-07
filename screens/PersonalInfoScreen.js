@@ -51,11 +51,14 @@ function PersonalInfoScreen(props) {
       setUserCreated(true)
       props.addToken(dataJSON.token)
       userCreated && props.navigation.navigate('BottomNav', { screen: 'DailyScreen' })
+
     } else {
       setErrors(dataJSON.error)
       errorTab = errors.map(error => <Text>{error}</Text>)
     }
   }
+
+
 
   return (
     <View style={styles.container}>
