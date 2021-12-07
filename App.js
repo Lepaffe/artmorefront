@@ -28,13 +28,16 @@ import ArtistScreen from './screens/ArtistScreen';
 
 import selectedArtwork from './reducers/selectedArtwork'
 import selectedArtist from './reducers/selectedArtist'
+import mediumSignUp from './reducers/mediumSignUp';
+import movementSignUp from './reducers/movementSignUp';
+import token from './reducers/token';
 
 import MyIcon from './composants/myIcons'; // impot composant MyIcon
 
 import { Provider } from 'react-redux';
 import { createStore, combineReducers } from 'redux';
 
-const store = createStore(combineReducers({ selectedArtwork, selectedArtist }));
+const store = createStore(combineReducers({ selectedArtwork, selectedArtist, movementSignUp, mediumSignUp, token }));
 
 const Stack = createStackNavigator();
 const BottomTab = createBottomTabNavigator();
@@ -113,8 +116,8 @@ export default function App() {
           <Stack.Screen name="MovementScreen" component={MovementScreen} />
           <Stack.Screen name="PersonalInfoScreen" component={PersonalInfoScreen} />
           <Stack.Screen name="SignInScreen" component={SignInScreen} />
-          <Stack.Screen name="ArtworkScreen" component={ArtworkScreen}/>
-          <Stack.Screen name="ArtistScreen" options={{header:MyAppBar}} component={ArtistScreen}/>
+          <Stack.Screen name="ArtworkScreen" component={ArtworkScreen} />
+          <Stack.Screen name="ArtistScreen" options={{ header: MyAppBar }} component={ArtistScreen} />
           <Stack.Screen name="BottomNav" component={BottomNav} options={{ headerShown: false }} />
         </Stack.Navigator>
       </NavigationContainer>
