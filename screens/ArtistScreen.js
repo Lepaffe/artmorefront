@@ -11,19 +11,19 @@ import MasonryList from '@react-native-seoul/masonry-list';
 
 const ArtistScreen = (props) => {
 
-    let moreArtworks;
-    if (props.selectedArtist) {
-        moreArtworks = props.selectedArtist.artistArtwork.map((artwork) =>
+    //let moreArtworks;
+    //if (props.selectedArtist) {
+     //   moreArtworks = props.selectedArtist.artistArtwork.map((artwork) =>
            
-                < Image
-                    source={{ uri: artwork.cloudinary }}
-                    style={styles.minipicture}
-                    key={artwork._id}
-                />
+       //         < Image
+         //           source={{ uri: artwork.cloudinary }}
+          //          style={styles.minipicture}
+           //         key={artwork._id}
+            //    />
             
-        )
+       // )
 
-    }
+    //}
 
     // renderItem to use in the MasonryList componment to render a grid with two colum to display
     // the artworks of the artists (instead of a map, which does not work with flatlist and masonryList)
@@ -49,7 +49,8 @@ const ArtistScreen = (props) => {
    
 
     return (
-        <ScrollView style={styles.container}>
+        <ScrollView >
+            <View style={styles.container}>
 
             <View >
             <ListItem containerStyle={{flex: 1, marginLeft: 110, backgroundColor: "none"}}> 
@@ -61,7 +62,7 @@ const ArtistScreen = (props) => {
                      </ListItem.Content>  
                      </ListItem>
             </View>
-            <View></View>
+            
             
             <Divider  orientation="horizontal" inset={true} insetType="left"   />
             <View style={styles.mainInfoContainer}>
@@ -85,10 +86,13 @@ const ArtistScreen = (props) => {
                 {props.selectedArtist.bio}
 
             </Text>
+            
 
             <Text style={styles.moreArtworks}>
                 ARTWORKS
             </Text>
+
+            </View>
                 <View style={{flex: 1}}>
 
 
@@ -98,10 +102,14 @@ const ArtistScreen = (props) => {
   numColumns={2}
   showsVerticalScrollIndicator={false}
   renderItem={renderItem}
+  contentContainerStyle={{
+    paddingHorizontal: 0,
+    alignSelf: 'stretch',
+  }}
  
 />
 
-               {moreArtworks}
+               
           
     </View>
 
@@ -180,8 +188,8 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         height:300 ,
-        resizeMode: 'contain',
-        margin: 10,
+        
+        margin: 3,
     },
     avatar: {
         width: 80,

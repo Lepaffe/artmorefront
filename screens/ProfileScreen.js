@@ -14,14 +14,14 @@ const ProfileScreen = (props) => {
         < View style={styles.container}>
             <View style={styles.userHead} >
                 <View >    
-                    <Avatar  rounded size="large" source={{ uri:'https://res.cloudinary.com/lepaffe/image/upload/v1638785691/Artmore/IMG_5535_uu5xwh.png'  }}/>
+                    <Avatar  rounded size={115} source={{ uri:'https://res.cloudinary.com/lepaffe/image/upload/v1638785691/Artmore/IMG_5535_uu5xwh.png'  }}/>
                 </View>
                 <View style={styles.mainInfoContainer}>
                     <Text style={styles.name}>Alice AySyl </Text>
                 </View>
             </View>
             
-            <Divider  orientation="horizontal" inset={true} insetType="center"   />
+            <Divider  style={{marginBottom: 30 }} orientation="horizontal" inset={true} insetType="center"   />
 
             <View style={styles.mainInfoContainer}>
                 <View>
@@ -29,55 +29,55 @@ const ProfileScreen = (props) => {
                         <MyIcon
                             type='AntDesign'
                             name="hearto"
-                            size={30}
+                            size={22}
                             style={{ margin: 10, marginBottom: 0 }}
                             color="#88889C"
                         />
-                        <ListItem.Title style={styles.name} > {'My Collection'} </ListItem.Title>
+                        <ListItem.Title style={styles.list} > {'My Collection'} </ListItem.Title>
                         
                     </ListItem>
                     <ListItem key={'1'} onPress={()=> props.navigation.navigate('TopNav',{screen:'my Artists'})}>
                         <MyIcon
                             type='MaterialCommunityIcons'
                             name="account-heart-outline"
-                            size={35}
+                            size={25}
                             style={{ margin: 10, marginBottom: 0 }}
                             color="#88889C"
                         />
-                        <ListItem.Title style={styles.name} > {'My Artists'} </ListItem.Title>
+                        <ListItem.Title style={styles.list} > {'My Artists'} </ListItem.Title>
                       
                     </ListItem>
                     <ListItem key={'2'} onPress={()=> props.navigation.navigate('ExhibitionScreen')}>
                         <MyIcon
                             type='AntDesign'
                             name="calendar"
-                            size={35}
+                            size={25}
                             style={{ margin: 10, marginBottom: 0 }}
                             color="#88889C"
                         />
-                        <ListItem.Title style={styles.name} > {'Exhibitions'} </ListItem.Title>
+                        <ListItem.Title style={styles.list} > {'Exhibitions'} </ListItem.Title>
                         {/* <ListItem.Chevron /> */}
                     </ListItem>
                     <ListItem key={'3'} onPress={()=> props.navigation.navigate('DailyScreen')}r>
                         <MyIcon
                             type='Ionicons'
                             name="ios-eye-outline"
-                            size={35}
+                            size={25}
                             style={{ margin: 10, marginBottom: 0 }}
                             color="#88889C"
                         />
-                        <ListItem.Title style={styles.name} > {'Daily Selection'} </ListItem.Title>
+                        <ListItem.Title style={styles.list} > {'Daily Selection'} </ListItem.Title>
                      
                     </ListItem>
                     <ListItem key={'4'} onPress={()=> props.navigation.navigate('SettingsScreen')}>
                         <MyIcon
                             type='Ionicons'
                             name="ios-settings-outline"
-                            size={35}
+                            size={25}
                             style={{ margin: 10, marginBottom: 0 }}
                             color="#88889C"
                         />
-                        <ListItem.Title style={styles.name} > {'Settings'} </ListItem.Title>
+                        <ListItem.Title style={styles.list} > {'Settings'} </ListItem.Title>
                       
                     </ListItem>
                 </View>
@@ -128,8 +128,13 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     name: {
-        fontSize: 25,
+        fontSize: 20,
         fontWeight: 'bold',
+        
+    },
+    list: {
+        fontSize: 17,
+        color: 'grey',
         
     },
     artist: {

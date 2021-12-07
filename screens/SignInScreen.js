@@ -13,11 +13,7 @@ function SignInScreen(props) {
 
   var signIn = async () => {
 
-<<<<<<< HEAD
     const data = await fetch('http://172.17.1.83:3000/sign-in', {
-=======
-    const data = await fetch('http://172.17.1.117:3000/sign-in', {
->>>>>>> e72387e60cf67f1663a66282090c4a6c2ad2afd7
       method: 'POST',
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
       body: `email=${email}&password=${password}`
