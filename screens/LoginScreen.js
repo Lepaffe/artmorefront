@@ -1,19 +1,29 @@
 import React from 'react';
-import { View, Button, Image, StyleSheet } from 'react-native';
+import { View, Image, StyleSheet,Text} from 'react-native';
+import { Button} from 'react-native-elements'
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 
-function LoginScreen(props) {
+function LoginScreen(props) { 
  return (
    <View style={styles.container}>
      <Image style={styles.logo} source={require('../assets/logo.jpg')} ></Image>
-     <Button title="Sign-Up/sign in with Google"
+     <Text style={{fontSize: 30, textAlign:"center", padding:20}} >Discover your curated daily selection</Text>
+     <Button title="SIGN UP / SIGN IN" type="outline" buttonStyle={{margin:5, width: 280, padding:15, borderColor:"gray", borderRadius:10}}
+       onPress={() => props.navigation.navigate('MediumScreen')}   icon={
+        <Icon style={styles.icon}
+          name="google"
+          size={30}
+          color="grey"
+          padding="20px"
+        />
+      }
+     />
+     <Button title="SIGN UP" type="outline" buttonStyle={{margin:5, width: 280, padding:15, borderColor:"gray", borderRadius:10}}
        onPress={() => props.navigation.navigate('MediumScreen')}
      />
-     <Button title="Sign-Up"
-       onPress={() => props.navigation.navigate('MediumScreen')}
-     />
-     <Button title="Sign-In"
-       onPress={() => props.navigation.navigate('SignInScreen')}
+     <Button title="SIGN IN" type="outline" buttonStyle={{margin:5, width: 280, padding:15, borderColor:"gray",borderRadius:10}}
+       onPress={() => props.navigation.navigate('SignInScreen')} 
      />
    </View>
  );
@@ -24,10 +34,14 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
+    backgroundColor:"#FFFF"
   },
   logo: {
-    width: 350,
+    width: 320,
     height: 150,
+  },
+  icon: {
+    paddingEnd: 20
   }
 });
 
