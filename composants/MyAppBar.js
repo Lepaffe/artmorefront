@@ -1,11 +1,11 @@
 
 import * as React from 'react';
 import { Appbar } from 'react-native-paper';
-import {View, Text } from 'react-native';
-import { Button} from 'react-native-elements';
+import { View, Text } from 'react-native';
+import { Button } from 'react-native-elements';
 import MyIcon from './myIcons'; // impot composant MyIcon
 
-const MyAppBar = (props)=>{
+const MyAppBar = (props) => {
   console.log('condition', props.route.name);
 //  if (props.route.name=== 'ArtworkScreen' || props.route.name==='ArtistScreen') {
     
