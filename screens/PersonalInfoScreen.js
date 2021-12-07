@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
-import { ScrollView, View, StyleSheet, Text } from 'react-native';
+import { ScrollView, View, StyleSheet, Text, TouchableOpacity } from 'react-native';
 import { Button, Input } from 'react-native-elements'
 import { connect } from 'react-redux'
+import DateTimePickerModal from "react-native-modal-datetime-picker";
+import { AntDesign } from '@expo/vector-icons';
 
 function PersonalInfoScreen(props) {
 
@@ -13,6 +15,22 @@ function PersonalInfoScreen(props) {
   const [email, setEmail] = useState('');
   const [userCreated, setUserCreated] = useState(false)
   const [errors, setErrors] = useState([])
+  const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
+
+  const showDatePicker = () => {
+    setDatePickerVisibility(true);
+  };
+
+  const hideDatePicker = () => {
+    setDatePickerVisibility(false);
+  };
+
+  const handleConfirm = (date) => {
+    date = date.toLocaleDateString()
+    setBirthday(date)
+    hideDatePicker();
+  };
+
 
   let errorTab;
 
@@ -32,54 +50,76 @@ function PersonalInfoScreen(props) {
     if (dataJSON.result) {
       setUserCreated(true)
       props.addToken(dataJSON.token)
+      userCreated && props.navigation.navigate('BottomNav', { screen: 'DailyScreen' })
     } else {
       setErrors(dataJSON.error)
       errorTab = errors.map(error => <Text>{error}</Text>)
     }
-
-    userCreated && props.navigation.navigate('BottomNav', { screen: 'DailyScreen' })
   }
-
 
   return (
     <View style={styles.container}>
       <ScrollView >
         <Text style={{ fontSize: 25, textAlign: "center", padding: 20, marginBottom: 30 }} >Almost there </Text>
         <Input
+          label="First name"
           containerStyle={{ marginBottom: 20, width: '70%' }}
           inputStyle={{ marginLeft: 10 }}
-          placeholder='First name'
           onChangeText={(val) => setFirstName(val)}
+          value={firstName}
         />
         <Input
+          label="Last name"
           containerStyle={{ marginBottom: 20, width: '70%' }}
           inputStyle={{ marginLeft: 10 }}
-          placeholder='Last Name'
           onChangeText={(val) => setLastName(val)}
+          value={lastName}
         />
-        <Input //format date
-          containerStyle={{ marginBottom: 20, width: '70%' }}
-          inputStyle={{ marginLeft: 10 }}
-          placeholder='Birthday'
-          onChangeText={(val) => setBirthday(val)}
+
+
+        <DateTimePickerModal
+          isVisible={isDatePickerVisible}
+          mode="date"
+          onConfirm={handleConfirm}
+          onCancel={hideDatePicker}
         />
+        <View style={{ flexDirection: 'row' }}>
+          <Input //format date
+            label="Birthday"
+            containerStyle={{ marginBottom: 20, width: '50%' }}
+            inputStyle={{ marginLeft: 10 }}
+            onChangeText={(val) => setBirthday(val)}
+            value={birthday}
+            disabled={true}
+          />
+          <TouchableOpacity onPress={showDatePicker} >
+            <AntDesign name="calendar" size={24} color="rgb(181, 189, 196)" />
+          </TouchableOpacity>
+
+        </View>
+
+
         <Input
+          label="City"
           containerStyle={{ marginBottom: 20, width: '70%' }}
           inputStyle={{ marginLeft: 10 }}
-          placeholder='City'
           onChangeText={(val) => setCity(val)}
+          value={city}
         />
         <Input
+          label="E-mail"
           containerStyle={{ marginBottom: 25, width: '70%' }}
           inputStyle={{ marginLeft: 10 }}
-          placeholder='E-mail'
           onChangeText={(val) => setEmail(val)}
+          value={email}
         />
         <Input
+          label="Password"
           containerStyle={{ marginBottom: 25, width: '70%' }}
           inputStyle={{ marginLeft: 10 }}
-          placeholder='Password'
+          secureTextEntry={true}
           onChangeText={(val) => setPassword(val)}
+          value={password}
         />
         {errorTab}
         <Button title="Create account"
