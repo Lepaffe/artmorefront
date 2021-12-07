@@ -12,7 +12,7 @@ const SwipeScreen = (props) => {
 
     useEffect(() => {
         const getArtworkList = async () => {
-            const data = await fetch('http://172.17.1.117:3000/get-artwork-list'); //192.168.1.16 ALICE //172.17.1.83 CAPSULE
+            const data = await fetch('http://192.168.1.16:3000/get-artwork-list'); //192.168.1.16 ALICE //172.17.1.83 CAPSULE
             const dataJSON = await data.json();
             setArtworkList(dataJSON.artworks);
         }
@@ -115,13 +115,13 @@ export default connect(null, mapDispatchToProps)(SwipeScreen);
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        backgroundColor: '#FFF'
     },
     swiperContainer: {
         flex: 1,
-        marginTop: 6
     },
     card: {
-        flex: 1,
+        height: '80%',
         borderRadius: 20
     },
     buttonContainer: {
