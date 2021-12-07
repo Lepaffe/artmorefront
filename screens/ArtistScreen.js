@@ -93,13 +93,13 @@ const ArtistScreen = (props) => {
 
 
                 <MasonryList
-  data={props.selectedArtist.artistArtwork}
-  keyExtractor={item => item.id}
-  numColumns={2}
-  showsVerticalScrollIndicator={false}
-  renderItem={renderItem}
+                data={props.selectedArtist.artistArtwork}
+                keyExtractor={item => item.id}
+                numColumns={2}
+                showsVerticalScrollIndicator={false}
+                renderItem={renderItem}
  
-/>
+                />
 
                {moreArtworks}
           
