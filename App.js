@@ -25,6 +25,7 @@ import MyArtistsScreen from './screens/MyArtistsScreen';
 
 import ArtworkScreen from './screens/ArtworkScreen';
 import ArtistScreen from './screens/ArtistScreen';
+import ProfileScreen from './screens/ProfileScreen';
 
 import selectedArtwork from './reducers/selectedArtwork'
 import selectedArtist from './reducers/selectedArtist'
@@ -50,10 +51,11 @@ const TopNav = () => {
       screenOptions={{
         tabBarActiveTintColor: '#000000',
         tabBarInactiveTintColor: '#88889C',
-        tabBarStyle: { backgroundColor: '#FFFFFF', marginTop: 40 }
-      }}>
+        tabBarStyle: { backgroundColor: '#FFFFFF', marginTop: 0 }
+      }}
+     >
       <TopTab.Screen name="my collection" component={CollectionScreen} />
-      <TopTab.Screen name="my Artists" component={MyArtistsScreen} />
+      <TopTab.Screen name="my Artists"  component={MyArtistsScreen} />
     </TopTab.Navigator>
   );
 }
@@ -96,10 +98,10 @@ const BottomNav = () => {
         showLabel: false,
         style: { backgroundColor: '#FFFFFF' }
       }}>
-      <BottomTab.Screen style={{ color: '#FFFFFF' }} name="SwipeScreen" component={SwipeScreen} />
+      <BottomTab.Screen style={{ color: '#FFFFFF' }} name="SwipeScreen" options={{header:MyAppBar}} component={SwipeScreen} />
       <BottomTab.Screen name="TopNav" component={TopNav} />
       <BottomTab.Screen name="DailyScreen" component={DailyScreen} />
-      <BottomTab.Screen name="ExhibitionScreen" component={ExhibitionScreen} />
+      <BottomTab.Screen name="ExhibitionScreen"  component={ExhibitionScreen} />
     </BottomTab.Navigator>
   )
 };
@@ -116,9 +118,10 @@ export default function App() {
           <Stack.Screen name="MovementScreen" component={MovementScreen} />
           <Stack.Screen name="PersonalInfoScreen" component={PersonalInfoScreen} />
           <Stack.Screen name="SignInScreen" component={SignInScreen} />
-          <Stack.Screen name="ArtworkScreen" component={ArtworkScreen} />
-          <Stack.Screen name="ArtistScreen" options={{ header: MyAppBar }} component={ArtistScreen} />
-          <Stack.Screen name="BottomNav" component={BottomNav} options={{ headerShown: false }} />
+          <Stack.Screen name="ArtworkScreen" options={{header:MyAppBar}} component={ArtworkScreen}/>
+          <Stack.Screen name="ArtistScreen" options={{header:MyAppBar}} component={ArtistScreen}/>
+          <Stack.Screen name="ProfileScreen" component={ProfileScreen}/>
+          <Stack.Screen name="BottomNav" component={BottomNav} options={{header:MyAppBar }} />
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>
