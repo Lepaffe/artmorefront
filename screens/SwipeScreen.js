@@ -64,6 +64,8 @@ const SwipeScreen = (props) => {
                         backgroundColor={'transparent'}
                         stackSize={5}
                         animateCardOpacity
+                        marginTop={-50}
+
                     />)}
 
             </View >
@@ -121,17 +123,11 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     card: {
-        height: '80%',
-        borderRadius: 20,
-        marginBottom: 0,
-    },
-    card: {
-        flex: 1,
+        height: '90%',
         borderRadius: 20,
     },
     buttonContainer: {
         height: 75,
-        marginBottom: 5,
         flexDirection: 'row',
         justifyContent: 'space-around',
         alignItems: 'center'
