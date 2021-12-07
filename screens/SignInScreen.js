@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { View, StyleSheet, Text} from 'react-native';
 import { Button, Input } from 'react-native-elements';
 import { connect } from 'react-redux';
-import {Redirect } from 'react-router-dom';
 
 
 function SignInScreen(props) {

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ScrollView, View, StyleSheet, Text, TouchableOpacity } from 'react-native';
+import { ScrollView, View, StyleSheet, KeyboardAvoidingView, Text, TouchableOpacity } from 'react-native';
 import { Button, Input } from 'react-native-elements'
 import { connect } from 'react-redux'
 import DateTimePickerModal from "react-native-modal-datetime-picker";
@@ -13,8 +13,7 @@ function PersonalInfoScreen(props) {
   const [birthday, setBirthday] = useState('');
   const [city, setCity] = useState('');
   const [email, setEmail] = useState('');
-  const [userCreated, setUserCreated] = useState(false)
-  const [errors, setErrors] = useState([])
+  const [listErrorsSignUp, setErrorsSignUp] = useState([])
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
 
   const showDatePicker = () => {
@@ -32,15 +31,13 @@ function PersonalInfoScreen(props) {
   };
 
 
-  let errorTab;
-
   const signUp = async () => {
 
     console.log('SignUp activated')
     let mediums = JSON.stringify(props.medium)
     let movements = JSON.stringify(props.movement)
 
-    const data = await fetch('http://192.168.1.15:3000/sign-up', {
+    const data = await fetch('http://172.17.1.117:3000/sign-up', {
       method: 'POST',
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
       body: `firstName=${firstName}&lastName=${lastName}&birthday=${birthday}&email=${email}&city=${city}&password=${password}&mediums=${mediums}&movements=${movements}`
@@ -48,17 +45,19 @@ function PersonalInfoScreen(props) {
     const dataJSON = await data.json();
 
     if (dataJSON.result) {
-      setUserCreated(true)
+      props.navigation.navigate('BottomNav', { screen: 'DailyScreen' })
       props.addToken(dataJSON.token)
-      userCreated && props.navigation.navigate('BottomNav', { screen: 'DailyScreen' })
     } else {
-      setErrors(dataJSON.error)
-      errorTab = errors.map(error => <Text>{error}</Text>)
+      setErrorsSignUp(dataJSON.error)
     }
   }
 
+  let tabErrorsSignUp = listErrorsSignUp.map((error, i) => {
+    return (<Text key={i}>{error}</Text>)
+  })
+
   return (
-    <View style={styles.container}>
+    <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === "ios" ? "padding" : "height"}>
       <ScrollView >
         <Text style={{ fontSize: 25, textAlign: "center", padding: 20, marginBottom: 30 }} >Almost there </Text>
         <Input
@@ -75,7 +74,6 @@ function PersonalInfoScreen(props) {
           onChangeText={(val) => setLastName(val)}
           value={lastName}
         />
-
 
         <DateTimePickerModal
           isVisible={isDatePickerVisible}
@@ -97,7 +95,6 @@ function PersonalInfoScreen(props) {
           </TouchableOpacity>
 
         </View>
-
 
         <Input
           label="City"
@@ -121,16 +118,15 @@ function PersonalInfoScreen(props) {
           onChangeText={(val) => setPassword(val)}
           value={password}
         />
-        {errorTab}
+        {tabErrorsSignUp}
         <Button title="Create account"
           buttonStyle={{ marginVertical: 50, marginHorizontal: 20, paddingHorizontal: 20, backgroundColor: "#FF4D4F" }}
           onPress={() => signUp()}
         />
       </ScrollView>
-    </View>
+    </KeyboardAvoidingView>
   );
 }
-
 
 const styles = StyleSheet.create({
   container: {
