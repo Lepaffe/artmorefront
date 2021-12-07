@@ -5,7 +5,8 @@ import { AntDesign } from '@expo/vector-icons'
 import { Avatar, ListItem, Divider } from 'react-native-elements';
 import MyIcon from '../composants/myIcons';
 
-const ProfileScreen = () => {
+
+const ProfileScreen = (props) => {
 
    
 
@@ -13,18 +14,18 @@ const ProfileScreen = () => {
         < View style={styles.container}>
             <View style={styles.userHead} >
                 <View >    
-                    <Avatar  rounded size="large" source={{    uri:      'https://res.cloudinary.com/lepaffe/image/upload/v1638785691/Artmore/IMG_5535_uu5xwh.png'  }}/>
+                    <Avatar  rounded size="large" source={{ uri:'https://res.cloudinary.com/lepaffe/image/upload/v1638785691/Artmore/IMG_5535_uu5xwh.png'  }}/>
                 </View>
                 <View style={styles.mainInfoContainer}>
                     <Text style={styles.name}>Alice AySyl </Text>
                 </View>
             </View>
             
-            <Divider  orientation="horizontal" inset={true} insetType="left"   />
+            <Divider  orientation="horizontal" inset={true} insetType="center"   />
 
             <View style={styles.mainInfoContainer}>
                 <View>
-                    <ListItem key={'0'} style={{color:'red'}} key={'1'} bottomDivider>
+                    <ListItem key={'0'} onPress={()=> props.navigation.navigate('TopNav',{screen:'my Collection'})} >
                         <MyIcon
                             type='AntDesign'
                             name="hearto"
@@ -33,9 +34,9 @@ const ProfileScreen = () => {
                             color="#88889C"
                         />
                         <ListItem.Title style={styles.name} > {'My Collection'} </ListItem.Title>
-                        <ListItem.Chevron />
+                        
                     </ListItem>
-                    <ListItem key={'1'} bottomDivider>
+                    <ListItem key={'1'} onPress={()=> props.navigation.navigate('TopNav',{screen:'my Artists'})}>
                         <MyIcon
                             type='MaterialCommunityIcons'
                             name="account-heart-outline"
@@ -44,9 +45,9 @@ const ProfileScreen = () => {
                             color="#88889C"
                         />
                         <ListItem.Title style={styles.name} > {'My Artists'} </ListItem.Title>
-                        <ListItem.Chevron />
+                      
                     </ListItem>
-                    <ListItem key={'2'} bottomDivider>
+                    <ListItem key={'2'} onPress={()=> props.navigation.navigate('ExhibitionScreen')}>
                         <MyIcon
                             type='AntDesign'
                             name="calendar"
@@ -55,9 +56,9 @@ const ProfileScreen = () => {
                             color="#88889C"
                         />
                         <ListItem.Title style={styles.name} > {'Exhibitions'} </ListItem.Title>
-                        <ListItem.Chevron />
+                        {/* <ListItem.Chevron /> */}
                     </ListItem>
-                    <ListItem key={'3'} bottomDivider>
+                    <ListItem key={'3'} onPress={()=> props.navigation.navigate('DailyScreen')}r>
                         <MyIcon
                             type='Ionicons'
                             name="ios-eye-outline"
@@ -66,9 +67,9 @@ const ProfileScreen = () => {
                             color="#88889C"
                         />
                         <ListItem.Title style={styles.name} > {'Daily Selection'} </ListItem.Title>
-                        <ListItem.Chevron />
+                     
                     </ListItem>
-                    <ListItem key={'4'} bottomDivider>
+                    <ListItem key={'4'} onPress={()=> props.navigation.navigate('SettingsScreen')}>
                         <MyIcon
                             type='Ionicons'
                             name="ios-settings-outline"
@@ -76,8 +77,8 @@ const ProfileScreen = () => {
                             style={{ margin: 10, marginBottom: 0 }}
                             color="#88889C"
                         />
-                        <ListItem.Title style={styles.name} > {'Parameters'} </ListItem.Title>
-                        <ListItem.Chevron />
+                        <ListItem.Title style={styles.name} > {'Settings'} </ListItem.Title>
+                      
                     </ListItem>
                 </View>
 
@@ -97,8 +98,9 @@ export default ProfileScreen;
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        margin: 22,
-        marginTop: 20,   
+        margin: 0,
+        paddingTop: 50, 
+        backgroundColor:"white"  
         
     },
     menuItem : {

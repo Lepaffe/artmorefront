@@ -118,7 +118,7 @@ const styles = StyleSheet.create({
     },
     swiperContainer: {
         flex: 1,
-        marginTop: 6
+        marginBottom: 0,
     },
     card: {
         flex: 1,

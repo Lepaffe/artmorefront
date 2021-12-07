@@ -54,7 +54,7 @@ const TopNav = () => {
         tabBarStyle: { backgroundColor: '#FFFFFF', marginTop: 0 }
       }}
      >
-      <TopTab.Screen name="my collection" component={CollectionScreen} />
+      <TopTab.Screen name="my Collection" component={CollectionScreen} />
       <TopTab.Screen name="my Artists"  component={MyArtistsScreen} />
     </TopTab.Navigator>
   );
@@ -120,7 +120,7 @@ export default function App() {
           <Stack.Screen name="SignInScreen" component={SignInScreen} />
           <Stack.Screen name="ArtworkScreen" options={{header:MyAppBar}} component={ArtworkScreen}/>
           <Stack.Screen name="ArtistScreen" options={{header:MyAppBar}} component={ArtistScreen}/>
-          <Stack.Screen name="ProfileScreen" component={ProfileScreen}/>
+          <Stack.Screen name="ProfileScreen" options={{header:MyAppBar}} component={ProfileScreen}/>
           <Stack.Screen name="BottomNav" component={BottomNav} options={{header:MyAppBar }} />
         </Stack.Navigator>
       </NavigationContainer>
