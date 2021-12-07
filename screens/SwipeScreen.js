@@ -118,7 +118,11 @@ const styles = StyleSheet.create({
     },
     swiperContainer: {
         flex: 1,
+<<<<<<< HEAD
        
+=======
+        marginBottom: 0,
+>>>>>>> e72387e60cf67f1663a66282090c4a6c2ad2afd7
     },
     card: {
         flex: 1,
