@@ -18,9 +18,9 @@ const ArtworkScreen = (props) => {
     //petites images de MoreArtworks
     let moreArtworks;
     if (props.selectedArtist) {
-        moreArtworks = props.selectedArtist.artistArtwork.map((artwork) =>
+        moreArtworks = props.selectedArtist.artistArtwork.map((artwork,i) =>
             artwork.cloudinary !== props.selectedArtwork.cloudinary &&
-            <TouchableOpacity onPress={() => openArtworkDetailFromSameArtist(artwork)}>
+            <TouchableOpacity key={i} onPress={() => openArtworkDetailFromSameArtist(artwork)}>
                 < Image
                     source={{ uri: artwork.cloudinary }}
                     style={styles.minipicture}
