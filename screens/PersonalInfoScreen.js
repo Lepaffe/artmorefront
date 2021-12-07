@@ -18,10 +18,14 @@ function PersonalInfoScreen(props) {
 
   const signUp = async () => {
 
+    console.log('SignUp activated')
+    let mediums = JSON.stringify(props.medium)
+    let movements = JSON.stringify(props.movement)
+
     const data = await fetch('http://192.168.1.15:3000/sign-up', {
       method: 'POST',
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-      body: `firstName=${firstName}&lastName=${lastName}&birthday=${birthday}&email=${email}&city=${city}&password=${password}&medium=${props.medium}&movement=${props.movement}`
+      body: `firstName=${firstName}&lastName=${lastName}&birthday=${birthday}&email=${email}&city=${city}&password=${password}&mediums=${mediums}&movements=${movements}`
     });
     const dataJSON = await data.json();
 
