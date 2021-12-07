@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import { AntDesign } from '@expo/vector-icons'
 import { Avatar, ListItem, Divider } from 'react-native-elements';
 import MyAppBar from '../composants/MyAppBar';
+// masonryList to display the images in a grid
 import MasonryList from '@react-native-seoul/masonry-list';
 
 
@@ -24,6 +25,9 @@ const ArtistScreen = (props) => {
 
     }
 
+    // renderItem to use in the MasonryList componment to render a grid with two colum to display
+    // the artworks of the artists (instead of a map, which does not work with flatlist and masonryList)
+
     const renderItem = ({ item }) => { console.log(item)
         return (
         < Image
@@ -33,7 +37,7 @@ const ArtistScreen = (props) => {
                 />
       )};
 
-    const [images, setImages] = useState(props.selectedArtist.artistArtwork.cloudinary);
+   
 
     
     /*useEffect(() => {
@@ -87,7 +91,7 @@ const ArtistScreen = (props) => {
             </Text>
                 <View style={{flex: 1}}>
 
-                
+
                 <MasonryList
   data={props.selectedArtist.artistArtwork}
   keyExtractor={item => item.id}
