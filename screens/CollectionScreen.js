@@ -4,8 +4,8 @@ import { View,Text, Button } from 'react-native';
 
 function CollectionScreen(props) {
  return (
-   <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor:'#e67e22'}}>
-     <Text> Collection Screen</Text>
+   <View style={{ flex: 1, alignItems: 'center', marginBottom:30 }}>
+     <Text style={{ marginTop: 30 }} > My personnal collection</Text>
    </View>
  );
 }

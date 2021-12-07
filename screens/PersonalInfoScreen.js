@@ -40,7 +40,7 @@ function PersonalInfoScreen(props) {
     let mediums = JSON.stringify(props.medium)
     let movements = JSON.stringify(props.movement)
 
-    const data = await fetch('http://192.168.1.15:3000/sign-up', {
+    const data = await fetch('http://172.17.1.83:3000/sign-up', {
       method: 'POST',
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
       body: `firstName=${firstName}&lastName=${lastName}&birthday=${birthday}&email=${email}&city=${city}&password=${password}&mediums=${mediums}&movements=${movements}`
@@ -50,7 +50,7 @@ function PersonalInfoScreen(props) {
     if (dataJSON.result) {
       setUserCreated(true)
       props.addToken(dataJSON.token)
-      userCreated && props.navigation.navigate('BottomNav', { screen: 'DailyScreen' })
+      props.navigation.navigate('BottomNav', { screen: 'DailyScreen' })
     } else {
       setErrors(dataJSON.error)
       errorTab = errors.map(error => <Text>{error}</Text>)

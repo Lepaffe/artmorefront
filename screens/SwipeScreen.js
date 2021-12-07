@@ -118,11 +118,12 @@ const styles = StyleSheet.create({
     },
     swiperContainer: {
         flex: 1,
-        marginTop: 6
+       
     },
     card: {
         flex: 1,
-        borderRadius: 20
+        borderRadius: 20,
+        
     },
     buttonContainer: {
         height: 75,
