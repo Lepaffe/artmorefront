@@ -12,7 +12,7 @@ const SwipeScreen = (props) => {
 
     useEffect(() => {
         const getArtworkList = async () => {
-            const data = await fetch('http://172.17.1.83:3000/get-artwork-list');
+            const data = await fetch('http://192.168.1.15:3000/get-artwork-list');
             const dataJSON = await data.json();
             setArtworkList(dataJSON.artworks);
         }
