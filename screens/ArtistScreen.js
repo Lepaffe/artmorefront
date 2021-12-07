@@ -3,21 +3,40 @@ import { View, Image, ScrollView, Text, StyleSheet, TouchableOpacity, SafeAreaVi
 import { connect } from 'react-redux'
 import { AntDesign } from '@expo/vector-icons'
 import { Avatar, ListItem, Divider } from 'react-native-elements';
+import MyAppBar from '../composants/MyAppBar';
+
 
 const ArtistScreen = (props) => {
 
+    let moreArtworks;
+    if (props.selectedArtist) {
+        moreArtworks = props.selectedArtist.artistArtwork.map((artwork) =>
+            artwork.cloudinary !== props.selectedArtwork.cloudinary &&
+           
+                < Image
+                    source={{ uri: artwork.cloudinary }}
+                    style={styles.minipicture}
+                    key={artwork._id}
+                />
+            
+        )
+
+    }
+
+    const Item = ({ cloudinary }) => (
+        < Image
+                    source={{ uri: cloudinary }}
+                    style={styles.minipicture}
+                    
+                />
+      );
     /*useEffect(() => {
         aller chercher l'artiste lié à l'oeuvre en BDD et le mettre dans le store
         const data = fetch('/getArtist/:artworkId')
     }, [])*/
     const [dataSource, setDataSource] = useState([]);
 
-    useState(() => {
-        let items = Array.apply(null, Array(60)).map((v, i) => {
-          return { id: i, src: 'http://placehold.it/200x200?text=' + (i + 1) };
-        });
-        setDataSource(items);
-      }, []);
+   
 
     return (
         <ScrollView style={styles.container}>
@@ -25,10 +44,10 @@ const ArtistScreen = (props) => {
             <View >
             <ListItem containerStyle={{flex: 1, marginLeft: 110, backgroundColor: "none"}}> 
                   
-            <Avatar  rounded size="large" source={{    uri:      'https://res.cloudinary.com/lepaffe/image/upload/v1638785691/Artmore/IMG_5535_uu5xwh.png'  }}/>
+            <Avatar  rounded size="large" source={{    uri:      props.selectedArtist.img  }}/>
             <ListItem.Content>   
-                 <ListItem.Title style={styles.artist}> Tim Zdey</ListItem.Title> 
-                    <ListItem.Subtitle> @timzdey  </ListItem.Subtitle> 
+                 <ListItem.Title style={styles.artist}> {props.selectedArtist.name}</ListItem.Title> 
+                    <ListItem.Subtitle> {props.selectedArtist.instagram} </ListItem.Subtitle> 
                      </ListItem.Content>  
                      </ListItem>
             </View>
@@ -53,7 +72,7 @@ const ArtistScreen = (props) => {
                 BIO
             </Text>
             <Text style={styles.description}>
-                {props.selectedArtist.bio} "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+                {props.selectedArtist.bio}
 
             </Text>
 
@@ -61,31 +80,19 @@ const ArtistScreen = (props) => {
                 ARTWORKS
             </Text>
 
-                {/*{props.selectedArtist.artistArtwork.map((artwork, i) => {
-                    <Image source={{ uri: artwork.url }} style={styles.minipicture}/>
-                })}*/}
+    
                 <SafeAreaView style={styles.container}>
-      <FlatList
-        data={dataSource}
-        renderItem={({item}) => (
-          <View
+      
+          <View 
             style={{
               flex: 1,
               flexDirection: 'column',
             }}>
-            <Image source={{ uri: "https://picsum.photos/1080/1080?random=1" }} style={styles.minipicture} />
-                <Image source={{ uri: "https://picsum.photos/1080/1080?random=3" }} style={styles.minipicture} />
-                <Image source={{ uri: "https://picsum.photos/1080/1080?random=4" }} style={styles.minipicture} />
-                <Image source={{ uri: "https://picsum.photos/1080/1080?random=5" }} style={styles.minipicture} />
-                <Image source={{ uri: "https://picsum.photos/1080/1080?random=6" }} style={styles.minipicture} />
-                <Image source={{ uri: "https://picsum.photos/1080/1080?random=7" }} style={styles.minipicture} />
-
+                
+               {moreArtworks}
+        
           </View>
-        )}
-        //Setting the number of column
-        numColumns={2}
-        keyExtractor={(item, index) => index}
-      />
+      
     </SafeAreaView>
 
 
@@ -173,3 +180,4 @@ const styles = StyleSheet.create({
         
     }
 })
+
