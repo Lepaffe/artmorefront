@@ -5,6 +5,8 @@ import { connect } from 'react-redux'
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { AntDesign } from '@expo/vector-icons';
 
+import {REACT_APP_URL_BACKEND} from "@env";
+
 function PersonalInfoScreen(props) {
 
   const [firstName, setFirstName] = useState('');
@@ -37,7 +39,7 @@ function PersonalInfoScreen(props) {
     let mediums = JSON.stringify(props.medium)
     let movements = JSON.stringify(props.movement)
 
-    const data = await fetch('http://192.168.1.16:3000/sign-up', {
+    const data = await fetch(`${REACT_APP_URL_BACKEND}/sign-up`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
       body: `firstName=${firstName}&lastName=${lastName}&birthday=${birthday}&email=${email}&city=${city}&password=${password}&mediums=${mediums}&movements=${movements}`
