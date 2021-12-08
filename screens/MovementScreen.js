@@ -7,20 +7,6 @@ import { connect } from 'react-redux'
 
 function MovementScreen(props) {
 
-  /* const [nude, setNude] = useState(false);
-  const [abstract, setAbstract] = useState(false);
-  const [landscape, setLandscape] = useState(false);
-  const [portrait, setPortrait] = useState(false);
-  const [urban, setUrban] = useState(false);
-  const [animal, setAnimal] = useState(false);
-  const [popArt, setPopArt] = useState(false);
-  const [streetArt, setStreetArt] = useState(false);
-  const [everydayLife, setEverydayLife] = useState(false);
-  const [natureMorte, setNatureMorte] = useState(false);
-  const [nature, setNature] = useState(false);
-  const [monumental, setMonumental] = useState(false);
-  const [digital, setDigital] = useState(false); */
-
   const [movementPreferences, setMovementPreferences] = useState([])
 
   const addMovement = (name) => {
@@ -37,10 +23,15 @@ function MovementScreen(props) {
     props.navigation.navigate('PersonalInfoScreen')
   }
 
+  //ATTENTION correspond à "category" en BDD
   const movements = [
     {
       name: 'Abstract',
       img: 'https://images.pexels.com/photos/2693212/pexels-photo-2693212.png?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940'
+    },
+    {
+      name: 'Landscape',
+      img: 'https://images.pexels.com/photos/2356059/pexels-photo-2356059.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940'
     },
     {
       name: 'Portrait',
@@ -57,10 +48,6 @@ function MovementScreen(props) {
     {
       name: 'Pop Art',
       img: 'https://cdn.pixabay.com/photo/2017/09/02/06/26/pop-art-2706464_960_720.jpg'
-    },
-    {
-      name: 'Landscape',
-      img: 'https://images.pexels.com/photos/2356059/pexels-photo-2356059.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940'
     },
     {
       name: 'Nude',
