@@ -8,7 +8,7 @@ const ArtworkScreen = (props) => {
     //on récupère l'artiste associé à l'artwork et on le met dans le store
     useEffect(() => {
         const getArtistDetail = async () => {
-            const data = await fetch(`http://172.17.1.83:3000/get-artist-detail/${props.selectedArtwork._id}`); //192.168.1.16 ALICE //172.17.1.83 CAPSULE
+            const data = await fetch(`http://192.168.1.16:3000/get-artist-detail/${props.selectedArtwork._id}`); //192.168.1.16 ALICE //172.17.1.83 CAPSULE
             const dataJSON = await data.json();
             props.setSelectedArtist(dataJSON.artist);
         }
