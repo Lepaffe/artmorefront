@@ -4,6 +4,8 @@ import { AntDesign } from '@expo/vector-icons'
 import { connect } from 'react-redux'
 //import Carousel from 'react-native-snap-carousel';
 
+import { REACT_APP_URL_BACKEND } from "@env";
+
 function DailyScreen(props) {
 
   const [dailyList, setDailyList] = useState([]);
@@ -11,7 +13,7 @@ function DailyScreen(props) {
   useEffect(() => {
 
     const getDailySelection = async () => {
-      const data = await fetch(`http://192.168.1.16:3000/get-daily-selection/${props.token}`); //192.168.1.16 ALICE //172.17.1.83 CAPSULE
+      const data = await fetch(`${REACT_APP_URL_BACKEND}/get-daily-selection/${props.token}`);
       const dataJSON = await data.json();
       const dailyListBack = dataJSON.artworksWithArtists
       setDailyList(dailyListBack);

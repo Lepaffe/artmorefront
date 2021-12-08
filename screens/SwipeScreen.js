@@ -2,7 +2,9 @@ import React, { useEffect, useState, useRef } from 'react'
 import { View, StyleSheet, Image, TouchableOpacity } from 'react-native'
 import { AntDesign, Entypo } from '@expo/vector-icons'
 import Swiper from 'react-native-deck-swiper'
-import { connect } from 'react-redux'
+import { connect } from 'react-redux';
+
+import {REACT_APP_URL_BACKEND} from "@env";
 
 const SwipeScreen = (props) => {
 
@@ -12,7 +14,7 @@ const SwipeScreen = (props) => {
 
     useEffect(() => {
         const getArtworkList = async () => {
-            const data = await fetch('http://192.168.1.16:3000/get-artwork-list'); //192.168.1.16 ALICE //172.17.1.83 CAPSULE
+            const data = await fetch(`${REACT_APP_URL_BACKEND}/get-artwork-list`); //192.168.1.16 ALICE //172.17.1.83 CAPSULE
             const dataJSON = await data.json();
             setArtworkList(dataJSON.artworks);
         }
@@ -20,12 +22,24 @@ const SwipeScreen = (props) => {
 
     }, [])
 
-    const handleLike = (cardIndex) => {
-        console.log('like', artworkList[cardIndex])
+    const handleLike = async (cardIndex) => {
+        console.log('like',cardIndex, artworkList[cardIndex])
+        const data = await fetch(`${REACT_APP_URL_BACKEND}/like`,{
+            method: 'POST',
+            headers: {'Content-Type':'application/x-www-form-urlencoded'},
+            body: `token=${props.token}&artworkId=${artworkList[cardIndex]._id}`
+           });  
+        const dataJSON = await data.json();    
     }
 
-    const handleDislike = (cardIndex) => {
+    const handleDislike = async (cardIndex) => {
         console.log('dislike', artworkList[cardIndex])
+        const data = await fetch(`${REACT_APP_URL_BACKEND}/dislike`,{
+            method: 'POST',
+            headers: {'Content-Type':'application/x-www-form-urlencoded'},
+            body: `token=${props.token}&artworkId=${artworkList[cardIndex]._id}`
+           });  
+        const dataJSON = await data.json(); 
     }
 
     const openArtworkDetail = (cardIndex) => {
@@ -104,6 +118,9 @@ const SwipeScreen = (props) => {
         </View >
     )
 }
+function mapStateToProps(state) {
+    return { token: state.token}
+  }
 
 function mapDispatchToProps(dispatch) {
     return {
@@ -112,7 +129,7 @@ function mapDispatchToProps(dispatch) {
         }
     }
 }
-export default connect(null, mapDispatchToProps)(SwipeScreen);
+export default connect(mapStateToProps, mapDispatchToProps)(SwipeScreen);
 
 const styles = StyleSheet.create({
     container: {

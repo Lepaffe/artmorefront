@@ -3,6 +3,8 @@ import { KeyboardAvoidingView, StyleSheet, Text, TextInput } from 'react-native'
 import { Button } from 'react-native-elements';
 import { connect } from 'react-redux';
 
+import {REACT_APP_URL_BACKEND} from "@env";
+
 function SignInScreen(props) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -10,7 +12,7 @@ function SignInScreen(props) {
 
   var signIn = async () => {
 
-    const data = await fetch('http://192.168.1.16:3000/sign-in', {
+    const data = await fetch(`${REACT_APP_URL_BACKEND}/sign-in`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
       body: `email=${email}&password=${password}`
