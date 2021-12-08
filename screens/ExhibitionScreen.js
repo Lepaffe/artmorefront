@@ -3,7 +3,7 @@ import { View, Image, ScrollView, Text, StyleSheet, TouchableOpacity, SafeAreaVi
 import { CheckBox, Card } from 'react-native-elements'
 import { connect } from 'react-redux'
 import { AntDesign } from '@expo/vector-icons'
-
+import { REACT_APP_URL_BACKEND } from "@env";
 
 // var listExpo = [
 //   {
@@ -40,92 +40,92 @@ function ExhibitionScreen(props) {
   // })
 
   useEffect(() => {
-  async function loadExpo() {
-    var rawResponse = await fetch(`http://192.168.1.15:3000/exhibitions`);
-    var response = await rawResponse.json();
-    // console.log("reponsefetch:", response.data);
+    async function loadExpo() {
+      var rawResponse = await fetch(`${REACT_APP_URL_BACKEND}/exhibitions`);
+      var response = await rawResponse.json();
+      // console.log("reponsefetch:", response.data);
 
-    var listExpoCopy = []
+      var listExpoCopy = []
 
-    for (var i = 0; i < response.data.length; i++) {
-      listExpoCopy.push({
-        img: response.data[i].fields.image,
-        title: response.data[i].fields.title,
-        city: response.data[i].fields.city,
-        date_start: response.data[i].fields.date_start,
-        date_end: response.data[i].fields.date_end
-      })
+      for (var i = 0; i < response.data.length; i++) {
+        listExpoCopy.push({
+          img: response.data[i].fields.image,
+          title: response.data[i].fields.title,
+          city: response.data[i].fields.city,
+          date_start: response.data[i].fields.date_start,
+          date_end: response.data[i].fields.date_end
+        })
 
-      if (response.data[i].fields.image_thumb == null) {
-        response.data[i].fields.image_thumb = '../assets/category/abstract.jpg';
+        if (response.data[i].fields.image_thumb == null) {
+          response.data[i].fields.image_thumb = '../assets/category/abstract.jpg';
+        }
       }
+      setListExpo(listExpoCopy);
     }
-    setListExpo(listExpoCopy);
-   }
-   console.log(listExpo);
- loadExpo();
-}, []);
+    console.log(listExpo);
+    loadExpo();
+  }, []);
 
 
 
   return (
     <ScrollView>
-    <View style={styles.container}>
-      <View style={{ borderBottomWidth: 1, marginHorizontal: 40, borderBottomColor: "grey", marginBottom: 20 }}>
-        <Text style={{ borderBottomColor: "red", textAlign: "center", fontSize: 15, padding: 20 }}> Exhibitions </Text>
-      </View>
-      <View style={{ flexDirection: "row" }} >
-        <CheckBox
-          title='By date'
-          checkedIcon='dot-circle-o'
-          uncheckedIcon='circle-o'
-          checked={checkedDate}
-          onPress={() => setCheckedDate(!checkedDate)}
-          containerStyle={styles.checkbox}
-          textStyle={{ fontSize: 10, color: 'black' }}
-        />
-        <CheckBox
-          title='By preferences'
-          checkedIcon='dot-circle-o'
-          uncheckedIcon='circle-o'
-          checked={checkedPref}
-          onPress={() => setCheckedPref(!checkedPref)}
-          containerStyle={styles.checkbox}
-          textStyle={{ fontSize: 10, color: 'black' }}
+      <View style={styles.container}>
+        <View style={{ borderBottomWidth: 1, marginHorizontal: 40, borderBottomColor: "grey", marginBottom: 20 }}>
+          <Text style={{ borderBottomColor: "red", textAlign: "center", fontSize: 15, padding: 20 }}> Exhibitions </Text>
+        </View>
+        <View style={{ flexDirection: "row" }} >
+          <CheckBox
+            title='By date'
+            checkedIcon='dot-circle-o'
+            uncheckedIcon='circle-o'
+            checked={checkedDate}
+            onPress={() => setCheckedDate(!checkedDate)}
+            containerStyle={styles.checkbox}
+            textStyle={{ fontSize: 10, color: 'black' }}
+          />
+          <CheckBox
+            title='By preferences'
+            checkedIcon='dot-circle-o'
+            uncheckedIcon='circle-o'
+            checked={checkedPref}
+            onPress={() => setCheckedPref(!checkedPref)}
+            containerStyle={styles.checkbox}
+            textStyle={{ fontSize: 10, color: 'black' }}
 
-        />
-        <CheckBox
-          title='Near me'
-          checkedIcon='dot-circle-o'
-          uncheckedIcon='circle-o'
-          checked={checkedNearMe}
-          onPress={() => setCheckedNearMe(!checkedNearMe)}
-          containerStyle={styles.checkbox}
-          textStyle={{ fontSize: 10, color: 'black' }}
-        />
-      </View>
+          />
+          <CheckBox
+            title='Near me'
+            checkedIcon='dot-circle-o'
+            uncheckedIcon='circle-o'
+            checked={checkedNearMe}
+            onPress={() => setCheckedNearMe(!checkedNearMe)}
+            containerStyle={styles.checkbox}
+            textStyle={{ fontSize: 10, color: 'black' }}
+          />
+        </View>
 
-      {
-        listExpo.map((u, i) => {
-          return (
-            <View key={i}>
-              <Card>
-                {/* <Image
+        {
+          listExpo.map((u, i) => {
+            return (
+              <View key={i}>
+                <Card>
+                  {/* <Image
                   resizeMode="cover"
                   source={{ uri: "https://www.pexels.com/fr-fr/photo/femme-sur-le-plan-d-eau-3405555" }}
                 /> */}
-                <Text>{u.title}</Text>
-                <Text>{u.city}</Text>
-                <Text>{u.date_start}</Text>
-                <Text>{u.date_end}</Text>
-                <Card.Image source={{ uri: u.img }}></Card.Image>
-              </Card>
-            </View>
-          );
-        })
-      }
+                  <Text>{u.title}</Text>
+                  <Text>{u.city}</Text>
+                  <Text>{u.date_start}</Text>
+                  <Text>{u.date_end}</Text>
+                  <Card.Image source={{ uri: u.img }}></Card.Image>
+                </Card>
+              </View>
+            );
+          })
+        }
 
-    </View>
+      </View>
     </ScrollView>
   );
 }
