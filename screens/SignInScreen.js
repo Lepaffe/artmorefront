@@ -1,13 +1,11 @@
 import React, { useState } from 'react';
-import { View, StyleSheet, Text} from 'react-native';
+import { KeyboardAvoidingView, StyleSheet, Text } from 'react-native';
 import { Button, Input } from 'react-native-elements';
 import { connect } from 'react-redux';
-
 
 function SignInScreen(props) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [userExists, setUserExists] = useState(false)
   const [listErrorsSignin, setErrorsSignin] = useState([])
 
   var signIn = async () => {
@@ -22,24 +20,21 @@ function SignInScreen(props) {
 
     if (body.result == true) {
       props.addToken(body.token)
-      setUserExists(true)
-
+      props.navigation.navigate('BottomNav', { screen: 'DailyScreen' })
     } else {
       setErrorsSignin(body.error)
     }
   }
 
-  if (userExists) {
-    props.navigation.navigate('BottomNav', { screen: 'DailyScreen' })
-  }
-
-  var tabErrorsSignin = listErrorsSignin.map((error,i) => {
-    return(<Text>{error}</Text>)
+  var tabErrorsSignin = listErrorsSignin.map((error, i) => {
+    return (<Text>{error}</Text>)
   })
 
   return (
-    <View style={styles.container}>
+    <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === "ios" ? "padding" : "height"}>
+
       <Text style={{ fontSize: 25, textAlign: "center", padding: 20, marginBottom: 30 }} >Connectez-vous</Text>
+
       <Input
         containerStyle={{ marginBottom: 25, width: '70%' }}
         inputStyle={{ marginLeft: 10 }}
@@ -57,7 +52,7 @@ function SignInScreen(props) {
         buttonStyle={{ marginVertical: 50, marginHorizontal: 20, paddingHorizontal: 20, backgroundColor: "#FF4D4F" }}
         onPress={() => signIn()}
       />
-    </View>
+    </KeyboardAvoidingView>
   );
 }
 
@@ -77,10 +72,10 @@ const styles = StyleSheet.create({
   }
 });
 
-function mapDispatchToProps(dispatch){
+function mapDispatchToProps(dispatch) {
   return {
-    addToken: function(token){
-      dispatch({type: 'addToken', token: token})
+    addToken: function (token) {
+      dispatch({ type: 'addToken', token: token })
     }
   }
 }

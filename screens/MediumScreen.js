@@ -16,32 +16,57 @@ function MediumScreen(props) {
 
   const toggleSwitchPainting = () => {
     setPainting(previousState => !previousState);
-    setMediumPreferences([...mediumPreferences, "painting"])
+    if (mediumPreferences.includes("painting")) {
+      setMediumPreferences(mediumPreferences.filter(el => el != "painting"))
+    } else {
+      setMediumPreferences([...mediumPreferences, "painting"])
+    }
   }
 
   const toggleSwitchSculpture = () => {
     setSculpture(previousState => !previousState);
-    setMediumPreferences([...mediumPreferences, "sculpture"])
+    if (mediumPreferences.includes("sculpture")) {
+      setMediumPreferences(mediumPreferences.filter(el => el != "sculpture"))
+    } else {
+      setMediumPreferences([...mediumPreferences, "sculpture"])
+    }
   }
 
   const toggleSwitchPhotography = () => {
     setPhotography(previousState => !previousState);
-    setMediumPreferences([...mediumPreferences, "photography"])
+    if (mediumPreferences.includes("photography")) {
+      setMediumPreferences(mediumPreferences.filter(el => el != "photography"))
+    } else {
+      setMediumPreferences([...mediumPreferences, "photography"])
+    }
   }
 
   const toggleSwitchDrawing = () => {
     setDrawing(previousState => !previousState);
-    setMediumPreferences([...mediumPreferences, "drawing"])
+    if (mediumPreferences.includes("drawing")) {
+      setMediumPreferences(mediumPreferences.filter(el => el != "drawing"))
+    } else {
+      setMediumPreferences([...mediumPreferences, "drawing"])
+    }
   }
 
   const toggleSwitchDigitalArt = () => {
     setDigitalArt(previousState => !previousState);
-    setMediumPreferences([...mediumPreferences, "digitalArt"])
+    if (mediumPreferences.includes("digitalArt")) {
+      setMediumPreferences(mediumPreferences.filter(el => el != "digitalArt"))
+    } else {
+      setMediumPreferences([...mediumPreferences, "digitalArt"])
+    }
   }
 
   const toggleSwitchStreetArt = () => {
     setStreetArt(previousState => !previousState);
-    setMediumPreferences([...mediumPreferences, "streetArt"])
+    if (mediumPreferences.includes("streetArt")) {
+      console.log(mediumPreferences)
+      setMediumPreferences(mediumPreferences.filter(el => el != "streetArt"))
+    } else {
+      setMediumPreferences([...mediumPreferences, "streetArt"])
+    }
   }
 
   const goToMovementScreen = () => {

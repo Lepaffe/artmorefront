@@ -115,14 +115,19 @@ export default connect(null, mapDispatchToProps)(SwipeScreen);
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        backgroundColor: '#FFF'
     },
     swiperContainer: {
         flex: 1,
-        marginTop: 6
+    },
+    card: {
+        height: '80%',
+        borderRadius: 20,
+        marginBottom: 0,
     },
     card: {
         flex: 1,
-        borderRadius: 20
+        borderRadius: 20,
     },
     buttonContainer: {
         height: 75,

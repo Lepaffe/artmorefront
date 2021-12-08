@@ -18,7 +18,7 @@ const ArtworkScreen = (props) => {
     //petites images de MoreArtworks
     let moreArtworks;
     if (props.selectedArtist) {
-        moreArtworks = props.selectedArtist.artistArtwork.map((artwork,i) =>
+        moreArtworks = props.selectedArtist.artistArtwork.map((artwork, i) =>
             artwork.cloudinary !== props.selectedArtwork.cloudinary &&
             <TouchableOpacity key={i} onPress={() => openArtworkDetailFromSameArtist(artwork)}>
                 < Image
@@ -110,7 +110,8 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         margin: 22,
-        marginTop: 50
+        marginTop: 50,
+        backgroundColor: '#FFF'
     },
     imageContainer: {
         alignItems: 'center',
