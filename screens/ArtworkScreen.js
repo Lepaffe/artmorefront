@@ -108,6 +108,7 @@ const ArtworkScreen = (props) => {
                 </>
             }
         </ScrollView >
+
     )
 }
 
