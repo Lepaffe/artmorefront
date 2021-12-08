@@ -47,14 +47,17 @@ export default (props) => {
   useEffect(() => {
     setTimeout(() => {
       props.navigation.navigate('LoginScreen')
-    }, 4000)
+    }, 5000)
   }, [])
 
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: '#FFFFFF', flexDirection: 'row' }}>
-      <Text style={{ fontSize: 60, textAlign: 'center' }}>Art</Text>
+
       <FadeInView >
-        <Text style={{ fontSize: 60, textAlign: 'center' }}>+More</Text>
+        <Image style={{
+          width: 300,
+          height: 140,
+        }} source={require('../assets/logo.jpg')} />
       </FadeInView>
 
     </View >

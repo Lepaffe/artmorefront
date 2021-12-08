@@ -1,3 +1,7 @@
+import { LogBox } from 'react-native';
+LogBox.ignoreLogs(['Warning: ...']);
+
+
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 
