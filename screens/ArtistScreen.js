@@ -6,6 +6,7 @@ import { Avatar, ListItem, Divider } from 'react-native-elements';
 import MyAppBar from '../composants/MyAppBar';
 // masonryList to display the images in a grid
 import MasonryList from '@react-native-seoul/masonry-list';
+import {REACT_APP_URL_BACKEND} from "@env";
 
 
 
@@ -56,7 +57,7 @@ const ArtistScreen = (props) => {
     let addToCollection = async (id) => { 
        console.log("id", id)
        console.log("token", props.token)
-        const data = await fetch(`http://172.17.1.83:3000/add-artistlist/`,{
+        const data = await fetch(`${REACT_APP_URL_BACKEND}/add-artistlist/`,{
             method: "POST",
             headers: {'Content-Type':'application/x-www-form-urlencoded'},
             body:`token=${props.token}&artistId=${id}`

@@ -39,11 +39,7 @@ function PersonalInfoScreen(props) {
     let mediums = JSON.stringify(props.medium)
     let movements = JSON.stringify(props.movement)
 
-<<<<<<< HEAD
-    const data = await fetch('http://172.17.1.83:3000/sign-up', { 
-=======
     const data = await fetch(`${REACT_APP_URL_BACKEND}/sign-up`, {
->>>>>>> 9f0a400c4d7c4715173562f5bcb88f8509125168
       method: 'POST',
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
       body: `firstName=${firstName}&lastName=${lastName}&birthday=${birthday}&email=${email}&city=${city}&password=${password}&mediums=${mediums}&movements=${movements}`

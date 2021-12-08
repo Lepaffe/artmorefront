@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react'
 import { View, StyleSheet, Image, TouchableOpacity , Text, ScrollView,} from 'react-native'
 import { Card, ListItem, Button, Icon , Avatar} from 'react-native-elements'
+import {REACT_APP_URL_BACKEND} from "@env";
 
 
 function MyArtistsScreen(props) {
@@ -9,7 +10,7 @@ function MyArtistsScreen(props) {
 
   useEffect(() => {
     const getArtistCollection = async () => {
-        const data = await fetch(`http://172.17.1.83:3000/get-artist-collection/`); //192.168.1.16 ALICE //172.17.1.83 CAPSULE
+        const data = await fetch(`${REACT_APP_URL_BACKEND}/get-artist-collection/`); //192.168.1.16 ALICE //172.17.1.83 CAPSULE
         const dataJSON = await data.json();
         setArtistCollection(dataJSON.artistCollection.artistList);
         console.log("data", dataJSON.artistCollection.artistList)
