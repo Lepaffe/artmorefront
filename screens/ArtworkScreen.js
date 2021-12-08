@@ -1,14 +1,17 @@
 import React, { useEffect, useState } from 'react'
 import { View, Image, ScrollView, Text, StyleSheet, TouchableOpacity } from 'react-native'
 import { connect } from 'react-redux'
-import { AntDesign } from '@expo/vector-icons'
+import { AntDesign } from '@expo/vector-icons';
+
+import { REACT_APP_URL_BACKEND } from "@env";
 
 const ArtworkScreen = (props) => {
+    const [likedArtwork, setLikedArtwork] = useState(false)
 
     //on récupère l'artiste associé à l'artwork et on le met dans le store
     useEffect(() => {
         const getArtistDetail = async () => {
-            const data = await fetch(`http://192.168.1.15:3000/get-artist-detail/${props.selectedArtwork._id}`); //192.168.1.16 ALICE //172.17.1.83 CAPSULE
+            const data = await fetch(`${REACT_APP_URL_BACKEND}/get-artist-detail/${props.selectedArtwork._id}`); //192.168.1.16 ALICE //172.17.1.83 CAPSULE
             const dataJSON = await data.json();
             props.setSelectedArtist(dataJSON.artist);
         }
@@ -36,6 +39,25 @@ const ArtworkScreen = (props) => {
         props.navigation.navigate('ArtworkScreen');
     }
 
+    if (likedArtwork) {
+        var colorLike = '#FF565E'
+    } else {
+        var colorLike = 'black'
+    }
+
+    let addToCollection = async (id) => {
+
+        const data = await fetch(`${REACT_APP_URL_BACKEND}/add-artworklist/`, {
+            method: "POST",
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: `token=${props.token}&artworkId=${id}`
+        }); //192.168.1.16 ALICE //172.17.1.83 CAPSULE
+        const dataJSON = await data.json();
+
+        setLikedArtwork(true);
+    }
+
+
     return (
 
         <ScrollView style={styles.container}>
@@ -47,8 +69,8 @@ const ArtworkScreen = (props) => {
                             <AntDesign
                                 name="heart"
                                 size={35}
-                                color="rgb(255, 86, 94)"
-                                onPress={() => console.log('addToCollection')}
+                                color={colorLike}
+                                onPress={() => addToCollection(props.selectedArtwork._id)}
                             />
                         </TouchableOpacity>
                     </View>
@@ -90,7 +112,7 @@ const ArtworkScreen = (props) => {
 }
 
 function mapStateToProps(state) {
-    return { selectedArtwork: state.selectedArtwork, selectedArtist: state.selectedArtist }
+    return { selectedArtwork: state.selectedArtwork, selectedArtist: state.selectedArtist, token: state.token }
 }
 
 function mapDispatchToProps(dispatch) {
@@ -109,8 +131,8 @@ export default connect(mapStateToProps, mapDispatchToProps)(ArtworkScreen);
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        margin: 22,
-        marginTop: 50,
+        padding: 22,
+        paddingTop: 40,
         backgroundColor: '#FFF'
     },
     imageContainer: {
