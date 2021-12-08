@@ -3,13 +3,13 @@ import { KeyboardAvoidingView, StyleSheet, Text, TextInput } from 'react-native'
 import { Button } from 'react-native-elements';
 import { connect } from 'react-redux';
 
-import {REACT_APP_URL_BACKEND} from "@env";
+import { REACT_APP_URL_BACKEND } from "@env";
 
 function SignInScreen(props) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [listErrorsSignin, setErrorsSignin] = useState([])
-  
+
 
   var signIn = async () => {
 
@@ -50,6 +50,7 @@ function SignInScreen(props) {
       <TextInput
         style={styles.input}
         onChangeText={(val) => setPassword(val)}
+        secureTextEntry={true}
         value={password}
       />
 

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { View, Image, ScrollView, Text, StyleSheet, TouchableOpacity } from 'react-native'
+import { View, Image, ScrollView, Text, StyleSheet, TouchableOpacity, Dimensions } from 'react-native'
 import { connect } from 'react-redux'
 import { AntDesign } from '@expo/vector-icons';
 
@@ -60,7 +60,9 @@ const ArtworkScreen = (props) => {
 
     return (
 
-        <ScrollView style={styles.container}>
+        <ScrollView
+
+            style={styles.container}>
             {props.selectedArtist && //sans cette condition, le UseEffect ne se charge pas car direct un message d'erreur comme quoi "props.selectedArtist = null"
                 <>
                     <View style={styles.imageContainer}>
@@ -127,14 +129,15 @@ function mapDispatchToProps(dispatch) {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ArtworkScreen);
+const windowHeight = Dimensions.get('window').height;
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
         padding: 22,
         paddingTop: 40,
-        backgroundColor: '#FFF'
+        backgroundColor: '#FFF',
+        height: windowHeight
     },
     imageContainer: {
         alignItems: 'center',
@@ -181,6 +184,9 @@ const styles = StyleSheet.create({
     minipicture: {
         width: 80,
         height: 80,
-        marginRight: 10
+        marginRight: 10,
+        marginBottom: 60
     }
 })
+
+export default connect(mapStateToProps, mapDispatchToProps)(ArtworkScreen);

@@ -1,15 +1,62 @@
-import React from 'react';
+/*import React from 'react';
 import { View, Button } from 'react-native';
 
 
 function LandingScreen(props) {
- return (
-   <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor:'#e67e22'}}>
-     <Button title="Go LoginScreen"
-       onPress={() => props.navigation.navigate('LoginScreen')}
-     />
-   </View>
- );
+  return (
+    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: '#FFFFFF' }}>
+      <Button title="Go LoginScreen"
+        onPress={() => props.navigation.navigate('LoginScreen')}
+      />
+    </View>
+  );
 }
 
-export default LandingScreen;
+export default LandingScreen;*/
+
+import React, { useRef, useEffect } from 'react';
+import { Animated, Text, View, Image } from 'react-native';
+
+const FadeInView = (props) => {
+
+  const fadeAnim = useRef(new Animated.Value(0)).current
+  React.useEffect(() => {
+    Animated.timing(
+      fadeAnim,
+      {
+        toValue: 1,
+        duration: 3000,
+      }
+    ).start();
+  }, [fadeAnim])
+
+  return (
+    <Animated.View
+      style={{
+        ...props.style,
+        opacity: fadeAnim,
+      }}
+    >
+      {props.children}
+    </Animated.View>
+  );
+}
+
+export default (props) => {
+
+  useEffect(() => {
+    setTimeout(() => {
+      props.navigation.navigate('LoginScreen')
+    }, 4000)
+  }, [])
+
+  return (
+    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: '#FFFFFF', flexDirection: 'row' }}>
+      <Text style={{ fontSize: 60, textAlign: 'center' }}>Art</Text>
+      <FadeInView >
+        <Text style={{ fontSize: 60, textAlign: 'center' }}>+More</Text>
+      </FadeInView>
+
+    </View >
+  )
+}

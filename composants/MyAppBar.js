@@ -7,11 +7,17 @@ import MyIcon from './myIcons'; // impot composant MyIcon
 
 const MyAppBar = (props) => {
   console.log('condition', props.route.name);
-  
+
   return (
 
     <Appbar.Header style={{ backgroundColor: 'white', color: 'black' }} >
-      {(props.route.name === 'ArtworkScreen' || props.route.name === 'ArtistScreen') &&
+      {(props.route.name === 'ArtworkScreen'
+        || props.route.name === 'ArtistScreen'
+        || props.route.name === 'SignInScreen'
+        || props.route.name === 'MovementScreen'
+        || props.route.name === 'MediumScreen'
+        || props.route.name === 'PersonalInfoScreen'
+      ) &&
         <Appbar.BackAction onPress={() => { props.navigation.goBack() }} />}
       {/* <Appbar.BackAction onPress={()=>{console.log('toto', props.name, props.navigation.getState());
                                        props.navigation.goBack()}} /> */}
