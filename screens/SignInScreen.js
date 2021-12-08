@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { KeyboardAvoidingView, StyleSheet, Text } from 'react-native';
-import { Button, Input } from 'react-native-elements';
+import { KeyboardAvoidingView, StyleSheet, Text, TextInput } from 'react-native';
+import { Button } from 'react-native-elements';
 import { connect } from 'react-redux';
 
 import {REACT_APP_URL_BACKEND} from "@env";
@@ -12,7 +12,11 @@ function SignInScreen(props) {
 
   var signIn = async () => {
 
+<<<<<<< HEAD
     const data = await fetch(`${REACT_APP_URL_BACKEND}/sign-in`, {
+=======
+    const data = await fetch('http://192.168.1.16:3000/sign-in', {
+>>>>>>> 26c165279ac3f954bcc3d408b20f89c107454d48
       method: 'POST',
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
       body: `email=${email}&password=${password}`
@@ -37,18 +41,21 @@ function SignInScreen(props) {
 
       <Text style={{ fontSize: 25, textAlign: "center", padding: 20, marginBottom: 30 }} >Connectez-vous</Text>
 
-      <Input
-        containerStyle={{ marginBottom: 25, width: '70%' }}
-        inputStyle={{ marginLeft: 10 }}
-        placeholder='E-mail'
+
+      <Text style={styles.label}>E-mail</Text>
+      <TextInput
+        style={styles.input}
         onChangeText={(val) => setEmail(val)}
+        value={email}
       />
-      <Input
-        containerStyle={{ marginBottom: 25, width: '70%' }}
-        inputStyle={{ marginLeft: 10 }}
-        placeholder='Password'
+
+      <Text style={styles.label}>Password</Text>
+      <TextInput
+        style={styles.input}
         onChangeText={(val) => setPassword(val)}
+        value={password}
       />
+
       {tabErrorsSignin}
       <Button title="Connexion"
         buttonStyle={{ marginVertical: 50, marginHorizontal: 20, paddingHorizontal: 20, backgroundColor: "#FF4D4F" }}
@@ -64,6 +71,18 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: "#FFFF"
+  },
+  input: {
+    height: 40,
+    marginTop: 10,
+    borderWidth: 1,
+    borderColor: "rgb(213, 208, 205)",
+    borderRadius: 15,
+    padding: 10,
+    width: '40%'
+  },
+  label: {
+    marginTop: 15
   },
   logo: {
     width: 320,

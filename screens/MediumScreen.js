@@ -43,29 +43,29 @@ function MediumScreen(props) {
 
   const toggleSwitchDrawing = () => {
     setDrawing(previousState => !previousState);
-    if (mediumPreferences.includes("drawing")) {
-      setMediumPreferences(mediumPreferences.filter(el => el != "drawing"))
+    if (mediumPreferences.includes("Drawing")) {
+      setMediumPreferences(mediumPreferences.filter(el => el != "Drawing"))
     } else {
-      setMediumPreferences([...mediumPreferences, "drawing"])
+      setMediumPreferences([...mediumPreferences, "Drawing"])
     }
   }
 
   const toggleSwitchDigitalArt = () => {
     setDigitalArt(previousState => !previousState);
-    if (mediumPreferences.includes("digitalArt")) {
-      setMediumPreferences(mediumPreferences.filter(el => el != "digitalArt"))
+    if (mediumPreferences.includes("digital art")) {
+      setMediumPreferences(mediumPreferences.filter(el => el != "digital art"))
     } else {
-      setMediumPreferences([...mediumPreferences, "digitalArt"])
+      setMediumPreferences([...mediumPreferences, "digital art"])
     }
   }
 
   const toggleSwitchStreetArt = () => {
     setStreetArt(previousState => !previousState);
-    if (mediumPreferences.includes("streetArt")) {
+    if (mediumPreferences.includes("street art")) {
       console.log(mediumPreferences)
-      setMediumPreferences(mediumPreferences.filter(el => el != "streetArt"))
+      setMediumPreferences(mediumPreferences.filter(el => el != "street art"))
     } else {
-      setMediumPreferences([...mediumPreferences, "streetArt"])
+      setMediumPreferences([...mediumPreferences, "street art"])
     }
   }
 

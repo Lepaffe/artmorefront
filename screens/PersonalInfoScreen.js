@@ -47,8 +47,8 @@ function PersonalInfoScreen(props) {
     const dataJSON = await data.json();
 
     if (dataJSON.result) {
-      props.navigation.navigate('BottomNav', { screen: 'DailyScreen' })
       props.addToken(dataJSON.token)
+      props.navigation.navigate('BottomNav', { screen: 'DailyScreen' })
     } else {
       setErrorsSignUp(dataJSON.error)
     }
