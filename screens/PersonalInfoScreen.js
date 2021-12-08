@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ScrollView, View, StyleSheet, KeyboardAvoidingView, Text, TouchableOpacity } from 'react-native';
+import { ScrollView, View, StyleSheet, KeyboardAvoidingView, Text, TouchableOpacity, TextInput } from 'react-native';
 import { Button, Input } from 'react-native-elements'
 import { connect } from 'react-redux'
 import DateTimePickerModal from "react-native-modal-datetime-picker";
@@ -37,7 +37,7 @@ function PersonalInfoScreen(props) {
     let mediums = JSON.stringify(props.medium)
     let movements = JSON.stringify(props.movement)
 
-    const data = await fetch('http://172.17.1.117:3000/sign-up', {
+    const data = await fetch('http://192.168.1.15:3000/sign-up', {
       method: 'POST',
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
       body: `firstName=${firstName}&lastName=${lastName}&birthday=${birthday}&email=${email}&city=${city}&password=${password}&mediums=${mediums}&movements=${movements}`
@@ -59,8 +59,67 @@ function PersonalInfoScreen(props) {
   return (
     <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === "ios" ? "padding" : "height"}>
       <ScrollView >
-        <Text style={{ fontSize: 25, textAlign: "center", padding: 20, marginBottom: 30 }} >Almost there </Text>
-        <Input
+        <Text style={{ fontSize: 25, textAlign: "center", padding: 20 }} >Almost there </Text>
+
+        <Text style={styles.label}>First name</Text>
+        <TextInput
+          style={styles.input}
+          onChangeText={(val) => setFirstName(val)}
+          value={firstName}
+        />
+
+        <Text style={styles.label}>Last name</Text>
+        <TextInput
+          style={styles.input}
+          onChangeText={(val) => setLastName(val)}
+          value={lastName}
+        />
+
+        <DateTimePickerModal
+          isVisible={isDatePickerVisible}
+          mode="date"
+          onConfirm={handleConfirm}
+          onCancel={hideDatePicker}
+        />
+
+        <View style={{ flexDirection: 'row' }}>
+          <Text style={styles.label}>Date of birth </Text>
+          <TouchableOpacity onPress={showDatePicker} style={{ marginTop: 10, marginLeft: 5 }}>
+            <AntDesign name="calendar" size={24} color="rgb(213, 208, 205)" />
+          </TouchableOpacity>
+        </View>
+
+        <TextInput //format date
+          style={styles.input}
+          onChangeText={(val) => setBirthday(val)}
+          value={birthday}
+          editable={false}
+        />
+
+        <Text style={styles.label}>City</Text>
+        <TextInput
+          style={styles.input}
+          onChangeText={(val) => setCity(val)}
+          value={city}
+        />
+
+        <Text style={styles.label}>E-mail</Text>
+        <TextInput
+          style={styles.input}
+          onChangeText={(val) => setEmail(val)}
+          value={email}
+        />
+
+        <Text style={styles.label}>Password</Text>
+        <TextInput
+          style={styles.input}
+          secureTextEntry={true}
+          onChangeText={(val) => setPassword(val)}
+          value={password}
+        />
+
+
+        {/*      <Input
           label="First name"
           containerStyle={{ marginBottom: 20, width: '70%' }}
           inputStyle={{ marginLeft: 10 }}
@@ -117,10 +176,11 @@ function PersonalInfoScreen(props) {
           secureTextEntry={true}
           onChangeText={(val) => setPassword(val)}
           value={password}
-        />
+        /> */}
         {tabErrorsSignUp}
+
         <Button title="Create account"
-          buttonStyle={{ marginVertical: 50, marginHorizontal: 20, paddingHorizontal: 20, backgroundColor: "#FF4D4F" }}
+          buttonStyle={{ elevation: 1, borderRadius: 20, marginTop: 40, backgroundColor: "rgba(213, 208, 205, 0.3)", marginBottom: 20 }}
           onPress={() => signUp()}
         />
       </ScrollView>
@@ -134,6 +194,17 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: "#FFFF"
+  },
+  input: {
+    height: 40,
+    marginTop: 10,
+    borderWidth: 1,
+    borderColor: "rgb(213, 208, 205)",
+    borderRadius: 15,
+    padding: 10,
+  },
+  label: {
+    marginTop: 15
   }
 });
 
