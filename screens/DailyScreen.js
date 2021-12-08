@@ -23,7 +23,6 @@ function DailyScreen(props) {
   const openArtworkDetail = (artwork) => {
     props.setSelectedArtwork(artwork)
     props.navigation.navigate('ArtworkScreen')
-
   }
 
   const openArtistDetail = (artist) => {
