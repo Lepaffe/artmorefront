@@ -45,6 +45,27 @@ const ArtistScreen = (props) => {
         const data = fetch('/getArtist/:artworkId')
     }, [])*/
     const [dataSource, setDataSource] = useState([]);
+    const [likedArtist, setLikedArtist] = useState(false);
+
+    if(likedArtist){
+        var colorLike = '#FF565E'
+      } else {
+        var colorLike = 'black'
+      }
+
+    let addToCollection = async (id) => { 
+       console.log("id", id)
+       console.log("token", props.token)
+        const data = await fetch(`http://172.17.1.83:3000/add-artistlist/`,{
+            method: "POST",
+            headers: {'Content-Type':'application/x-www-form-urlencoded'},
+            body:`token=${props.token}&artistId=${id}`
+        }); //192.168.1.16 ALICE //172.17.1.83 CAPSULE
+            const dataJSON = await data.json();
+
+    setLikedArtist(!likedArtist); 
+}
+
 
    
 
@@ -72,8 +93,8 @@ const ArtistScreen = (props) => {
                     <AntDesign
                         name="heart"
                         size={20}
-                        color="rgb(255, 86, 94)"
-                        onPress={() => console.log('addToCollection')}
+                        color={colorLike}
+                        onPress={ () => addToCollection(props.selectedArtist._id) }
                     />
                 </TouchableOpacity>
             </View>
@@ -124,7 +145,7 @@ const ArtistScreen = (props) => {
 }
 
 function mapStateToProps(state) {
-    return { selectedArtwork: state.selectedArtwork, selectedArtist: state.selectedArtist }
+    return { selectedArtwork: state.selectedArtwork, selectedArtist: state.selectedArtist, token: state.token }
 }
 
 function mapDispatchToProps(dispatch) {
