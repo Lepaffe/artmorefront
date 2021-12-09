@@ -4,8 +4,31 @@ import { Button } from 'react-native-elements'
 import Movement from '../composants/Movement';
 import { connect } from 'react-redux'
 
+import {
+  Heebo_100Thin,
+  Heebo_300Light,
+  Heebo_400Regular,
+  Heebo_500Medium,
+  Heebo_700Bold,
+  Heebo_800ExtraBold,
+  Heebo_900Black
+} from '@expo-google-fonts/heebo'
+
+import { useFonts } from 'expo-font'
+import AppLoading from 'expo-app-loading'
+
 
 function MovementScreen(props) {
+
+  let [fontsLoaded] = useFonts({
+    Heebo_100Thin,
+    Heebo_300Light,
+    Heebo_400Regular,
+    Heebo_500Medium,
+    Heebo_700Bold,
+    Heebo_800ExtraBold,
+    Heebo_900Black
+  })
 
   const [movementPreferences, setMovementPreferences] = useState([])
 
@@ -75,13 +98,16 @@ function MovementScreen(props) {
     },
   ]
 
+  if (!fontsLoaded) {
+    return <AppLoading />
+  }
 
   return (
 
     <View style={styles.container}>
 
       <ScrollView showsVerticalScrollIndicator={false}>
-        <Text style={{ fontSize: 25, textAlign: "center", marginTop: 30, marginBottom: 10 }} >What do you like?</Text>
+        <Text style={{ fontFamily: 'Heebo_300Light', fontSize: 25, textAlign: "center", marginTop: 30, marginBottom: 10 }} >What do you like?</Text>
 
         <View style={{ flexDirection: "row", flexWrap: 'wrap', justifyContent: 'center' }}>
           {movements.map(movement => {
@@ -230,7 +256,10 @@ function MovementScreen(props) {
          */}
 
         <View style={{ alignItems: 'flex-end' }}>
-          <Button title="Next" buttonStyle={{ borderRadius: 25, marginVertical: 40, marginRight: 60, paddingHorizontal: 20, backgroundColor: "rgba(38, 50, 56, 0.8)" }}
+          <Button
+            title="Next"
+            buttonStyle={{ borderRadius: 25, marginVertical: 40, marginRight: 60, paddingHorizontal: 20, backgroundColor: "rgba(38, 50, 56, 0.8)" }}
+            titleStyle={{ fontFamily: 'Heebo_300Light' }}
             onPress={() => goToPersonalInfoScreen()}
           />
         </View>

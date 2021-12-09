@@ -5,9 +5,32 @@ import { connect } from 'react-redux'
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { AntDesign } from '@expo/vector-icons';
 
+import {
+  Heebo_100Thin,
+  Heebo_300Light,
+  Heebo_400Regular,
+  Heebo_500Medium,
+  Heebo_700Bold,
+  Heebo_800ExtraBold,
+  Heebo_900Black
+} from '@expo-google-fonts/heebo'
+
+import { useFonts } from 'expo-font'
+import AppLoading from 'expo-app-loading'
+
 import { REACT_APP_URL_BACKEND } from "@env";
 
 function PersonalInfoScreen(props) {
+
+  let [fontsLoaded] = useFonts({
+    Heebo_100Thin,
+    Heebo_300Light,
+    Heebo_400Regular,
+    Heebo_500Medium,
+    Heebo_700Bold,
+    Heebo_800ExtraBold,
+    Heebo_900Black
+  })
 
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
@@ -100,10 +123,14 @@ function PersonalInfoScreen(props) {
   let colorMessagePassword = "rgba(255, 86, 94,0.8)"
   if (isPasswordValid) colorMessagePassword = "rgba(58, 187, 109, 0.6)";
 
+  if (!fontsLoaded) {
+    return <AppLoading />
+  }
+
   return (
     <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === "ios" ? "padding" : "height"}>
       <ScrollView showsVerticalScrollIndicator={false}>
-        <Text style={{ fontSize: 25, textAlign: "center", marginTop: 40, marginBottom: 30 }} >Almost there </Text>
+        <Text style={{ fontFamily: 'Heebo_300Light', fontSize: 25, textAlign: "center", marginTop: 40, marginBottom: 30 }} >Almost there </Text>
         <View style={styles.inputsContainer}>
           <Text style={styles.label}>First name</Text>
           <TextInput
@@ -169,6 +196,9 @@ function PersonalInfoScreen(props) {
         <View style={{ alignItems: 'center' }}>
           <Button title="Create account"
             buttonStyle={{ width: '70%', borderRadius: 25, marginTop: 30, marginBottom: 40, paddingRight: 15, backgroundColor: "rgba(38, 50, 56, 0.8)" }}
+            titleStyle={{
+              fontFamily: 'Heebo_300Light'
+            }}
             onPress={() => signUp()}
           />
         </View>
@@ -199,7 +229,8 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   label: {
-    marginTop: 15
+    marginTop: 15,
+    fontFamily: 'Heebo_300Light'
   }
 });
 

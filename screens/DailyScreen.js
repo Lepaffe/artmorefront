@@ -3,10 +3,32 @@ import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Image, SafeAreaVi
 import { AntDesign } from '@expo/vector-icons'
 import { connect } from 'react-redux'
 //import Carousel from 'react-native-snap-carousel';
+import {
+  Heebo_100Thin,
+  Heebo_300Light,
+  Heebo_400Regular,
+  Heebo_500Medium,
+  Heebo_700Bold,
+  Heebo_800ExtraBold,
+  Heebo_900Black
+} from '@expo-google-fonts/heebo'
+
+import { useFonts } from 'expo-font'
+import AppLoading from 'expo-app-loading'
 
 import { REACT_APP_URL_BACKEND } from "@env";
 
 function DailyScreen(props) {
+
+  let [fontsLoaded] = useFonts({
+    Heebo_100Thin,
+    Heebo_300Light,
+    Heebo_400Regular,
+    Heebo_500Medium,
+    Heebo_700Bold,
+    Heebo_800ExtraBold,
+    Heebo_900Black
+  })
 
   const [dailyList, setDailyList] = useState([]);
 
@@ -37,7 +59,9 @@ function DailyScreen(props) {
     //fetch route saveArtwork
     console.log('add to collection', artwork)
   }
-
+  if (!fontsLoaded) {
+    return <AppLoading />
+  }
 
   return (
     <SafeAreaView style={styles.container}>
@@ -73,8 +97,8 @@ function DailyScreen(props) {
                   />
 
                   <View>
-                    <Text style={{ fontWeight: 'bold' }}>{el.artist.name} </Text>
-                    <Text>{el.artist.instagram} </Text>
+                    <Text style={{ fontFamily: 'Heebo_700Bold' }}>{el.artist.name} </Text>
+                    <Text style={{ fontFamily: 'Heebo_300Light' }}>{el.artist.instagram} </Text>
                   </View>
 
                 </TouchableOpacity>
@@ -107,11 +131,12 @@ const styles = StyleSheet.create({
   dailyText: {
     fontSize: 30,
     marginTop: 25,
-    marginBottom: 8
+    marginBottom: 8,
+    fontFamily: 'Heebo_300Light'
   },
   forYouText: {
-    fontWeight: 'bold',
-    fontSize: 15
+    fontSize: 15,
+    fontFamily: 'Heebo_700Bold'
   },
   itemDaily: {
     width: windowWidth - 20,
