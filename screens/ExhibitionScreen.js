@@ -1,17 +1,38 @@
 import React, { useEffect, useState } from 'react'
 import { View, Image, ScrollView, Text, StyleSheet, TouchableOpacity, SafeAreaView } from 'react-native'
-import { CheckBox, Card } from 'react-native-elements'
+import { CheckBox, Card, ListItem, Avatar } from 'react-native-elements'
 import { connect } from 'react-redux'
 import { AntDesign } from '@expo/vector-icons'
 import { REACT_APP_URL_BACKEND } from "@env";
 
+import {
+  Heebo_100Thin,
+  Heebo_300Light,
+  Heebo_400Regular,
+  Heebo_500Medium,
+  Heebo_700Bold,
+  Heebo_800ExtraBold,
+  Heebo_900Black
+} from '@expo-google-fonts/heebo'
 
+import { useFonts } from 'expo-font'
+import AppLoading from 'expo-app-loading'
 
 function ExhibitionScreen(props) {
 
+  let [fontsLoaded] = useFonts({
+    Heebo_100Thin,
+    Heebo_300Light,
+    Heebo_400Regular,
+    Heebo_500Medium,
+    Heebo_700Bold,
+    Heebo_800ExtraBold,
+    Heebo_900Black
+  })
+
   const [checkedDate, setCheckedDate] = useState(false);
   const [checkedPref, setCheckedPref] = useState(false);
-  const [checkedNearMe, setCheckedNearMe] = useState(false);
+  const [checkedNearMe, setCheckedNearMe] = useState(true);
   const [listExpo, setListExpo] = useState([])
 
 
@@ -45,7 +66,18 @@ function ExhibitionScreen(props) {
 
   var exhibitionsList = <Text style={{ fontSize: 20 }}>Aucun évènement prévu dans votre ville</Text>
   if (listExpo.length > 0) {
-    exhibitionsList = listExpo.map((u, i) => {
+
+    exhibitionsList = listExpo.map((expo, i) => (
+      <ListItem key={i} bottomDivider>
+        <Avatar style={{ width: 60, height: 60 }} source={{ uri: expo.img }} />
+        <ListItem.Content>
+          <ListItem.Title style={{ fontFamily: 'Heebo_400Regular' }}>{expo.title}</ListItem.Title>
+          <ListItem.Subtitle style={{ fontFamily: 'Heebo_300Light', marginVertical: 5 }}>{expo.city}</ListItem.Subtitle>
+          <ListItem.Subtitle style={{ fontFamily: 'Heebo_400Regular', fontSize: 12 }}>From {expo.date_start} to {expo.date_end}</ListItem.Subtitle>
+        </ListItem.Content>
+      </ListItem>
+    ))
+    {/*exhibitionsList = listExpo.map((u, i) => {
       return (
         // <View key={i}>
         //   <Card >
@@ -55,7 +87,7 @@ function ExhibitionScreen(props) {
         //     <Text>{expo.date_end}</Text></View>
         //     <View>
         //     <Card.Image source={{ uri: expo.img }}></Card.Image></View>
-        //   </Card>
+        //b   </Card>
         // </View>
 
         <View key={i} style={styles.user}>
@@ -67,7 +99,11 @@ function ExhibitionScreen(props) {
           <Text style={styles.name}>{u.title}{"\n"}{u.city}{"\n"}{u.date_start}{"\n"}{u.date_end}</Text>
         </View>
       );
-    })
+    })*/}
+  }
+
+  if (!fontsLoaded) {
+    return <AppLoading />
   }
 
   return (
@@ -77,6 +113,16 @@ function ExhibitionScreen(props) {
           <Text style={{ borderBottomColor: "red", textAlign: "center", fontSize: 15, padding: 20 }}> Exhibitions </Text>
         </View>
         <View style={{ flexDirection: "row" }} >
+          <CheckBox
+            title='Near me'
+            checkedIcon='dot-circle-o'
+            uncheckedIcon='circle-o'
+            checked={checkedNearMe}
+            onPress={() => setCheckedNearMe(!checkedNearMe)}
+            containerStyle={styles.checkbox}
+            textStyle={{ fontSize: 10, color: 'black' }}
+          />
+
           <CheckBox
             title='By date'
             checkedIcon='dot-circle-o'
@@ -96,15 +142,7 @@ function ExhibitionScreen(props) {
             textStyle={{ fontSize: 10, color: 'black' }}
 
           />
-          <CheckBox
-            title='Near me'
-            checkedIcon='dot-circle-o'
-            uncheckedIcon='circle-o'
-            checked={checkedNearMe}
-            onPress={() => setCheckedNearMe(!checkedNearMe)}
-            containerStyle={styles.checkbox}
-            textStyle={{ fontSize: 10, color: 'black' }}
-          />
+
         </View>
         {exhibitionsList}
       </View>
@@ -143,6 +181,7 @@ const styles = StyleSheet.create({
   name: {
     fontSize: 15,
     marginTop: 5,
+    fontFamily: 'Heebo_300Light'
   },
 });
 
