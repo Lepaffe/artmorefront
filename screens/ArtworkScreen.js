@@ -61,7 +61,7 @@ const ArtworkScreen = (props) => {
     return (
 
         <ScrollView
-
+            showsVerticalScrollIndicator={false}
             style={styles.container}>
             {props.selectedArtist && //sans cette condition, le UseEffect ne se charge pas car direct un message d'erreur comme quoi "props.selectedArtist = null"
                 <>
@@ -104,7 +104,7 @@ const ArtworkScreen = (props) => {
                         MORE ARTWORKS
                     </Text>
 
-                    <ScrollView horizontal={true} style={styles.minipicturesContainer}>
+                    <ScrollView showsHorizontalScrollIndicator={false} horizontal={true} style={styles.minipicturesContainer}>
                         {moreArtworks}
                     </ScrollView>
                 </>
@@ -185,7 +185,7 @@ const styles = StyleSheet.create({
         width: 80,
         height: 80,
         marginRight: 10,
-        marginBottom: 60
+        marginBottom: 70
     }
 })
 

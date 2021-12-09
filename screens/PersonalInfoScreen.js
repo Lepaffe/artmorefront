@@ -102,8 +102,8 @@ function PersonalInfoScreen(props) {
 
   return (
     <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === "ios" ? "padding" : "height"}>
-      <ScrollView>
-        <Text style={{ fontSize: 25, textAlign: "center", padding: 20 }} >Almost there </Text>
+      <ScrollView showsVerticalScrollIndicator={false}>
+        <Text style={{ fontSize: 25, textAlign: "center", marginTop: 40, marginBottom: 30 }} >Almost there </Text>
         <View style={styles.inputsContainer}>
           <Text style={styles.label}>First name</Text>
           <TextInput
@@ -166,13 +166,14 @@ function PersonalInfoScreen(props) {
         </View>
 
         {tabErrorsSignUp}
-
-        <Button title="Create account"
-          buttonStyle={{ elevation: 1, borderRadius: 20, marginTop: 20, backgroundColor: "rgba(213, 208, 205, 0.3)", marginBottom: 20 }}
-          onPress={() => signUp()}
-        />
+        <View style={{ alignItems: 'center' }}>
+          <Button title="Create account"
+            buttonStyle={{ width: '70%', borderRadius: 25, marginTop: 30, marginBottom: 40, paddingRight: 15, backgroundColor: "rgba(38, 50, 56, 0.8)" }}
+            onPress={() => signUp()}
+          />
+        </View>
       </ScrollView>
-    </KeyboardAvoidingView>
+    </KeyboardAvoidingView >
   );
 }
 
