@@ -47,24 +47,35 @@ const ArtistScreen = (props) => {
     }, [])*/
     const [dataSource, setDataSource] = useState([]);
     const [likedArtist, setLikedArtist] = useState(false);
+    const [colorLike, setColorLike] = useState("black")
 
-    if(likedArtist){
-        var colorLike = '#FF565E'
-      } else {
-        var colorLike = 'black'
-      }
+   
 
-    let addToCollection = async (id) => { 
-       console.log("id", id)
-       console.log("token", props.token)
-        const data = await fetch(`${REACT_APP_URL_BACKEND}/add-artistlist/`,{
-            method: "POST",
-            headers: {'Content-Type':'application/x-www-form-urlencoded'},
-            body:`token=${props.token}&artistId=${id}`
-        }); //192.168.1.16 ALICE //172.17.1.83 CAPSULE
-            const dataJSON = await data.json();
 
-    setLikedArtist(!likedArtist); 
+
+let addToCollection = async (id) => { 
+    if (likedArtist == false ){
+     const data = await fetch(`${REACT_APP_URL_BACKEND}/add-artistlist/`,{
+         method: "POST",
+         headers: {'Content-Type':'application/x-www-form-urlencoded'},
+         body:`token=${props.token}&artistId=${id}`
+     });
+     
+      //192.168.1.16 ALICE //172.17.1.83 CAPSULE
+         const dataJSON = await data.json();
+          setColorLike('#FF565E');
+ } else {
+     const data = await fetch(`${REACT_APP_URL_BACKEND}/delete-artistlist/`,{
+         method: "POST",
+         headers: {'Content-Type':'application/x-www-form-urlencoded'},
+         body:`token=${props.token}&artistId=${id}`
+     });
+      //192.168.1.16 ALICE //172.17.1.83 CAPSULE
+         const dataJSON = await data.json();
+         setColorLike('black');
+ }
+
+ setLikedArtist(!likedArtist); 
 }
 
 

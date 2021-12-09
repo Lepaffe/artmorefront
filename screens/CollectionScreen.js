@@ -2,15 +2,16 @@ import React, { useEffect, useState, useRef } from 'react'
 import { View, StyleSheet, Image, TouchableOpacity , Text, ScrollView} from 'react-native'
 import MasonryList from '@react-native-seoul/masonry-list';
 import {REACT_APP_URL_BACKEND} from "@env";
+import { connect } from 'react-redux'
 
 
-function CollectionScreen() {
+function CollectionScreen(props) {
 
   const [collection, setCollection] = useState([])
 
   useEffect(() => {
     const getCollection = async () => {
-        const data = await fetch(`${REACT_APP_URL_BACKEND}/get-collection/`); //192.168.1.16 ALICE //172.17.1.83 CAPSULE
+        const data = await fetch(`${REACT_APP_URL_BACKEND}/get-collection/${props.token}`); //192.168.1.16 ALICE //172.17.1.83 CAPSULE
         const dataJSON = await data.json();
         setCollection(dataJSON.collection.artworkList);
         console.log("data", dataJSON.collection.artworkList)
@@ -72,7 +73,11 @@ const renderItem = ({ item }) => { console.log(item)
  );
 }
 
-export default CollectionScreen;
+function mapStateToProps(state) {
+    return { token: state.token }
+}
+
+export default connect(mapStateToProps, null)(CollectionScreen);
 
 const styles = StyleSheet.create({
   container: {

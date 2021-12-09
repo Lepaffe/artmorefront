@@ -38,6 +38,8 @@ function DailyScreen(props) {
     console.log('add to collection', artwork)
   }
 
+  
+
 
   return (
     <SafeAreaView style={styles.container}>

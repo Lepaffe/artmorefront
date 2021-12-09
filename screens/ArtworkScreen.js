@@ -7,6 +7,7 @@ import {REACT_APP_URL_BACKEND} from "@env";
 
 const ArtworkScreen = (props) => {
     const [likedArtwork, setLikedArtwork] = useState(false)
+    const [colorLike, setColorLike] = useState("black")
 
     //on récupère l'artiste associé à l'artwork et on le met dans le store
     useEffect(() => {
@@ -39,22 +40,35 @@ const ArtworkScreen = (props) => {
         props.navigation.navigate('ArtworkScreen');
     }
 
-    if(likedArtwork){
-        var colorLike = '#FF565E'
-      } else {
-        var colorLike = 'black'
-      }
+   // if(likedArtwork){
+    //    var colorLike = '#FF565E'
+    //  } else {
+    //    var colorLike = 'black'
+     // }
 
     let addToCollection = async (id) => { 
-       
-        const data = await fetch(`http://172.17.1.83:3000/add-artworklist/`,{
+       if (likedArtwork == false ){
+        const data = await fetch(`${REACT_APP_URL_BACKEND}/add-artworklist/`,{
             method: "POST",
             headers: {'Content-Type':'application/x-www-form-urlencoded'},
             body:`token=${props.token}&artworkId=${id}`
-        }); //192.168.1.16 ALICE //172.17.1.83 CAPSULE
+        });
+        
+         //192.168.1.16 ALICE //172.17.1.83 CAPSULE
             const dataJSON = await data.json();
+             setColorLike('#FF565E');
+    } else {
+        const data = await fetch(`${REACT_APP_URL_BACKEND}/delete-artworklist/`,{
+            method: "POST",
+            headers: {'Content-Type':'application/x-www-form-urlencoded'},
+            body:`token=${props.token}&artworkId=${id}`
+        });
+         //192.168.1.16 ALICE //172.17.1.83 CAPSULE
+            const dataJSON = await data.json();
+            setColorLike('black');
+    }
 
-    setLikedArtwork(true); 
+    setLikedArtwork(!likedArtwork); 
 }
 
 
