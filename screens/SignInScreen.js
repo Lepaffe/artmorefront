@@ -35,7 +35,7 @@ function SignInScreen(props) {
   const [listErrorsSignin, setErrorsSignin] = useState([])
 
   var signIn = async () => {
-    console.log(REACT_APP_URL_BACKEND);
+    
     const data = await fetch(`${REACT_APP_URL_BACKEND}/sign-in`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
@@ -43,7 +43,7 @@ function SignInScreen(props) {
     })
 
     const body = await data.json()
-
+    console.log('body', body);
     if (body.result == true) {
       props.addToken(body.token)
       props.navigation.navigate('BottomNav', { screen: 'DailyScreen' })
