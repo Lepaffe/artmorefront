@@ -80,8 +80,8 @@ function MovementScreen(props) {
 
     <View style={styles.container}>
 
-      <ScrollView>
-        <Text style={{ fontSize: 25, textAlign: "center", padding: 20 }} >What do you like?</Text>
+      <ScrollView showsVerticalScrollIndicator={false}>
+        <Text style={{ fontSize: 25, textAlign: "center", marginTop: 30, marginBottom: 10 }} >What do you like?</Text>
 
         <View style={{ flexDirection: "row", flexWrap: 'wrap', justifyContent: 'center' }}>
           {movements.map(movement => {
@@ -230,7 +230,7 @@ function MovementScreen(props) {
          */}
 
         <View style={{ alignItems: 'flex-end' }}>
-          <Button title="Next" buttonStyle={{ marginVertical: 50, marginHorizontal: 20, paddingHorizontal: 20, backgroundColor: "#FF4D4F" }}
+          <Button title="Next" buttonStyle={{ borderRadius: 25, marginVertical: 40, marginRight: 60, paddingHorizontal: 20, backgroundColor: "rgba(38, 50, 56, 0.8)" }}
             onPress={() => goToPersonalInfoScreen()}
           />
         </View>

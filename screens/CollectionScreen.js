@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react'
-import { View, StyleSheet, Image, TouchableOpacity , Text, ScrollView} from 'react-native'
+import { View, StyleSheet, Image, TouchableOpacity, Text, ScrollView } from 'react-native'
 import MasonryList from '@react-native-seoul/masonry-list';
 import {REACT_APP_URL_BACKEND} from "@env";
 import { connect } from 'react-redux'
@@ -29,48 +29,49 @@ const renderItem = ({ item }) => { console.log(item)
                 style={styles.minipicture}
                 key={item._id}
             />
-  )};
+        )
+    };
 
 
-    
-     //   moreArtworks = props.selectedArtist.artistArtwork.map((artwork) =>
-           
-       //         < Image
-         //           source={{ uri: artwork.cloudinary }}
-          //          style={styles.minipicture}
-           //         key={artwork._id}
-            //    />
-            
-       // )
+
+    //   moreArtworks = props.selectedArtist.artistArtwork.map((artwork) =>
+
+    //         < Image
+    //           source={{ uri: artwork.cloudinary }}
+    //          style={styles.minipicture}
+    //         key={artwork._id}
+    //    />
+
+    // )
 
     //}
- return (
-     <ScrollView>
-   <View style={{ flex: 1, alignItems: 'center', marginBottom:15 }}>
-     <Text style={{ marginTop: 25 }} > My personnal collection</Text>
-     </View>
-     <View style={{flex: 1}}>
+    return (
+        <ScrollView>
+            <View style={{ flex: 1, alignItems: 'center', marginBottom: 15 }}>
+                <Text style={{ marginTop: 25 }} > My personnal collection</Text>
+            </View>
+            <View style={{ flex: 1 }}>
 
-     <MasonryList
-  data={list}
-  keyExtractor={item => item.id}
-  numColumns={2}
-  showsVerticalScrollIndicator={false}
-  renderItem={renderItem}
-  contentContainerStyle={{
-    paddingHorizontal: 0,
-    alignSelf: 'stretch',
-  }}
- 
+                <MasonryList
+                    data={list}
+                    keyExtractor={item => item.id}
+                    numColumns={2}
+                    showsVerticalScrollIndicator={false}
+                    renderItem={renderItem}
+                    contentContainerStyle={{
+                        paddingHorizontal: 0,
+                        alignSelf: 'stretch',
+                    }}
+
                 />
 
 
 
 
 
-   </View>
-   </ScrollView>
- );
+            </View>
+        </ScrollView>
+    );
 }
 
 function mapStateToProps(state) {
@@ -80,75 +81,75 @@ function mapStateToProps(state) {
 export default connect(mapStateToProps, null)(CollectionScreen);
 
 const styles = StyleSheet.create({
-  container: {
-      flex: 1,
-      margin: 22,
-      marginTop: 20,
-      
-      
-  },
-  imageContainer: {
-      alignItems: 'center',
-      padding: 10,
-  },
-  image: {
-      width: "100%",
-      height: 500
-  },
-  button: {
-      position: 'absolute',
-      bottom: -8,
-      right: 0
-  },
-  mainInfoContainer: {
-      marginTop: 10,
-      marginBottom: 20,
-      alignItems: 'center'
-  },
-  name: {
-      fontSize: 25,
-      fontWeight: 'bold'
-  },
-  artist: {
-      fontSize: 20
-  },
-  info: {
-      marginBottom: 25
-  },
-  description: {
-      marginBottom: 25,
-      textAlign: 'justify'
-  },
-  moreArtworks: {
-      fontWeight: 'bold',
-      marginBottom: 12
-  },
-  minipicturesContainer: {
-      flexDirection: 'row'
-  },
-  minipicture: {
-      justifyContent: 'center',
-      alignItems: 'center',
-      height:300 ,
-      
-      margin: 3,
-  },
-  avatar: {
-      width: 80,
-      height: 80,
-      
-  },
-  grid: {
-      marginTop: 12,
-      width: '33%',
-      flexDirection: 'row',
-      justifyContent: 'center',
-      paddingStart: 16,
-      paddingEnd: 16,
-      paddingTop: 8,
-      marginRight: 10,
-      paddingBottom: 8,
-      borderRadius: 8,
+    container: {
+        flex: 1,
+        margin: 22,
+        marginTop: 20,
+
+
+    },
+    imageContainer: {
+        alignItems: 'center',
+        padding: 10,
+    },
+    image: {
+        width: "100%",
+        height: 500
+    },
+    button: {
+        position: 'absolute',
+        bottom: -8,
+        right: 0
+    },
+    mainInfoContainer: {
+        marginTop: 10,
+        marginBottom: 20,
+        alignItems: 'center'
+    },
+    name: {
+        fontSize: 25,
+        fontWeight: 'bold'
+    },
+    artist: {
+        fontSize: 20
+    },
+    info: {
+        marginBottom: 25
+    },
+    description: {
+        marginBottom: 25,
+        textAlign: 'justify'
+    },
+    moreArtworks: {
+        fontWeight: 'bold',
+        marginBottom: 12
+    },
+    minipicturesContainer: {
+        flexDirection: 'row'
+    },
+    minipicture: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        height: 300,
+
+        margin: 3,
+    },
+    avatar: {
+        width: 80,
+        height: 80,
+
+    },
+    grid: {
+        marginTop: 12,
+        width: '33%',
+        flexDirection: 'row',
+        justifyContent: 'center',
+        paddingStart: 16,
+        paddingEnd: 16,
+        paddingTop: 8,
+        marginRight: 10,
+        paddingBottom: 8,
+        borderRadius: 8,
     },
 })
 

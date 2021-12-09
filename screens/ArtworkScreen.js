@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react'
-import { View, Image, ScrollView, Text, StyleSheet, TouchableOpacity } from 'react-native'
+import { View, Image, ScrollView, Text, StyleSheet, TouchableOpacity, Dimensions } from 'react-native'
 import { connect } from 'react-redux'
 import { AntDesign } from '@expo/vector-icons';
 
-import {REACT_APP_URL_BACKEND} from "@env";
+import { REACT_APP_URL_BACKEND } from "@env";
 
 const ArtworkScreen = (props) => {
     const [likedArtwork, setLikedArtwork] = useState(false)
@@ -74,7 +74,9 @@ const ArtworkScreen = (props) => {
 
     return (
 
-        <ScrollView style={styles.container}>
+        <ScrollView
+            showsVerticalScrollIndicator={false}
+            style={styles.container}>
             {props.selectedArtist && //sans cette condition, le UseEffect ne se charge pas car direct un message d'erreur comme quoi "props.selectedArtist = null"
                 <>
                     <View style={styles.imageContainer}>
@@ -84,7 +86,7 @@ const ArtworkScreen = (props) => {
                                 name="heart"
                                 size={35}
                                 color={colorLike}
-                                onPress={ () => addToCollection(props.selectedArtwork._id) }
+                                onPress={() => addToCollection(props.selectedArtwork._id)}
                             />
                         </TouchableOpacity>
                     </View>
@@ -116,12 +118,13 @@ const ArtworkScreen = (props) => {
                         MORE ARTWORKS
                     </Text>
 
-                    <ScrollView horizontal={true} style={styles.minipicturesContainer}>
+                    <ScrollView showsHorizontalScrollIndicator={false} horizontal={true} style={styles.minipicturesContainer}>
                         {moreArtworks}
                     </ScrollView>
                 </>
             }
         </ScrollView >
+
     )
 }
 
@@ -140,14 +143,15 @@ function mapDispatchToProps(dispatch) {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ArtworkScreen);
+const windowHeight = Dimensions.get('window').height;
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
         padding: 22,
         paddingTop: 40,
-        backgroundColor: '#FFF'
+        backgroundColor: '#FFF',
+        height: windowHeight
     },
     imageContainer: {
         alignItems: 'center',
@@ -194,6 +198,9 @@ const styles = StyleSheet.create({
     minipicture: {
         width: 80,
         height: 80,
-        marginRight: 10
+        marginRight: 10,
+        marginBottom: 70
     }
 })
+
+export default connect(mapStateToProps, mapDispatchToProps)(ArtworkScreen);

@@ -4,7 +4,7 @@ import { AntDesign, Entypo } from '@expo/vector-icons'
 import Swiper from 'react-native-deck-swiper'
 import { connect } from 'react-redux';
 
-import {REACT_APP_URL_BACKEND} from "@env";
+import { REACT_APP_URL_BACKEND } from "@env";
 
 const SwipeScreen = (props) => {
 
@@ -23,23 +23,23 @@ const SwipeScreen = (props) => {
     }, [])
 
     const handleLike = async (cardIndex) => {
-        console.log('like',cardIndex, artworkList[cardIndex])
-        const data = await fetch(`${REACT_APP_URL_BACKEND}/like`,{
+        console.log('like', cardIndex, artworkList[cardIndex])
+        const data = await fetch(`${REACT_APP_URL_BACKEND}/like`, {
             method: 'POST',
-            headers: {'Content-Type':'application/x-www-form-urlencoded'},
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
             body: `token=${props.token}&artworkId=${artworkList[cardIndex]._id}`
-           });  
-        const dataJSON = await data.json();    
+        });
+        const dataJSON = await data.json();
     }
 
     const handleDislike = async (cardIndex) => {
         console.log('dislike', artworkList[cardIndex])
-        const data = await fetch(`${REACT_APP_URL_BACKEND}/dislike`,{
+        const data = await fetch(`${REACT_APP_URL_BACKEND}/dislike`, {
             method: 'POST',
-            headers: {'Content-Type':'application/x-www-form-urlencoded'},
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
             body: `token=${props.token}&artworkId=${artworkList[cardIndex]._id}`
-           });  
-        const dataJSON = await data.json(); 
+        });
+        const dataJSON = await data.json();
     }
 
     const openArtworkDetail = (cardIndex) => {
@@ -119,8 +119,8 @@ const SwipeScreen = (props) => {
     )
 }
 function mapStateToProps(state) {
-    return { token: state.token}
-  }
+    return { token: state.token }
+}
 
 function mapDispatchToProps(dispatch) {
     return {

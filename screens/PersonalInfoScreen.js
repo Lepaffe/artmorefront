@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import { ScrollView, View, StyleSheet, KeyboardAvoidingView, Text, TouchableOpacity, TextInput } from 'react-native';
+import { ScrollView, View, StyleSheet, KeyboardAvoidingView, Text, TouchableOpacity, TextInput, Dimensions } from 'react-native';
 import { Button, Input } from 'react-native-elements'
 import { connect } from 'react-redux'
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { AntDesign } from '@expo/vector-icons';
 
-import {REACT_APP_URL_BACKEND} from "@env";
+import { REACT_APP_URL_BACKEND } from "@env";
 
 function PersonalInfoScreen(props) {
 
@@ -17,6 +17,10 @@ function PersonalInfoScreen(props) {
   const [email, setEmail] = useState('');
   const [listErrorsSignUp, setErrorsSignUp] = useState([])
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
+  const [isEmailValid, setIsEmailValid] = useState(false);
+  const [messageMail, setMessageMail] = useState('');
+  const [isPasswordValid, setIsPasswordValid] = useState(false);
+  const [messagePassword, setMessagePassword] = useState('');
 
   const showDatePicker = () => {
     setDatePickerVisibility(true);
@@ -32,163 +36,148 @@ function PersonalInfoScreen(props) {
     hideDatePicker();
   };
 
+  const validateEmail = (value) => {
+    const emailRegex = /^\w+([.-]?\w+)@\w+([.-]?\w+)(.\w\w+)+$/
+    const email = value;
+    setEmail(value)
+
+    if (emailRegex.test(email)) {
+      setIsEmailValid(true);
+      setMessageMail('Valid e-mail');
+    } else {
+      setIsEmailValid(false);
+      setMessageMail('Invalid e-mail');
+    }
+  };
+
+  const validatePassword = (value) => {
+    const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/
+    const password = value;
+    setPassword(value)
+
+    if (passwordRegex.test(password)) {
+      setIsPasswordValid(true);
+      setMessagePassword('Valid password');
+    } else {
+      setIsPasswordValid(false);
+      setMessagePassword('Your password must contain at least 8 characters, one number and one letter.');
+    }
+  };
 
   const signUp = async () => {
 
-    console.log('SignUp activated')
-    let mediums = JSON.stringify(props.medium)
-    let movements = JSON.stringify(props.movement)
+    if (isEmailValid && isPasswordValid) {
 
-    const data = await fetch(`${REACT_APP_URL_BACKEND}/sign-up`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-      body: `firstName=${firstName}&lastName=${lastName}&birthday=${birthday}&email=${email}&city=${city}&password=${password}&mediums=${mediums}&movements=${movements}`
-    });
-    const dataJSON = await data.json();
+      console.log('SignUp activated')
+      let mediums = JSON.stringify(props.medium)
+      let movements = JSON.stringify(props.movement)
 
-    if (dataJSON.result) {
-      props.addToken(dataJSON.token)
-      props.navigation.navigate('BottomNav', { screen: 'DailyScreen' })
+      const data = await fetch(`${REACT_APP_URL_BACKEND}/sign-up`, { //192.168.1.16 ALICE //172.17.1.83 CAPSULE
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: `firstName=${firstName}&lastName=${lastName}&birthday=${birthday}&email=${email}&city=${city}&password=${password}&mediums=${mediums}&movements=${movements}`
+      });
+      const dataJSON = await data.json();
+
+      if (dataJSON.result) {
+        props.addToken(dataJSON.token)
+        props.navigation.navigate('BottomNav', { screen: 'DailyScreen' })
+      } else {
+        setErrorsSignUp(dataJSON.error)
+      }
     } else {
-      setErrorsSignUp(dataJSON.error)
+      console.log('email ou password non valide')
     }
   }
 
   let tabErrorsSignUp = listErrorsSignUp.map((error, i) => {
-    return (<Text key={i}>{error}</Text>)
+    return (<Text style={{ marginTop: 20 }} key={i}>{error}</Text>)
   })
+
+  let colorMessageMail = "rgba(255, 86, 94,0.8)"
+  if (isEmailValid) colorMessageMail = "rgba(58, 187, 109, 0.6)";
+
+  let colorMessagePassword = "rgba(255, 86, 94,0.8)"
+  if (isPasswordValid) colorMessagePassword = "rgba(58, 187, 109, 0.6)";
 
   return (
     <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === "ios" ? "padding" : "height"}>
-      <ScrollView >
-        <Text style={{ fontSize: 25, textAlign: "center", padding: 20 }} >Almost there </Text>
+      <ScrollView showsVerticalScrollIndicator={false}>
+        <Text style={{ fontSize: 25, textAlign: "center", marginTop: 40, marginBottom: 30 }} >Almost there </Text>
+        <View style={styles.inputsContainer}>
+          <Text style={styles.label}>First name</Text>
+          <TextInput
+            style={styles.input}
+            onChangeText={(val) => setFirstName(val)}
+            value={firstName}
+          />
 
-        <Text style={styles.label}>First name</Text>
-        <TextInput
-          style={styles.input}
-          onChangeText={(val) => setFirstName(val)}
-          value={firstName}
-        />
+          <Text style={styles.label}>Last name</Text>
+          <TextInput
+            style={styles.input}
+            onChangeText={(val) => setLastName(val)}
+            value={lastName}
+          />
 
-        <Text style={styles.label}>Last name</Text>
-        <TextInput
-          style={styles.input}
-          onChangeText={(val) => setLastName(val)}
-          value={lastName}
-        />
+          <DateTimePickerModal
+            isVisible={isDatePickerVisible}
+            mode="date"
+            onConfirm={handleConfirm}
+            onCancel={hideDatePicker}
+          />
 
-        <DateTimePickerModal
-          isVisible={isDatePickerVisible}
-          mode="date"
-          onConfirm={handleConfirm}
-          onCancel={hideDatePicker}
-        />
+          <View style={{ flexDirection: 'row' }}>
+            <Text style={styles.label}>Date of birth </Text>
+            <TouchableOpacity onPress={showDatePicker} style={{ marginTop: 10, marginLeft: 5 }}>
+              <AntDesign name="calendar" size={24} color="rgb(213, 208, 205)" />
+            </TouchableOpacity>
+          </View>
 
-        <View style={{ flexDirection: 'row' }}>
-          <Text style={styles.label}>Date of birth </Text>
-          <TouchableOpacity onPress={showDatePicker} style={{ marginTop: 10, marginLeft: 5 }}>
-            <AntDesign name="calendar" size={24} color="rgb(213, 208, 205)" />
-          </TouchableOpacity>
-        </View>
-
-        <TextInput //format date
-          style={styles.input}
-          onChangeText={(val) => setBirthday(val)}
-          value={birthday}
-          editable={false}
-        />
-
-        <Text style={styles.label}>City</Text>
-        <TextInput
-          style={styles.input}
-          onChangeText={(val) => setCity(val)}
-          value={city}
-        />
-
-        <Text style={styles.label}>E-mail</Text>
-        <TextInput
-          style={styles.input}
-          onChangeText={(val) => setEmail(val)}
-          value={email}
-        />
-
-        <Text style={styles.label}>Password</Text>
-        <TextInput
-          style={styles.input}
-          secureTextEntry={true}
-          onChangeText={(val) => setPassword(val)}
-          value={password}
-        />
-
-
-        {/*      <Input
-          label="First name"
-          containerStyle={{ marginBottom: 20, width: '70%' }}
-          inputStyle={{ marginLeft: 10 }}
-          onChangeText={(val) => setFirstName(val)}
-          value={firstName}
-        />
-        <Input
-          label="Last name"
-          containerStyle={{ marginBottom: 20, width: '70%' }}
-          inputStyle={{ marginLeft: 10 }}
-          onChangeText={(val) => setLastName(val)}
-          value={lastName}
-        />
-
-        <DateTimePickerModal
-          isVisible={isDatePickerVisible}
-          mode="date"
-          onConfirm={handleConfirm}
-          onCancel={hideDatePicker}
-        />
-        <View style={{ flexDirection: 'row' }}>
-          <Input //format date
-            label="Birthday"
-            containerStyle={{ marginBottom: 20, width: '50%' }}
-            inputStyle={{ marginLeft: 10 }}
+          <TextInput //format date
+            style={styles.input}
             onChangeText={(val) => setBirthday(val)}
             value={birthday}
-            disabled={true}
+            editable={false}
           />
-          <TouchableOpacity onPress={showDatePicker} >
-            <AntDesign name="calendar" size={24} color="rgb(181, 189, 196)" />
-          </TouchableOpacity>
 
+          <Text style={styles.label}>City</Text>
+          <TextInput
+            style={styles.input}
+            onChangeText={(val) => setCity(val)}
+            value={city}
+          />
+
+          <Text style={styles.label}>E-mail</Text>
+          <TextInput
+            style={styles.input}
+            onChangeText={(value) => validateEmail(value)}
+            value={email}
+          />
+          <Text style={{ color: colorMessageMail, textAlign: 'center' }} >{messageMail}</Text>
+
+          <Text style={styles.label}>Password</Text>
+          <TextInput
+            style={styles.input}
+            secureTextEntry={true}
+            onChangeText={(value) => validatePassword(value)}
+            value={password}
+          />
+          <Text style={{ color: colorMessagePassword, textAlign: 'center' }} >{messagePassword}</Text>
         </View>
 
-        <Input
-          label="City"
-          containerStyle={{ marginBottom: 20, width: '70%' }}
-          inputStyle={{ marginLeft: 10 }}
-          onChangeText={(val) => setCity(val)}
-          value={city}
-        />
-        <Input
-          label="E-mail"
-          containerStyle={{ marginBottom: 25, width: '70%' }}
-          inputStyle={{ marginLeft: 10 }}
-          onChangeText={(val) => setEmail(val)}
-          value={email}
-        />
-        <Input
-          label="Password"
-          containerStyle={{ marginBottom: 25, width: '70%' }}
-          inputStyle={{ marginLeft: 10 }}
-          secureTextEntry={true}
-          onChangeText={(val) => setPassword(val)}
-          value={password}
-        /> */}
         {tabErrorsSignUp}
-
-        <Button title="Create account"
-          buttonStyle={{ elevation: 1, borderRadius: 20, marginTop: 40, backgroundColor: "rgba(213, 208, 205, 0.3)", marginBottom: 20 }}
-          onPress={() => signUp()}
-        />
+        <View style={{ alignItems: 'center' }}>
+          <Button title="Create account"
+            buttonStyle={{ width: '70%', borderRadius: 25, marginTop: 30, marginBottom: 40, paddingRight: 15, backgroundColor: "rgba(38, 50, 56, 0.8)" }}
+            onPress={() => signUp()}
+          />
+        </View>
       </ScrollView>
-    </KeyboardAvoidingView>
+    </KeyboardAvoidingView >
   );
 }
+
+const windowWidth = Dimensions.get('window').width;
 
 const styles = StyleSheet.create({
   container: {
@@ -196,6 +185,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: "#FFFF"
+  },
+  inputsContainer: {
+    width: windowWidth - 150,
+    flex: 1,
   },
   input: {
     height: 40,
