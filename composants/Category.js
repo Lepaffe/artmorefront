@@ -15,7 +15,7 @@ import {
 import { useFonts } from 'expo-font'
 import AppLoading from 'expo-app-loading'
 
-function Movement(props) {
+function Category(props) {
     let [fontsLoaded] = useFonts({
         Heebo_100Thin,
         Heebo_300Light,
@@ -26,8 +26,8 @@ function Movement(props) {
         Heebo_900Black
     })
 
-    const handleClickMovement = (name) => {
-        props.isSelected ? props.removeMovement(name) : props.addMovement(name)
+    const handleClickCategory = (name) => {
+        props.isSelected ? props.removeCategory(name) : props.addCategory(name)
     }
 
     let opacityStyle = 1
@@ -41,7 +41,7 @@ function Movement(props) {
 
     return (
 
-        <TouchableOpacity onPress={() => handleClickMovement(props.name)}>
+        <TouchableOpacity onPress={() => handleClickCategory(props.name)}>
             <Card wrapperStyle={{ border: 0, margin: 0 }} containerStyle={{ borderWidth: 0, borderColor: 'transparent', elevation: 0 }}>
                 <Card.Image
                     source={{ uri: props.img }}
@@ -54,4 +54,4 @@ function Movement(props) {
     )
 }
 
-export default Movement
+export default Category

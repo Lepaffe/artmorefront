@@ -16,7 +16,7 @@ import MyAppBar from './composants/MyAppBar';
 import LandingScreen from './screens/LandingScreen';
 import LoginScreen from './screens/LoginScreen';
 import MediumScreen from './screens/MediumScreen';
-import MovementScreen from './screens/MovementScreen';
+import CategoryScreen from './screens/CategoryScreen';
 import PersonalInfoScreen from './screens/PersonalInfoScreen';
 import SignInScreen from './screens/SignInScreen';
 
@@ -34,7 +34,7 @@ import ProfileScreen from './screens/ProfileScreen';
 import selectedArtwork from './reducers/selectedArtwork'
 import selectedArtist from './reducers/selectedArtist'
 import mediumSignUp from './reducers/mediumSignUp';
-import movementSignUp from './reducers/movementSignUp';
+import categorySignUp from './reducers/categorySignUp';
 import token from './reducers/token';
 
 import MyIcon from './composants/myIcons'; // impot composant MyIcon
@@ -42,7 +42,7 @@ import MyIcon from './composants/myIcons'; // impot composant MyIcon
 import { Provider } from 'react-redux';
 import { createStore, combineReducers } from 'redux';
 
-const store = createStore(combineReducers({ selectedArtwork, selectedArtist, movementSignUp, mediumSignUp, token }));
+const store = createStore(combineReducers({ selectedArtwork, selectedArtist, categorySignUp, mediumSignUp, token }));
 
 const Stack = createStackNavigator();
 const BottomTab = createBottomTabNavigator();
@@ -119,7 +119,7 @@ export default function App() {
           <Stack.Screen name="LandingScreen" options={{ headerShown: false }} component={LandingScreen} />
           <Stack.Screen name="LoginScreen" options={{ header: MyAppBar }} component={LoginScreen} />
           <Stack.Screen name="MediumScreen" options={{ header: MyAppBar }} component={MediumScreen} />
-          <Stack.Screen name="MovementScreen" options={{ header: MyAppBar }} component={MovementScreen} />
+          <Stack.Screen name="CategoryScreen" options={{ header: MyAppBar }} component={CategoryScreen} />
           <Stack.Screen name="PersonalInfoScreen" options={{ header: MyAppBar }} component={PersonalInfoScreen} />
           <Stack.Screen name="SignInScreen" options={{ header: MyAppBar }} component={SignInScreen} />
           <Stack.Screen name="ArtworkScreen" options={{ header: MyAppBar }} component={ArtworkScreen} />
