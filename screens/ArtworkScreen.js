@@ -1,12 +1,37 @@
 import React, { useEffect, useState } from 'react'
-import { View, Image, ScrollView, Text, StyleSheet, TouchableOpacity } from 'react-native'
+import { View, Image, ScrollView, Text, StyleSheet, TouchableOpacity, Dimensions } from 'react-native'
 import { connect } from 'react-redux'
 import { AntDesign } from '@expo/vector-icons';
+
+import {
+    Heebo_100Thin,
+    Heebo_300Light,
+    Heebo_400Regular,
+    Heebo_500Medium,
+    Heebo_700Bold,
+    Heebo_800ExtraBold,
+    Heebo_900Black
+} from '@expo-google-fonts/heebo'
+
+import { useFonts } from 'expo-font'
+import AppLoading from 'expo-app-loading'
 
 import { REACT_APP_URL_BACKEND } from "@env";
 
 const ArtworkScreen = (props) => {
+
+    let [fontsLoaded] = useFonts({
+        Heebo_100Thin,
+        Heebo_300Light,
+        Heebo_400Regular,
+        Heebo_500Medium,
+        Heebo_700Bold,
+        Heebo_800ExtraBold,
+        Heebo_900Black
+    })
+
     const [likedArtwork, setLikedArtwork] = useState(false)
+    const [colorLike, setColorLike] = useState("black")
 
     //on récupère l'artiste associé à l'artwork et on le met dans le store
     useEffect(() => {
@@ -33,34 +58,47 @@ const ArtworkScreen = (props) => {
         )
 
     }
+
+    // Récupère donnée du artwork pour le store et redirige vers le ArtworkScreen de l'oeuvre cliquée
     const openArtworkDetailFromSameArtist = artwork => {
         console.log(artwork)
         props.setSelectedArtwork(artwork);
         props.navigation.navigate('ArtworkScreen');
     }
 
-    if (likedArtwork) {
-        var colorLike = '#FF565E'
-    } else {
-        var colorLike = 'black'
-    }
-
+    // Toggle qui add et delete des oeuvres dans la artworklist sur le store quand on press sur le coeur du like + changement de couleur
     let addToCollection = async (id) => {
+        if (likedArtwork == false) {
+            const data = await fetch(`${REACT_APP_URL_BACKEND}/add-artworklist/`, {
+                method: "POST",
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: `token=${props.token}&artworkId=${id}`
+            });
 
-        const data = await fetch(`${REACT_APP_URL_BACKEND}/add-artworklist/`, {
-            method: "POST",
-            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-            body: `token=${props.token}&artworkId=${id}`
-        }); //192.168.1.16 ALICE //172.17.1.83 CAPSULE
-        const dataJSON = await data.json();
+            const dataJSON = await data.json();
+            setColorLike('#FF565E');
+        } else {
+            const data = await fetch(`${REACT_APP_URL_BACKEND}/delete-artworklist/`, {
+                method: "POST",
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: `token=${props.token}&artworkId=${id}`
+            });
+            const dataJSON = await data.json();
+            setColorLike('black');
+        }
 
-        setLikedArtwork(true);
+        setLikedArtwork(!likedArtwork);
     }
 
+    if (!fontsLoaded) {
+        return <AppLoading />
+    }
 
     return (
 
-        <ScrollView style={styles.container}>
+        <ScrollView
+            showsVerticalScrollIndicator={false}
+            style={styles.container}>
             {props.selectedArtist && //sans cette condition, le UseEffect ne se charge pas car direct un message d'erreur comme quoi "props.selectedArtist = null"
                 <>
                     <View style={styles.imageContainer}>
@@ -102,12 +140,13 @@ const ArtworkScreen = (props) => {
                         MORE ARTWORKS
                     </Text>
 
-                    <ScrollView horizontal={true} style={styles.minipicturesContainer}>
+                    <ScrollView showsHorizontalScrollIndicator={false} horizontal={true} style={styles.minipicturesContainer}>
                         {moreArtworks}
                     </ScrollView>
                 </>
             }
         </ScrollView >
+
     )
 }
 
@@ -126,14 +165,16 @@ function mapDispatchToProps(dispatch) {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ArtworkScreen);
+const windowHeight = Dimensions.get('window').height;
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
         padding: 22,
         paddingTop: 40,
-        backgroundColor: '#FFF'
+        paddingBottom: 50,
+        backgroundColor: '#FFF',
+        height: windowHeight
     },
     imageContainer: {
         alignItems: 'center',
@@ -155,20 +196,27 @@ const styles = StyleSheet.create({
     },
     name: {
         fontSize: 25,
-        fontWeight: 'bold'
+        fontFamily: 'Heebo_700Bold'
     },
     artist: {
-        fontSize: 20
+        fontSize: 20,
+        fontFamily: 'Heebo_300Light'
+    },
+    instagram: {
+        fontFamily: 'Heebo_300Light'
     },
     artistinfo: {
         alignItems: 'center'
     },
     info: {
-        marginBottom: 25
+        marginBottom: 25,
+        fontFamily: 'Heebo_400Regular',
+
     },
     description: {
         marginBottom: 25,
-        textAlign: 'justify'
+        textAlign: 'justify',
+        fontFamily: 'Heebo_300Light'
     },
     moreArtworks: {
         fontWeight: 'bold',
@@ -180,6 +228,9 @@ const styles = StyleSheet.create({
     minipicture: {
         width: 80,
         height: 80,
-        marginRight: 10
+        marginRight: 10,
+        marginBottom: 70
     }
 })
+
+export default connect(mapStateToProps, mapDispatchToProps)(ArtworkScreen);

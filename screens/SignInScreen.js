@@ -1,11 +1,35 @@
 import React, { useState } from 'react';
-import { KeyboardAvoidingView, StyleSheet, Text, TextInput } from 'react-native';
+import { KeyboardAvoidingView, StyleSheet, Text, TextInput, View, Dimensions } from 'react-native';
 import { Button } from 'react-native-elements';
 import { connect } from 'react-redux';
 
-import {REACT_APP_URL_BACKEND} from "@env";
+import {
+  Heebo_100Thin,
+  Heebo_300Light,
+  Heebo_400Regular,
+  Heebo_500Medium,
+  Heebo_700Bold,
+  Heebo_800ExtraBold,
+  Heebo_900Black
+} from '@expo-google-fonts/heebo'
+
+import { useFonts } from 'expo-font'
+import AppLoading from 'expo-app-loading'
+
+import { REACT_APP_URL_BACKEND } from "@env";
 
 function SignInScreen(props) {
+
+  let [fontsLoaded] = useFonts({
+    Heebo_100Thin,
+    Heebo_300Light,
+    Heebo_400Regular,
+    Heebo_500Medium,
+    Heebo_700Bold,
+    Heebo_800ExtraBold,
+    Heebo_900Black
+  })
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [listErrorsSignin, setErrorsSignin] = useState([])
@@ -32,40 +56,51 @@ function SignInScreen(props) {
     return (<Text>{error}</Text>)
   })
 
+  if (!fontsLoaded) {
+    return <AppLoading />
+  }
+
   return (
     <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === "ios" ? "padding" : "height"}>
 
-      <Text style={{ fontSize: 25, textAlign: "center", padding: 20, marginBottom: 30 }} >Connectez-vous</Text>
+      <Text style={{ fontFamily: 'Heebo_300Light', fontSize: 25, textAlign: "center", padding: 20, marginBottom: 30, marginTop: 10 }} >Login</Text>
 
+      <View >
+        <Text style={styles.label}>E-mail</Text>
+        <TextInput
+          style={styles.input}
+          onChangeText={(val) => setEmail(val)}
+          value={email}
+        />
 
-      <Text style={styles.label}>E-mail</Text>
-      <TextInput
-        style={styles.input}
-        onChangeText={(val) => setEmail(val)}
-        value={email}
-      />
-
-      <Text style={styles.label}>Password</Text>
-      <TextInput
-        style={styles.input}
-        onChangeText={(val) => setPassword(val)}
-        value={password}
-      />
-
+        <Text style={styles.label}>Password</Text>
+        <TextInput
+          style={styles.input}
+          onChangeText={(val) => setPassword(val)}
+          secureTextEntry={true}
+          value={password}
+        />
+      </View>
       {tabErrorsSignin}
       <Button title="Connexion"
-        buttonStyle={{ marginVertical: 50, marginHorizontal: 20, paddingHorizontal: 20, backgroundColor: "#FF4D4F" }}
+        buttonStyle={{ borderRadius: 25, paddingHorizontal: 20, backgroundColor: "rgba(38, 50, 56, 0.8)" }}
+        titleStyle={{
+          fontFamily: 'Heebo_300Light'
+        }}
         onPress={() => signIn()}
       />
-    </KeyboardAvoidingView>
-  );
-}
+    </KeyboardAvoidingView >
+  )
+};
+
+
+
+const windowWidth = Dimensions.get('window').width;
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
-    justifyContent: 'center',
     backgroundColor: "#FFFF"
   },
   input: {
@@ -75,17 +110,12 @@ const styles = StyleSheet.create({
     borderColor: "rgb(213, 208, 205)",
     borderRadius: 15,
     padding: 10,
-    width: '40%'
+    marginBottom: 30,
+    width: windowWidth - 150
   },
   label: {
-    marginTop: 15
-  },
-  logo: {
-    width: 320,
-    height: 150,
-  },
-  icon: {
-    paddingEnd: 20
+    textAlign: 'left',
+    fontFamily: 'Heebo_400Regular'
   }
 });
 

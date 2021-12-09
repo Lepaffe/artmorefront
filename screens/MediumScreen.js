@@ -3,7 +3,30 @@ import { View, StyleSheet, Text } from 'react-native';
 import { Button, Switch } from 'react-native-elements'
 import { connect } from 'react-redux'
 
+import {
+  Heebo_100Thin,
+  Heebo_300Light,
+  Heebo_400Regular,
+  Heebo_500Medium,
+  Heebo_700Bold,
+  Heebo_800ExtraBold,
+  Heebo_900Black
+} from '@expo-google-fonts/heebo'
+
+import { useFonts } from 'expo-font'
+import AppLoading from 'expo-app-loading'
+
 function MediumScreen(props) {
+
+  let [fontsLoaded] = useFonts({
+    Heebo_100Thin,
+    Heebo_300Light,
+    Heebo_400Regular,
+    Heebo_500Medium,
+    Heebo_700Bold,
+    Heebo_800ExtraBold,
+    Heebo_900Black
+  })
 
   const [mediumPreferences, setMediumPreferences] = useState([]);
 
@@ -43,29 +66,29 @@ function MediumScreen(props) {
 
   const toggleSwitchDrawing = () => {
     setDrawing(previousState => !previousState);
-    if (mediumPreferences.includes("Drawing")) {
-      setMediumPreferences(mediumPreferences.filter(el => el != "Drawing"))
+    if (mediumPreferences.includes("drawing")) {
+      setMediumPreferences(mediumPreferences.filter(el => el != "drawing"))
     } else {
-      setMediumPreferences([...mediumPreferences, "Drawing"])
+      setMediumPreferences([...mediumPreferences, "drawing"])
     }
   }
 
   const toggleSwitchDigitalArt = () => {
     setDigitalArt(previousState => !previousState);
-    if (mediumPreferences.includes("digital art")) {
-      setMediumPreferences(mediumPreferences.filter(el => el != "digital art"))
+    if (mediumPreferences.includes("digitalArt")) {
+      setMediumPreferences(mediumPreferences.filter(el => el != "digitalArt"))
     } else {
-      setMediumPreferences([...mediumPreferences, "digital art"])
+      setMediumPreferences([...mediumPreferences, "digitalArt"])
     }
   }
 
   const toggleSwitchStreetArt = () => {
     setStreetArt(previousState => !previousState);
-    if (mediumPreferences.includes("street art")) {
+    if (mediumPreferences.includes("streetArt")) {
       console.log(mediumPreferences)
-      setMediumPreferences(mediumPreferences.filter(el => el != "street art"))
+      setMediumPreferences(mediumPreferences.filter(el => el != "streetArt"))
     } else {
-      setMediumPreferences([...mediumPreferences, "street art"])
+      setMediumPreferences([...mediumPreferences, "streetArt"])
     }
   }
 
@@ -75,22 +98,26 @@ function MediumScreen(props) {
     console.log(mediumPreferences)
   }
 
+  if (!fontsLoaded) {
+    return <AppLoading />
+  }
+
   return (
     <View style={styles.container}>
-      <Text style={{ fontSize: 25, textAlign: "center", paddingHorizontal: 20, paddingVertical: 60 }} >What are you looking for ?</Text>
+      <Text style={{ fontFamily: 'Heebo_300Light', fontSize: 25, textAlign: "center", paddingHorizontal: 20, paddingVertical: 60 }} >What are you looking for ?</Text>
       <View style={{
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: "space-between"
       }}>
-        <Text style={{ marginLeft: 80 }}>Painting</Text>
+        <Text style={{ fontFamily: 'Heebo_300Light', marginLeft: 80, marginBottom: 20, fontSize: 16 }}>Painting</Text>
         <Switch
-          trackColor={{ false: "#767577", true: "#767577" }}
-          thumbColor={painting ? "#f5dd4b" : "#f4f3f4"}
+          trackColor={{ false: "#767577", true: "rgba(58, 187, 109, 0.2)" }}
+          thumbColor={painting ? "rgb(58, 187, 109)" : "#f4f3f4"}
           ios_backgroundColor="#3e3e3e"
           onValueChange={toggleSwitchPainting}
           value={painting}
-          style={{ marginRight: 80 }}
+          style={{ marginRight: 80, marginBottom: 20, }}
         />
       </View>
       <View style={{
@@ -98,14 +125,14 @@ function MediumScreen(props) {
         alignItems: 'center',
         justifyContent: "space-between"
       }}>
-        <Text style={{ marginLeft: 80 }}>Sculpture</Text>
+        <Text style={{ fontFamily: 'Heebo_300Light', marginLeft: 80, marginBottom: 20, fontSize: 16 }}>Sculpture</Text>
         <Switch
-          trackColor={{ false: "#767577", true: "#767577" }}
-          thumbColor={sculpture ? "#f5dd4b" : "#f4f3f4"}
+          trackColor={{ false: "#767577", true: "rgba(58, 187, 109, 0.2)" }}
+          thumbColor={sculpture ? "rgb(58, 187, 109)" : "#f4f3f4"}
           ios_backgroundColor="#3e3e3e"
           onValueChange={toggleSwitchSculpture}
           value={sculpture}
-          style={{ marginRight: 80 }}
+          style={{ marginRight: 80, marginBottom: 20 }}
         />
       </View>
       <View style={{
@@ -113,14 +140,14 @@ function MediumScreen(props) {
         alignItems: 'center',
         justifyContent: "space-between"
       }}>
-        <Text style={{ marginLeft: 80 }}>Photography</Text>
+        <Text style={{ fontFamily: 'Heebo_300Light', marginLeft: 80, marginBottom: 20, fontSize: 16 }}>Photography</Text>
         <Switch
-          trackColor={{ false: "#767577", true: "#767577" }}
-          thumbColor={photography ? "#f5dd4b" : "#f4f3f4"}
+          trackColor={{ false: "#767577", true: "rgba(58, 187, 109, 0.2)" }}
+          thumbColor={photography ? "rgb(58, 187, 109)" : "#f4f3f4"}
           ios_backgroundColor="#3e3e3e"
           onValueChange={toggleSwitchPhotography}
           value={photography}
-          style={{ marginRight: 80 }}
+          style={{ marginRight: 80, marginBottom: 20 }}
         />
       </View>
       <View style={{
@@ -128,14 +155,14 @@ function MediumScreen(props) {
         alignItems: 'center',
         justifyContent: "space-between"
       }}>
-        <Text style={{ marginLeft: 80 }}>Drawing</Text>
+        <Text style={{ fontFamily: 'Heebo_300Light', marginLeft: 80, marginBottom: 20, fontSize: 16 }}>Drawing</Text>
         <Switch
-          trackColor={{ false: "#767577", true: "#767577" }}
-          thumbColor={drawing ? "#f5dd4b" : "#f4f3f4"}
+          trackColor={{ false: "#767577", true: "rgba(58, 187, 109, 0.2)" }}
+          thumbColor={drawing ? "rgb(58, 187, 109)" : "#f4f3f4"}
           ios_backgroundColor="#3e3e3e"
           onValueChange={toggleSwitchDrawing}
           value={drawing}
-          style={{ marginRight: 80 }}
+          style={{ marginRight: 80, marginBottom: 20 }}
         />
       </View>
       <View style={{
@@ -143,14 +170,14 @@ function MediumScreen(props) {
         alignItems: 'center',
         justifyContent: "space-between"
       }}>
-        <Text style={{ marginLeft: 80 }}>Digital Art</Text>
+        <Text style={{ fontFamily: 'Heebo_300Light', marginLeft: 80, marginBottom: 20, fontSize: 16 }}>Digital Art</Text>
         <Switch
-          trackColor={{ false: "#767577", true: "#767577" }}
-          thumbColor={digitalArt ? "#f5dd4b" : "#f4f3f4"}
+          trackColor={{ false: "#767577", true: "rgba(58, 187, 109, 0.2)" }}
+          thumbColor={digitalArt ? "rgb(58, 187, 109)" : "#f4f3f4"}
           ios_backgroundColor="#3e3e3e"
           onValueChange={toggleSwitchDigitalArt}
           value={digitalArt}
-          style={{ marginRight: 80 }}
+          style={{ marginRight: 80, marginBottom: 20 }}
         />
       </View>
       <View style={{
@@ -158,10 +185,10 @@ function MediumScreen(props) {
         alignItems: 'center',
         justifyContent: "space-between"
       }}>
-        <Text style={{ marginLeft: 80 }}>Street Art</Text>
+        <Text style={{ fontFamily: 'Heebo_300Light', marginLeft: 80, fontSize: 16 }}>Street Art</Text>
         <Switch
-          trackColor={{ false: "#767577", true: "#767577" }}
-          thumbColor={streetArt ? "#f5dd4b" : "#f4f3f4"}
+          trackColor={{ false: "#767577", true: "rgba(58, 187, 109, 0.2)" }}
+          thumbColor={streetArt ? "rgb(58, 187, 109)" : "#f4f3f4"}
           ios_backgroundColor="#3e3e3e"
           onValueChange={toggleSwitchStreetArt}
           value={streetArt}
@@ -169,7 +196,10 @@ function MediumScreen(props) {
         />
       </View>
       <View style={{ alignItems: 'flex-end' }}>
-        <Button title="Next" buttonStyle={{ marginVertical: 80, marginHorizontal: 20, paddingHorizontal: 20, backgroundColor: "#FF4D4F" }}
+        <Button
+          title="Next"
+          buttonStyle={{ borderRadius: 25, marginVertical: 60, marginRight: 60, paddingHorizontal: 20, backgroundColor: "rgba(38, 50, 56, 0.8)" }}
+          titleStyle={{ fontFamily: 'Heebo_300Light' }}
           onPress={() => goToMovementScreen()}
         /></View>
     </View>
@@ -183,6 +213,7 @@ const styles = StyleSheet.create({
     // justifyContent: 'center',
     backgroundColor: "#FFFF"
   }
+
 });
 
 function mapDispatchToProps(dispatch) {
