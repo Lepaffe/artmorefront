@@ -1,55 +1,59 @@
 import React, { useEffect, useState, useRef } from 'react'
 import { View, StyleSheet, Image, TouchableOpacity, Text, ScrollView } from 'react-native'
 import MasonryList from '@react-native-seoul/masonry-list';
-import { REACT_APP_URL_BACKEND } from "@env";
+import {REACT_APP_URL_BACKEND} from "@env";
+import { connect } from 'react-redux'
 
-function CollectionScreen() {
 
-    const [collection, setCollection] = useState([])
+function CollectionScreen(props) {
 
-    useEffect(() => {
-        const getCollection = async () => {
-            const data = await fetch(`${REACT_APP_URL_BACKEND}/get-collection/`);
-            const dataJSON = await data.json();
-            setCollection(dataJSON.collection.artworkList);
-            console.log("data", dataJSON.collection.artworkList)
-        }
-        getCollection();
-    }, [])
+  const [collection, setCollection] = useState([])
 
-    let list = [...collection]
+  useEffect(() => {
+    const getCollection = async () => {
+        const data = await fetch(`${REACT_APP_URL_BACKEND}/get-collection/${props.token}`); //192.168.1.16 ALICE //172.17.1.83 CAPSULE
+        const dataJSON = await data.json();
+        setCollection(dataJSON.collection.artworkList);
+        console.log("data", dataJSON.collection.artworkList)
+    }
+    getCollection();
+}, [])
 
-    console.log("list", list)
-    const renderItem = ({ item }) => {
-        console.log(item)
-        return (
-            < Image
+let list = [...collection]
+
+console.log("list", list)
+
+
+  // renderItem to use in the MasonryList componment to render a grid with two colum to display
+    // the artworks of the artists (instead of a map, which does not work with flatlist and masonryList)
+const renderItem = ({ item }) => { console.log(item)
+    return (
+        <TouchableOpacity  onPress={() => openArtworkDetail(item)}>
+    < Image
                 source={{ uri: item.cloudinary }}
                 style={styles.minipicture}
                 key={item._id}
             />
+            </TouchableOpacity>
         )
     };
 
+// Récupère donnée du artwork pour le store et redirige vers le ArtworkScreen de l'oeuvre cliquée
+    const openArtworkDetail = artwork => {
+        console.log(artwork)
+        props.setSelectedArtwork(artwork);
+        props.navigation.navigate('ArtworkScreen');
+    }
 
 
-    //   moreArtworks = props.selectedArtist.artistArtwork.map((artwork) =>
 
-    //         < Image
-    //           source={{ uri: artwork.cloudinary }}
-    //          style={styles.minipicture}
-    //         key={artwork._id}
-    //    />
 
-    // )
-
-    //}
     return (
         <ScrollView>
-            <View style={{ flex: 1, alignItems: 'center', marginBottom: 15 }}>
+            <View style={{ flex: 1, alignItems: 'center', paddingBottom: 15, backgroundColor: '#FFF', }}>
                 <Text style={{ marginTop: 25 }} > My personnal collection</Text>
             </View>
-            <View style={{ flex: 1 }}>
+            <View style={{ flex: 1 , backgroundColor: '#FFF'}}>
 
                 <MasonryList
                     data={list}
@@ -73,13 +77,28 @@ function CollectionScreen() {
     );
 }
 
-export default CollectionScreen;
+function mapStateToProps(state) {
+    return { token: state.token, selectedArtwork: state.selectedArtwork, selectedArtist: state.selectedArtist,}
+}
+function mapDispatchToProps(dispatch) {
+    return {
+        setSelectedArtist: function (artist) {
+            dispatch({ type: 'setSelectedArtist', artist })
+        },
+        setSelectedArtwork: function (artwork) {
+            dispatch({ type: "setSelectedArtwork", artwork })
+        }
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(CollectionScreen);
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
         margin: 22,
         marginTop: 20,
+        
 
 
     },

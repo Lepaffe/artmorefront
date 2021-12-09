@@ -119,7 +119,7 @@ function MediumScreen(props) {
           ios_backgroundColor="#3e3e3e"
           onValueChange={toggleSwitchPainting}
           value={painting}
-          style={{ marginRight: 80, marginBottom: 20 }}
+          style={{ marginRight: 80, marginBottom: 20 ,}}
         />
       </View>
       <View style={{
@@ -215,6 +215,7 @@ const styles = StyleSheet.create({
     // justifyContent: 'center',
     backgroundColor: "#FFFF"
   }
+  
 });
 
 function mapDispatchToProps(dispatch) {

@@ -12,30 +12,21 @@ import {REACT_APP_URL_BACKEND} from "@env";
 
 const ArtistScreen = (props) => {
 
-    //let moreArtworks;
-    //if (props.selectedArtist) {
-     //   moreArtworks = props.selectedArtist.artistArtwork.map((artwork) =>
-           
-       //         < Image
-         //           source={{ uri: artwork.cloudinary }}
-          //          style={styles.minipicture}
-           //         key={artwork._id}
-            //    />
-            
-       // )
-
-    //}
+   
 
     // renderItem to use in the MasonryList componment to render a grid with two colum to display
     // the artworks of the artists (instead of a map, which does not work with flatlist and masonryList)
 
     const renderItem = ({ item }) => { console.log(item)
         return (
+            <TouchableOpacity  onPress={() => openArtworkDetail(item)}>
         < Image
                     source={{ uri: item.cloudinary }}
                     style={styles.minipicture}
                     key={item._id}
+                    onPress={() => openArtworkDetail(item)}
                 />
+                </TouchableOpacity>
       )};
 
    
@@ -47,24 +38,39 @@ const ArtistScreen = (props) => {
     }, [])*/
     const [dataSource, setDataSource] = useState([]);
     const [likedArtist, setLikedArtist] = useState(false);
+    const [colorLike, setColorLike] = useState("black")
 
-    if(likedArtist){
-        var colorLike = '#FF565E'
-      } else {
-        var colorLike = 'black'
-      }
+   
 
-    let addToCollection = async (id) => { 
-       console.log("id", id)
-       console.log("token", props.token)
-        const data = await fetch(`${REACT_APP_URL_BACKEND}/add-artistlist/`,{
-            method: "POST",
-            headers: {'Content-Type':'application/x-www-form-urlencoded'},
-            body:`token=${props.token}&artistId=${id}`
-        }); //192.168.1.16 ALICE //172.17.1.83 CAPSULE
-            const dataJSON = await data.json();
+// Toggle qui add et delete des oeuvres dans la artistlist sur le store quand on press sur le coeur du like + changement de couleur
 
-    setLikedArtist(!likedArtist); 
+let addToCollection = async (id) => { 
+    if (likedArtist == false ){
+     const data = await fetch(`${REACT_APP_URL_BACKEND}/add-artistlist/`,{
+         method: "POST",
+         headers: {'Content-Type':'application/x-www-form-urlencoded'},
+         body:`token=${props.token}&artistId=${id}`
+     });
+         const dataJSON = await data.json();
+          setColorLike('#FF565E');
+ } else {
+     const data = await fetch(`${REACT_APP_URL_BACKEND}/delete-artistlist/`,{
+         method: "POST",
+         headers: {'Content-Type':'application/x-www-form-urlencoded'},
+         body:`token=${props.token}&artistId=${id}`
+     });
+         const dataJSON = await data.json();
+         setColorLike('black');
+ }
+
+ setLikedArtist(!likedArtist); 
+}
+
+// Récupère donnée du artwork pour le store et redirige vers le ArtworkScreen de l'oeuvre cliquée
+const openArtworkDetail = artwork => {
+    console.log(artwork)
+    props.setSelectedArtwork(artwork);
+    props.navigation.navigate('ArtworkScreen');
 }
 
 
@@ -115,7 +121,7 @@ const ArtistScreen = (props) => {
             </Text>
 
             </View>
-                <View style={{flex: 1}}>
+                <View style={{flex: 1,  backgroundColor: '#FFF',}}>
 
 
                 <MasonryList
@@ -153,6 +159,9 @@ function mapDispatchToProps(dispatch) {
     return {
         setSelectedArtist: function (artist) {
             dispatch({ type: 'setSelectedArtist', artist })
+        },
+        setSelectedArtwork: function (artwork) {
+            dispatch({ type: "setSelectedArtwork", artwork })
         }
     }
 }
@@ -162,8 +171,9 @@ export default connect(mapStateToProps, mapDispatchToProps)(ArtistScreen);
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        margin: 22,
-        marginTop: 20,
+        padding: 22,
+        paddingTop: 20,
+        backgroundColor: '#FFF',
         
         
     },

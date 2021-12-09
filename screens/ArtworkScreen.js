@@ -31,6 +31,7 @@ const ArtworkScreen = (props) => {
     })
 
     const [likedArtwork, setLikedArtwork] = useState(false)
+    const [colorLike, setColorLike] = useState("black")
 
     //on récupère l'artiste associé à l'artwork et on le met dans le store
     useEffect(() => {
@@ -57,28 +58,36 @@ const ArtworkScreen = (props) => {
         )
 
     }
+
+    // Récupère donnée du artwork pour le store et redirige vers le ArtworkScreen de l'oeuvre cliquée
     const openArtworkDetailFromSameArtist = artwork => {
         console.log(artwork)
         props.setSelectedArtwork(artwork);
         props.navigation.navigate('ArtworkScreen');
     }
 
-    if (likedArtwork) {
-        var colorLike = '#FF565E'
-    } else {
-        var colorLike = 'black'
-    }
-
+    // Toggle qui add et delete des oeuvres dans la artworklist sur le store quand on press sur le coeur du like + changement de couleur
     let addToCollection = async (id) => {
+        if (likedArtwork == false) {
+            const data = await fetch(`${REACT_APP_URL_BACKEND}/add-artworklist/`, {
+                method: "POST",
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: `token=${props.token}&artworkId=${id}`
+            });
 
-        const data = await fetch(`${REACT_APP_URL_BACKEND}/add-artworklist/`, {
-            method: "POST",
-            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-            body: `token=${props.token}&artworkId=${id}`
-        }); //192.168.1.16 ALICE //172.17.1.83 CAPSULE
-        const dataJSON = await data.json();
+            const dataJSON = await data.json();
+            setColorLike('#FF565E');
+        } else {
+            const data = await fetch(`${REACT_APP_URL_BACKEND}/delete-artworklist/`, {
+                method: "POST",
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: `token=${props.token}&artworkId=${id}`
+            });
+            const dataJSON = await data.json();
+            setColorLike('black');
+        }
 
-        setLikedArtwork(true);
+        setLikedArtwork(!likedArtwork);
     }
 
     if (!fontsLoaded) {
@@ -163,6 +172,7 @@ const styles = StyleSheet.create({
         flex: 1,
         padding: 22,
         paddingTop: 40,
+        paddingBottom: 50,
         backgroundColor: '#FFF',
         height: windowHeight
     },

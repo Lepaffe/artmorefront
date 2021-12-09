@@ -45,7 +45,7 @@ function LoginScreen(props) {
         onPress={() => props.navigation.navigate('MediumScreen')} icon={
           <Icon style={styles.icon}
             name="google"
-            size={30}
+            size={25}
             color="grey"
             padding="20px"
           />
