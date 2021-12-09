@@ -92,9 +92,9 @@ function MediumScreen(props) {
     }
   }
 
-  const goToMovementScreen = () => {
+  const goToCategoryScreen = () => {
     props.setMediumPreferencesSignUp(mediumPreferences)
-    props.navigation.navigate('MovementScreen')
+    props.navigation.navigate('CategoryScreen')
     console.log(mediumPreferences)
   }
 
@@ -200,7 +200,7 @@ function MediumScreen(props) {
           title="Next"
           buttonStyle={{ borderRadius: 25, marginVertical: 60, marginRight: 60, paddingHorizontal: 20, backgroundColor: "rgba(38, 50, 56, 0.8)" }}
           titleStyle={{ fontFamily: 'Heebo_300Light' }}
-          onPress={() => goToMovementScreen()}
+          onPress={() => goToCategoryScreen()}
         /></View>
     </View>
   );

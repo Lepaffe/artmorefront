@@ -41,7 +41,7 @@ const MyAppBar = (props) => {
       {(props.route.name === 'ArtworkScreen'
         || props.route.name === 'ArtistScreen'
         || props.route.name === 'SignInScreen'
-        || props.route.name === 'MovementScreen'
+        || props.route.name === 'CategoryScreen'
         || props.route.name === 'MediumScreen'
         || props.route.name === 'PersonalInfoScreen'
       ) &&
