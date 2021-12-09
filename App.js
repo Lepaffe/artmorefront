@@ -36,13 +36,15 @@ import selectedArtist from './reducers/selectedArtist'
 import mediumSignUp from './reducers/mediumSignUp';
 import movementSignUp from './reducers/movementSignUp';
 import token from './reducers/token';
+import artistList from './reducers/artistList';
+import artworkList from './reducers/artworkList';
 
 import MyIcon from './composants/myIcons'; // impot composant MyIcon
 
 import { Provider } from 'react-redux';
 import { createStore, combineReducers } from 'redux';
 
-const store = createStore(combineReducers({ selectedArtwork, selectedArtist, movementSignUp, mediumSignUp, token }));
+const store = createStore(combineReducers({ selectedArtwork, selectedArtist, movementSignUp, mediumSignUp, token, artistList, artworkList }));
 
 const Stack = createStackNavigator();
 const BottomTab = createBottomTabNavigator();

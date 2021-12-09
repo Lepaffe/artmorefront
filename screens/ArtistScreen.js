@@ -12,7 +12,16 @@ import {REACT_APP_URL_BACKEND} from "@env";
 
 const ArtistScreen = (props) => {
 
-   
+    useEffect(() => {
+       
+        
+        if( props.artistList.includes(props.selectedArtist._id)) {
+            setLikedArtist(true);
+            setColorLike('#FF565E')
+        }
+
+        
+    }, [])
 
     // renderItem to use in the MasonryList componment to render a grid with two colum to display
     // the artworks of the artists (instead of a map, which does not work with flatlist and masonryList)
@@ -53,6 +62,7 @@ let addToCollection = async (id) => {
      });
          const dataJSON = await data.json();
           setColorLike('#FF565E');
+          props.addArtist(props.selectedArtist._id)
  } else {
      const data = await fetch(`${REACT_APP_URL_BACKEND}/delete-artistlist/`,{
          method: "POST",
@@ -61,6 +71,7 @@ let addToCollection = async (id) => {
      });
          const dataJSON = await data.json();
          setColorLike('black');
+         props.deleteArtist(props.selectedArtist._id)
  }
 
  setLikedArtist(!likedArtist); 
@@ -152,7 +163,7 @@ const openArtworkDetail = artwork => {
 }
 
 function mapStateToProps(state) {
-    return { selectedArtwork: state.selectedArtwork, selectedArtist: state.selectedArtist, token: state.token }
+    return { selectedArtwork: state.selectedArtwork, selectedArtist: state.selectedArtist, token: state.token, artistList: state.artistList }
 }
 
 function mapDispatchToProps(dispatch) {
@@ -162,7 +173,13 @@ function mapDispatchToProps(dispatch) {
         },
         setSelectedArtwork: function (artwork) {
             dispatch({ type: "setSelectedArtwork", artwork })
-        }
+        },
+        addArtist: function (artistId) {
+            dispatch({ type: 'addArtist', artistId })
+        },
+        deleteArtist: function (artistId) {
+            dispatch({ type: 'deleteArtist', artistId })
+        },
     }
 }
 
