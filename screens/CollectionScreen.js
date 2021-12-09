@@ -33,6 +33,7 @@ function CollectionScreen(props) {
     const [collection, setCollection] = useState([])
 
     useEffect(() => {
+
         const getCollection = async () => {
             const data = await fetch(`${REACT_APP_URL_BACKEND}/get-collection/${props.token}`); //192.168.1.16 ALICE //172.17.1.83 CAPSULE
             const dataJSON = await data.json();
@@ -40,7 +41,7 @@ function CollectionScreen(props) {
             console.log("data", dataJSON.collection.artworkList)
         }
         getCollection();
-    }, [])
+    }, [props.artworkList])
 
     let list = [...collection]
 
@@ -104,7 +105,7 @@ function CollectionScreen(props) {
 }
 
 function mapStateToProps(state) {
-    return { token: state.token, selectedArtwork: state.selectedArtwork, selectedArtist: state.selectedArtist, }
+    return { token: state.token, selectedArtwork: state.selectedArtwork, selectedArtist: state.selectedArtist, artworkList: state.artworkList }
 }
 function mapDispatchToProps(dispatch) {
     return {
