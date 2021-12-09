@@ -5,6 +5,7 @@ import { connect } from 'react-redux'
 import { AntDesign } from '@expo/vector-icons'
 import { REACT_APP_URL_BACKEND } from "@env";
 
+
 import {
   Heebo_100Thin,
   Heebo_300Light,
@@ -49,6 +50,8 @@ function ExhibitionScreen(props) {
           img: response.data[i].fields.image,
           title: response.data[i].fields.title,
           city: response.data[i].fields.city,
+          place : response.data[i].fields.placename,
+          address : response.data[i].fields.address,
           date_start: response.data[i].fields.date_start,
           date_end: response.data[i].fields.date_end
         })
@@ -68,10 +71,11 @@ function ExhibitionScreen(props) {
 
     exhibitionsList = listExpo.map((expo, i) => (
       <ListItem key={i} bottomDivider>
-        <Avatar style={{ width: 60, height: 60 }} source={{ uri: expo.img }} />
+        <Avatar style={{ width: 90, height: 130 }} source={{ uri: expo.img }} />
         <ListItem.Content>
           <ListItem.Title style={{ fontFamily: 'Heebo_400Regular' }}>{expo.title}</ListItem.Title>
-          <ListItem.Subtitle style={{ fontFamily: 'Heebo_300Light', marginVertical: 5 }}>{expo.city}</ListItem.Subtitle>
+          <ListItem.Subtitle style={{ fontFamily: 'Heebo_300Light', marginVertical: 5 }}>{expo.place}</ListItem.Subtitle>
+          <ListItem.Subtitle style={{ fontFamily: 'Heebo_300Light', marginVertical: 5 }}>{expo.address}</ListItem.Subtitle>
           <ListItem.Subtitle style={{ fontFamily: 'Heebo_400Regular', fontSize: 12 }}>From {expo.date_start} to {expo.date_end}</ListItem.Subtitle>
         </ListItem.Content>
       </ListItem>
@@ -173,8 +177,8 @@ const styles = StyleSheet.create({
     marginBottom: 6,
   },
   image: {
-    width: 80,
-    height: 80,
+    width: 90,
+    height: 90,
     marginHorizontal: 10,
   },
   name: {

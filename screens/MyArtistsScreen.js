@@ -17,7 +17,7 @@ function MyArtistsScreen(props) {
         console.log("data", dataJSON.artistCollection.artistList)
     }
     getArtistCollection();
-}, [])
+}, [props.artistList])
 
 let list = [...artistCollection]
 
@@ -43,7 +43,7 @@ let list = [...artistCollection]
 }
 
 function mapStateToProps(state) {
-  return { token: state.token }
+  return { token: state.token, artistList: state.artistList }
 }
 
 export default connect(mapStateToProps, null)(MyArtistsScreen);

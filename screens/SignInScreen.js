@@ -46,6 +46,8 @@ function SignInScreen(props) {
     console.log('body', body);
     if (body.result == true) {
       props.addToken(body.token)
+      props.loadArtist(body.artistList)
+      props.loadArtwork(body.artworkList)
       props.navigation.navigate('BottomNav', { screen: 'DailyScreen' })
     } else {
       setErrorsSignin(body.error)
@@ -123,6 +125,12 @@ function mapDispatchToProps(dispatch) {
   return {
     addToken: function (token) {
       dispatch({ type: 'addToken', token: token })
+    },
+    loadArtist: function (artistList) {
+      dispatch({ type: 'loadArtist', artistList: artistList })
+    },
+    loadArtwork: function (artworkList) {
+      dispatch({ type: 'loadArtwork', artworkList: artworkList })
     }
   }
 }
