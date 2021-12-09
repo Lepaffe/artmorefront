@@ -31,6 +31,8 @@ function DailyScreen(props) {
   })
 
   const [dailyList, setDailyList] = useState([]);
+  const [likedArtwork, setLikedArtwork] = useState(false)
+    const [colorLike, setColorLike] = useState("black")
 
   useEffect(() => {
 
@@ -40,6 +42,7 @@ function DailyScreen(props) {
       const dailyListBack = dataJSON.artworksWithArtists
       setDailyList(dailyListBack);
     }
+    
     getDailySelection();
 
   }, [])
@@ -56,7 +59,30 @@ function DailyScreen(props) {
   }
 
   const addToCollection = async (artwork) => {
-    //fetch route saveArtwork
+    if (likedArtwork == false) {
+      const data = await fetch(`${REACT_APP_URL_BACKEND}/add-artworklist/`, {
+          method: "POST",
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: `token=${props.token}&artworkId=${artwork._id}`
+      });
+
+      const dataJSON = await data.json();
+       setColorLike('#FF565E');
+       props.addArtwork(artwork._id)
+       
+
+} else {
+  const data = await fetch(`${REACT_APP_URL_BACKEND}/delete-artworklist/`,{
+      method: "POST",
+      headers: {'Content-Type':'application/x-www-form-urlencoded'},
+      body:`token=${props.token}&artworkId=${artwork._id}`
+  });
+      const dataJSON = await data.json();
+      setColorLike('black');
+      props.deleteArtwork(artwork._id)
+}
+
+  setLikedArtwork(!likedArtwork);
 
     console.log('add to collection', artwork)
   }
@@ -109,7 +135,7 @@ function DailyScreen(props) {
                   <AntDesign
                     name="hearto"
                     size={25}
-                    color="rgb(255, 86, 94)"
+                    color={colorLike}
                   />
                 </TouchableOpacity>
               </View>
@@ -177,12 +203,19 @@ function mapDispatchToProps(dispatch) {
     },
     setSelectedArtist: function (artist) {
       dispatch({ type: 'setSelectedArtist', artist })
-    }
+    },
+    addArtwork: function (artworkId) {
+        dispatch({ type: 'addArtwork', artworkId })
+    },
+    deleteArtwork: function (artworkId) {
+        dispatch({ type: 'deleteArtwork', artworkId })
+    },
+
   }
 }
 
 function mapStateToProps(state) {
-  return { token: state.token }
+  return { token: state.token, artworkList: state.artworkList }
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(DailyScreen);
