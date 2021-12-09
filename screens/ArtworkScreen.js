@@ -124,13 +124,31 @@ const ArtworkScreen = (props) => {
 
                     </View>
 
-                    <Text style={styles.info}>
-                        {props.selectedArtwork.year}  {"\n"}
-                        {props.selectedArtwork.size} {"\n"}
-                        {props.selectedArtwork.location} {"\n"}
-                        {props.selectedArtwork.medium} {"\n"}
-                        {props.selectedArtwork.technic}
-                    </Text>
+                    <View style={{ flexDirection: 'row' }}>
+                        <Text style={styles.info}>Year</Text>
+                        <Text style={styles.datainfo}> {props.selectedArtwork.year}</Text>
+                    </View>
+
+                    <View style={{ flexDirection: 'row' }}>
+                        <Text style={styles.info}>Dimensions</Text>
+                        <Text style={styles.datainfo}> {props.selectedArtwork.size}</Text>
+                    </View>
+
+                    <View style={{ flexDirection: 'row' }}>
+                        <Text style={styles.info}>Location</Text>
+                        <Text style={styles.datainfo}> {props.selectedArtwork.location} </Text>
+                    </View>
+
+                    <View style={{ flexDirection: 'row' }}>
+                        <Text style={styles.info}>Medium</Text>
+                        <Text style={styles.datainfo}>  {props.selectedArtwork.medium}</Text>
+                    </View>
+
+                    <View style={{ flexDirection: 'row' }}>
+                        <Text style={styles.info}>Technic</Text>
+                        <Text style={styles.datainfo}> {props.selectedArtwork.technic}</Text>
+                    </View>
+
 
                     <Text style={styles.description}>
                         {props.selectedArtwork.desc}
@@ -209,17 +227,20 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     info: {
-        marginBottom: 25,
-        fontFamily: 'Heebo_400Regular',
-
+        marginBottom: 5,
+        fontFamily: 'Heebo_300Light'
+    },
+    datainfo: {
+        fontFamily: 'Heebo_700Bold'
     },
     description: {
+        marginTop: 20,
         marginBottom: 25,
         textAlign: 'justify',
         fontFamily: 'Heebo_300Light'
     },
     moreArtworks: {
-        fontWeight: 'bold',
+        fontFamily: 'Heebo_700Bold',
         marginBottom: 12
     },
     minipicturesContainer: {

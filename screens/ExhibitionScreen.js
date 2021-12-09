@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react'
-import { View, Image, ScrollView, Text, StyleSheet, TouchableOpacity, SafeAreaView } from 'react-native'
-import { CheckBox, Card, ListItem, Avatar } from 'react-native-elements'
+import { View, ScrollView, Text, StyleSheet, Dimensions } from 'react-native'
+import { CheckBox, ListItem, Avatar, LinearProgress } from 'react-native-elements'
 import { connect } from 'react-redux'
-import { AntDesign } from '@expo/vector-icons'
 import { REACT_APP_URL_BACKEND } from "@env";
 
 import {
@@ -63,7 +62,7 @@ function ExhibitionScreen(props) {
     loadExpo();
   }, []);
 
-  var exhibitionsList = <Text style={{ fontSize: 20 }}>Aucun évènement prévu dans votre ville</Text>
+  var exhibitionsList = <LinearProgress style={{ margin: 30, width: 300 }} color="rgba(213, 208, 205, 0.7)" />
   if (listExpo.length > 0) {
 
     exhibitionsList = listExpo.map((expo, i) => (
@@ -107,9 +106,10 @@ function ExhibitionScreen(props) {
 
   return (
     <ScrollView>
+
       <View style={styles.container}>
-        <View style={{ borderBottomWidth: 1, marginHorizontal: 40, borderBottomColor: "grey", marginBottom: 20 }}>
-          <Text style={{ borderBottomColor: "red", textAlign: "center", fontSize: 15, padding: 20 }}> Exhibitions </Text>
+        <View style={{ borderBottomWidth: 0.7, marginHorizontal: 40, borderBottomColor: "rgba(213, 208, 205, 0.7)", marginBottom: 20 }}>
+          <Text style={{ fontFamily: 'Heebo_300Light', borderBottomColor: "red", textAlign: "center", fontSize: 18, padding: 20 }}> Exhibitions </Text>
         </View>
         <View style={{ flexDirection: "row" }} >
           <CheckBox
@@ -117,6 +117,8 @@ function ExhibitionScreen(props) {
             checkedIcon='dot-circle-o'
             uncheckedIcon='circle-o'
             checked={checkedNearMe}
+            checkedColor='rgba(38, 50, 56, 0.8)'
+            uncheckedColor='rgb(213, 208, 205)'
             onPress={() => setCheckedNearMe(!checkedNearMe)}
             containerStyle={styles.checkbox}
             textStyle={{ fontSize: 10, color: 'black' }}
@@ -127,6 +129,8 @@ function ExhibitionScreen(props) {
             checkedIcon='dot-circle-o'
             uncheckedIcon='circle-o'
             checked={checkedDate}
+            checkedColor='rgba(38, 50, 56, 0.8)'
+            uncheckedColor='rgb(213, 208, 205)'
             onPress={() => setCheckedDate(!checkedDate)}
             containerStyle={styles.checkbox}
             textStyle={{ fontSize: 10, color: 'black' }}
@@ -136,6 +140,8 @@ function ExhibitionScreen(props) {
             checkedIcon='dot-circle-o'
             uncheckedIcon='circle-o'
             checked={checkedPref}
+            checkedColor='rgba(38, 50, 56, 0.8)'
+            uncheckedColor='rgb(213, 208, 205)'
             onPress={() => setCheckedPref(!checkedPref)}
             containerStyle={styles.checkbox}
             textStyle={{ fontSize: 10, color: 'black' }}
@@ -143,17 +149,19 @@ function ExhibitionScreen(props) {
           />
 
         </View>
+
         {exhibitionsList}
       </View>
     </ScrollView>
   );
 }
 
+const windowHeight = Dimensions.get('window').height;
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // alignItems: 'center',
-    // justifyContent: 'center',
+    height: windowHeight,
     backgroundColor: "#FFFF",
   },
   checkbox: {

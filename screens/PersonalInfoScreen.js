@@ -98,7 +98,7 @@ function PersonalInfoScreen(props) {
       const data = await fetch(`${REACT_APP_URL_BACKEND}/sign-up`, { //192.168.1.16 ALICE //172.17.1.83 CAPSULE
         method: 'POST',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: `firstName=${firstName}&lastName=${lastName}&birthday=${birthday}&email=${email}&city=${city}&password=${password}&mediums=${mediums}&movements=${categories}`
+        body: `firstName=${firstName}&lastName=${lastName}&birthday=${birthday}&email=${email}&city=${city}&password=${password}&mediums=${mediums}&categories=${categories}`
       });
       const dataJSON = await data.json();
 
@@ -235,7 +235,7 @@ const styles = StyleSheet.create({
 });
 
 function mapStateToProps(state) {
-  return { medium: state.mediumSignUp, movement: state.categorySignUp }
+  return { medium: state.mediumSignUp, category: state.categorySignUp }
 }
 
 function mapDispatchToProps(dispatch) {

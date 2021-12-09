@@ -1,8 +1,8 @@
-export default function (movementSignUp = [], action) {
+export default function (categorySignUp = [], action) {
     if (action.type === "setCategoryPreferencesSignUp") {
-        return action.movement
+        return action.category
     } else {
-        return movementSignUp
+        return categorySignUp
     }
 }
 
