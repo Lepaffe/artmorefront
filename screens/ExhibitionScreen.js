@@ -28,6 +28,7 @@ function ExhibitionScreen(props) {
           img: response.data[i].fields.image,
           title: response.data[i].fields.title,
           city: response.data[i].fields.city,
+          adress : response.data[i].fields.adress,
           date_start: response.data[i].fields.date_start,
           date_end: response.data[i].fields.date_end
         })
