@@ -9,6 +9,8 @@ import { REACT_APP_URL_BACKEND } from "@env";
 const SwipeScreen = (props) => {
 
     const [artworkList, setArtworkList] = useState([])
+    const [favArtwork, setFavArtwork] = useState(false)
+    
 
     const swipeRef = useRef(null);
 
@@ -48,7 +50,22 @@ const SwipeScreen = (props) => {
         props.navigation.navigate('ArtworkScreen')
     }
 
-    const addArtworkToCollection = (cardIndex) => {
+    const addArtworkToCollection = async (cardIndex) => {
+        
+            const data = await fetch(`${REACT_APP_URL_BACKEND}/add-artworklist/`, {
+                method: "POST",
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: `token=${props.token}&artworkId=${artworkList[cardIndex]._id}`
+            });
+
+            const dataJSON = await data.json();
+             
+             props.addArtwork(artworkList[cardIndex]._id)
+             
+
+    
+
+        setFavArtwork(!favArtwork);
         console.log('addArtworkToCollection', artworkList[cardIndex])
     }
 
@@ -100,7 +117,7 @@ const SwipeScreen = (props) => {
                     <AntDesign
                         name="hearto"
                         size={20}
-                        color="rgb(255, 86, 94)"
+                        color='#FF565E'
                         onPress={() => swipeRef.current.swipeBottom()}
                     />
                 </TouchableOpacity>
@@ -119,13 +136,16 @@ const SwipeScreen = (props) => {
     )
 }
 function mapStateToProps(state) {
-    return { token: state.token }
+    return { token: state.token , artworkList: state.artworkList}
 }
 
 function mapDispatchToProps(dispatch) {
     return {
         setSelectedArtwork: function (artwork) {
             dispatch({ type: "setSelectedArtwork", artwork })
+        },
+        addArtwork: function (artworkId) {
+            dispatch({ type: 'addArtwork', artworkId })
         }
     }
 }
