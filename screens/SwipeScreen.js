@@ -50,6 +50,7 @@ const SwipeScreen = (props) => {
 
     const addArtworkToCollection = (cardIndex) => {
         console.log('addArtworkToCollection', artworkList[cardIndex])
+        
     }
 
     return (

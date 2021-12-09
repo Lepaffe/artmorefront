@@ -119,7 +119,7 @@ export default function App() {
       <NavigationContainer>
         <Stack.Navigator>
           <Stack.Screen name="LandingScreen" options={{ headerShown: false }} component={LandingScreen} />
-          <Stack.Screen name="LoginScreen" options={{ header: MyAppBar }} component={LoginScreen} />
+          <Stack.Screen name="LoginScreen" options={{ headerShown: false }} component={LoginScreen} />
           <Stack.Screen name="MediumScreen" options={{ header: MyAppBar }} component={MediumScreen} />
           <Stack.Screen name="MovementScreen" options={{ header: MyAppBar }} component={MovementScreen} />
           <Stack.Screen name="PersonalInfoScreen" options={{ header: MyAppBar }} component={PersonalInfoScreen} />
