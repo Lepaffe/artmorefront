@@ -3,13 +3,36 @@ import { KeyboardAvoidingView, StyleSheet, Text, TextInput, View, Dimensions } f
 import { Button } from 'react-native-elements';
 import { connect } from 'react-redux';
 
+import {
+  Heebo_100Thin,
+  Heebo_300Light,
+  Heebo_400Regular,
+  Heebo_500Medium,
+  Heebo_700Bold,
+  Heebo_800ExtraBold,
+  Heebo_900Black
+} from '@expo-google-fonts/heebo'
+
+import { useFonts } from 'expo-font'
+import AppLoading from 'expo-app-loading'
+
 import { REACT_APP_URL_BACKEND } from "@env";
 
 function SignInScreen(props) {
+
+  let [fontsLoaded] = useFonts({
+    Heebo_100Thin,
+    Heebo_300Light,
+    Heebo_400Regular,
+    Heebo_500Medium,
+    Heebo_700Bold,
+    Heebo_800ExtraBold,
+    Heebo_900Black
+  })
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [listErrorsSignin, setErrorsSignin] = useState([])
-
 
   var signIn = async () => {
 
@@ -35,12 +58,16 @@ function SignInScreen(props) {
     return (<Text>{error}</Text>)
   })
 
+  if (!fontsLoaded) {
+    return <AppLoading />
+  }
+
   return (
     <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === "ios" ? "padding" : "height"}>
 
-      <Text style={{ fontSize: 25, textAlign: "center", padding: 20, marginBottom: 30, marginTop: 10 }} >Login</Text>
+      <Text style={{ fontFamily: 'Heebo_300Light', fontSize: 25, textAlign: "center", padding: 20, marginBottom: 30, marginTop: 10 }} >Login</Text>
 
-      <View style={styles.inputContainer}>
+      <View >
         <Text style={styles.label}>E-mail</Text>
         <TextInput
           style={styles.input}
@@ -58,12 +85,17 @@ function SignInScreen(props) {
       </View>
       {tabErrorsSignin}
       <Button title="Connexion"
-        buttonStyle={{ borderRadius: 25, marginTop: 40, paddingHorizontal: 20, backgroundColor: "rgba(38, 50, 56, 0.8)" }}
+        buttonStyle={{ borderRadius: 25, paddingHorizontal: 20, backgroundColor: "rgba(38, 50, 56, 0.8)" }}
+        titleStyle={{
+          fontFamily: 'Heebo_300Light'
+        }}
         onPress={() => signIn()}
       />
     </KeyboardAvoidingView >
-  );
-}
+  )
+};
+
+
 
 const windowWidth = Dimensions.get('window').width;
 
@@ -72,9 +104,6 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     backgroundColor: "#FFFF"
-  },
-  inputsContainer: {
-    flex: 1
   },
   input: {
     height: 40,
@@ -87,7 +116,8 @@ const styles = StyleSheet.create({
     width: windowWidth - 150
   },
   label: {
-    textAlign: 'left'
+    textAlign: 'left',
+    fontFamily: 'Heebo_400Regular'
   }
 });
 
