@@ -44,7 +44,7 @@ import MyIcon from './composants/myIcons'; // impot composant MyIcon
 import { Provider } from 'react-redux';
 import { createStore, combineReducers } from 'redux';
 
-const store = createStore(combineReducers({ selectedArtwork, selectedArtist, movementSignUp, mediumSignUp, token, artistList, artworkList }));
+const store = createStore(combineReducers({ selectedArtwork, selectedArtist, categorySignUp, mediumSignUp, token, artistList, artworkList }));
 
 const Stack = createStackNavigator();
 const BottomTab = createBottomTabNavigator();
