@@ -62,7 +62,7 @@ function MovementScreen(props) {
       img: 'https://images.pexels.com/photos/417023/pexels-photo-417023.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940'
     },
     {
-      name: 'Nature Morte',
+      name: 'Still Life',
       img: 'https://upload.wikimedia.org/wikipedia/commons/1/1a/Nature_morte_%28Paul_C%C3%A9zanne%29_%283332859798%29.jpg'
     },
     {

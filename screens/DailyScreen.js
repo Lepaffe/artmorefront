@@ -35,6 +35,7 @@ function DailyScreen(props) {
 
   const addToCollection = async (artwork) => {
     //fetch route saveArtwork
+    
     console.log('add to collection', artwork)
   }
 

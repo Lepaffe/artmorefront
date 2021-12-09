@@ -8,22 +8,22 @@ function LoginScreen(props) {
   return (
     <View style={styles.container}>
       {/*<Image style={styles.logo} source={require('../assets/logo.jpg')} ></Image>*/}
-      <Text style={{ fontSize: 30, textAlign: "center", fontWeight: 'bold' }} >Art + More</Text>
-      <Text style={{ fontSize: 20, textAlign: "center", margin: 35 }} >Discover your curated daily selection</Text>
-      <Button title="SIGN UP / SIGN IN" type="outline" buttonStyle={{ margin: 5, width: 280, padding: 15, borderColor: "gray", borderRadius: 10 }}
+      <Text style={{ fontSize: 50, textAlign: "center", fontWeight: 'bold' }} >Art + More</Text>
+      <Text style={{ fontSize: 18, textAlign: "center", margin: 35, paddingBottom: 50 }} >Discover your curated daily selection</Text>
+      <Button title="SIGN UP / SIGN IN" type="outline" buttonStyle={{ margin: 5, width: 240, padding: 15, borderColor: "gray", borderRadius: 10 }}
         onPress={() => props.navigation.navigate('MediumScreen')} icon={
           <Icon style={styles.icon}
             name="google"
-            size={30}
+            size={25}
             color="grey"
             padding="20px"
           />
         }
       />
-      <Button title="SIGN UP" type="outline" buttonStyle={{ margin: 5, width: 280, padding: 15, borderColor: "gray", borderRadius: 10 }}
+      <Button title="SIGN UP" type="outline" buttonStyle={{ margin: 5, width: 240, padding: 15, borderColor: "gray", borderRadius: 10 }}
         onPress={() => props.navigation.navigate('MediumScreen')}
       />
-      <Button title="SIGN IN" type="outline" buttonStyle={{ margin: 5, width: 280, padding: 15, borderColor: "gray", borderRadius: 10 }}
+      <Button title="SIGN IN" type="outline" buttonStyle={{ margin: 5, width: 240, padding: 15, borderColor: "gray", borderRadius: 10 }}
         onPress={() => props.navigation.navigate('SignInScreen')}
       />
     </View>

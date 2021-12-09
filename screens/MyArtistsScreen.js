@@ -23,8 +23,8 @@ let list = [...artistCollection]
 
 
  return (
-<ScrollView>
-   <View style={{ flex: 1, alignItems: 'center', marginTop: 25, marginBottom: 15 }}>
+<ScrollView style={{backgroundColor: '#FFF'}}>
+   <View style={{ flex: 1, alignItems: 'center', paddingTop: 25, paddingBottom: 15, backgroundColor: '#FFF',}}>
      <Text> My Artists</Text>
    </View>
    <View>  
