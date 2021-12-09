@@ -17,7 +17,6 @@ import {
 import { useFonts } from 'expo-font'
 import AppLoading from 'expo-app-loading'
 
-
 function MovementScreen(props) {
 
   let [fontsLoaded] = useFonts({
@@ -65,11 +64,11 @@ function MovementScreen(props) {
       img: 'https://images.pexels.com/photos/1076758/pexels-photo-1076758.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940'
     },
     {
-      name: 'Everyday Life',
+      name: 'EverydayLife',
       img: 'https://images.pexels.com/photos/6127025/pexels-photo-6127025.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940'
     },
     {
-      name: 'Pop Art',
+      name: 'PopArt',
       img: 'https://cdn.pixabay.com/photo/2017/09/02/06/26/pop-art-2706464_960_720.jpg'
     },
     {
@@ -85,7 +84,7 @@ function MovementScreen(props) {
       img: 'https://images.pexels.com/photos/417023/pexels-photo-417023.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940'
     },
     {
-      name: 'Still Life',
+      name: 'StillLife',
       img: 'https://upload.wikimedia.org/wikipedia/commons/1/1a/Nature_morte_%28Paul_C%C3%A9zanne%29_%283332859798%29.jpg'
     },
     {

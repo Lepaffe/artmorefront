@@ -16,7 +16,6 @@ import {
 import { useFonts } from 'expo-font'
 import AppLoading from 'expo-app-loading'
 
-
 function MediumScreen(props) {
 
   let [fontsLoaded] = useFonts({
@@ -67,29 +66,29 @@ function MediumScreen(props) {
 
   const toggleSwitchDrawing = () => {
     setDrawing(previousState => !previousState);
-    if (mediumPreferences.includes("Drawing")) {
-      setMediumPreferences(mediumPreferences.filter(el => el != "Drawing"))
+    if (mediumPreferences.includes("drawing")) {
+      setMediumPreferences(mediumPreferences.filter(el => el != "drawing"))
     } else {
-      setMediumPreferences([...mediumPreferences, "Drawing"])
+      setMediumPreferences([...mediumPreferences, "drawing"])
     }
   }
 
   const toggleSwitchDigitalArt = () => {
     setDigitalArt(previousState => !previousState);
-    if (mediumPreferences.includes("digital art")) {
-      setMediumPreferences(mediumPreferences.filter(el => el != "digital art"))
+    if (mediumPreferences.includes("digitalArt")) {
+      setMediumPreferences(mediumPreferences.filter(el => el != "digitalArt"))
     } else {
-      setMediumPreferences([...mediumPreferences, "digital art"])
+      setMediumPreferences([...mediumPreferences, "digitalArt"])
     }
   }
 
   const toggleSwitchStreetArt = () => {
     setStreetArt(previousState => !previousState);
-    if (mediumPreferences.includes("street art")) {
+    if (mediumPreferences.includes("streetArt")) {
       console.log(mediumPreferences)
-      setMediumPreferences(mediumPreferences.filter(el => el != "street art"))
+      setMediumPreferences(mediumPreferences.filter(el => el != "streetArt"))
     } else {
-      setMediumPreferences([...mediumPreferences, "street art"])
+      setMediumPreferences([...mediumPreferences, "streetArt"])
     }
   }
 
@@ -98,7 +97,6 @@ function MediumScreen(props) {
     props.navigation.navigate('MovementScreen')
     console.log(mediumPreferences)
   }
-
 
   if (!fontsLoaded) {
     return <AppLoading />
@@ -119,7 +117,7 @@ function MediumScreen(props) {
           ios_backgroundColor="#3e3e3e"
           onValueChange={toggleSwitchPainting}
           value={painting}
-          style={{ marginRight: 80, marginBottom: 20 ,}}
+          style={{ marginRight: 80, marginBottom: 20, }}
         />
       </View>
       <View style={{
@@ -215,7 +213,7 @@ const styles = StyleSheet.create({
     // justifyContent: 'center',
     backgroundColor: "#FFFF"
   }
-  
+
 });
 
 function mapDispatchToProps(dispatch) {
