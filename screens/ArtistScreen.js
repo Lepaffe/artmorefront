@@ -237,7 +237,7 @@ const styles = StyleSheet.create({
     },
     artist: {
         fontSize: 20,
-        fontFamily: 'Heebo_500Bold'
+        fontFamily: 'Heebo_700Bold'
     },
     instagram: {
         fontFamily: 'Heebo_300Light'

@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import { AntDesign } from '@expo/vector-icons'
 import { Avatar, ListItem, Divider } from 'react-native-elements';
 import MyIcon from '../composants/myIcons';
+import { REACT_APP_URL_BACKEND } from "@env";
 
 import {
     Heebo_100Thin,
@@ -19,6 +20,23 @@ import { useFonts } from 'expo-font'
 import AppLoading from 'expo-app-loading'
 
 const ProfileScreen = (props) => {
+
+    const [firstName, setFirstName] = useState('hey')
+    const [lastName, setLastName] = useState('ho')
+
+    useEffect(() => {
+
+        const getUsername = async () => {
+            console.log('route activée')
+            const data = await fetch(`${REACT_APP_URL_BACKEND}/get-username/${props.token}`);
+            const dataJSON = await data.json();
+            setFirstName(dataJSON.firstName)
+            setLastName(dataJSON.lastName)
+
+        };
+        getUsername();
+
+    }, [])
 
     let [fontsLoaded] = useFonts({
         Heebo_100Thin,
@@ -41,7 +59,7 @@ const ProfileScreen = (props) => {
                     <Avatar rounded size={115} source={{ uri: 'https://res.cloudinary.com/lepaffe/image/upload/v1638785691/Artmore/IMG_5535_uu5xwh.png' }} />
                 </View>
                 <View style={styles.mainInfoContainer}>
-                    <Text style={styles.name}>Alice AySyl </Text>
+                    <Text style={styles.name}>{firstName} {lastName}</Text>
                 </View>
             </View>
 
@@ -115,9 +133,11 @@ const ProfileScreen = (props) => {
     )
 }
 
+function mapStateToProps(state) {
+    return ({ token: state.token })
+}
 
-
-export default ProfileScreen;
+export default connect(mapStateToProps, null)(ProfileScreen);
 
 const styles = StyleSheet.create({
     container: {

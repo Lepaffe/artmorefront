@@ -32,7 +32,7 @@ function DailyScreen(props) {
 
   const [dailyList, setDailyList] = useState([]);
   const [likedArtwork, setLikedArtwork] = useState(false)
-    const [colorLike, setColorLike] = useState("black")
+    const [colorLike, setColorLike] = useState(["black","black","black","black" ])
 
   useEffect(() => {
 
@@ -58,7 +58,7 @@ function DailyScreen(props) {
 
   }
 
-  const addToCollection = async (artwork) => {
+  const addToCollection = async (artwork, i) => {
     if (likedArtwork == false) {
       const data = await fetch(`${REACT_APP_URL_BACKEND}/add-artworklist/`, {
           method: "POST",
@@ -67,7 +67,10 @@ function DailyScreen(props) {
       });
 
       const dataJSON = await data.json();
-       setColorLike('#FF565E');
+      copyColorLike= [...colorLike]
+      copyColorLike.splice(i,1, '#FF565E')
+      setColorLike(copyColorLike)
+       
        props.addArtwork(artwork._id)
        
 
@@ -78,8 +81,10 @@ function DailyScreen(props) {
       body:`token=${props.token}&artworkId=${artwork._id}`
   });
       const dataJSON = await data.json();
-      setColorLike('black');
+      copyColorLike= [...colorLike]
+      copyColorLike.splice(i,1, 'black')
       props.deleteArtwork(artwork._id)
+      setColorLike(copyColorLike)
 }
 
   setLikedArtwork(!likedArtwork);
@@ -131,11 +136,11 @@ function DailyScreen(props) {
 
                 </TouchableOpacity>
 
-                <TouchableOpacity onPress={() => addToCollection(el.artwork)}>
+                <TouchableOpacity onPress={() => addToCollection(el.artwork, i)}>
                   <AntDesign
                     name="hearto"
                     size={25}
-                    color={colorLike}
+                    color={colorLike[i]}
                   />
                 </TouchableOpacity>
               </View>
