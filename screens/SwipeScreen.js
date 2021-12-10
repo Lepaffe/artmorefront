@@ -67,6 +67,7 @@ const SwipeScreen = (props) => {
 
         setFavArtwork(!favArtwork);
         console.log('addArtworkToCollection', artworkList[cardIndex])
+        
     }
 
     return (
