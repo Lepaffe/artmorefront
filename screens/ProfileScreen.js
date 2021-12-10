@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import { View, Image, ScrollView, Text, StyleSheet, TouchableOpacity, SafeAreaView, FlatList } from 'react-native'
 import { connect } from 'react-redux'
+import * as ImagePicker from 'expo-image-picker'
 import { AntDesign } from '@expo/vector-icons'
+
 import { Avatar, ListItem, Divider } from 'react-native-elements';
+
 import MyIcon from '../composants/myIcons';
 import { REACT_APP_URL_BACKEND } from "@env";
 
@@ -21,22 +24,9 @@ import AppLoading from 'expo-app-loading'
 
 const ProfileScreen = (props) => {
 
-    const [firstName, setFirstName] = useState('hey')
-    const [lastName, setLastName] = useState('ho')
-
-    useEffect(() => {
-
-        const getUsername = async () => {
-            console.log('route activée')
-            const data = await fetch(`${REACT_APP_URL_BACKEND}/get-username/${props.token}`);
-            const dataJSON = await data.json();
-            setFirstName(dataJSON.firstName)
-            setLastName(dataJSON.lastName)
-
-        };
-        getUsername();
-
-    }, [])
+    const [firstName, setFirstName] = useState('')
+    const [lastName, setLastName] = useState('')
+    const [image, setImage] = useState(null);
 
     let [fontsLoaded] = useFonts({
         Heebo_100Thin,
@@ -48,25 +38,93 @@ const ProfileScreen = (props) => {
         Heebo_900Black
     })
 
+    useEffect(() => {
+
+        //on récupère le nom de l'utilisateur
+        const getUsername = async () => {
+            const data = await fetch(`${REACT_APP_URL_BACKEND}/get-username/${props.token}`);
+            const dataJSON = await data.json();
+            setFirstName(dataJSON.firstName)
+            setLastName(dataJSON.lastName)
+            setImage(dataJSON.img)
+
+        };
+        getUsername();
+
+
+    }, [])
+
+    //au clic sur add Image, on modifie la photo et on l'envoie au backend
+    const addImage = async () => {
+        //on demande l'accès à la caméra
+        const checkForCameraRollPermission = async () => {
+            const { status } = await ImagePicker.getMediaLibraryPermissionsAsync();
+            if (status !== 'granted') {
+                alert("Please grant camera roll permissions inside your system's settings");
+            } else {
+                console.log('Media Permissions are granted')
+            }
+        }
+        checkForCameraRollPermission()
+
+        let _image = await ImagePicker.launchImageLibraryAsync({
+            mediaTypes: ImagePicker.MediaTypeOptions.Images,
+            allowsEditing: true,
+            aspect: [3, 3],
+            quality: 1,
+        });
+
+        if (!_image.cancelled) {
+
+            var data = new FormData();
+
+            data.append('avatar', {
+                uri: _image.uri,
+                type: 'image/jpeg',
+                name: 'avatar.jpg',
+            });
+
+            const res = await fetch(`${REACT_APP_URL_BACKEND}/update-avatar/${props.token}`, {
+                method: 'POST',
+                body: data
+            })
+            const resJSON = await res.json()
+            resJSON.img && setImage(resJSON.img);
+        };
+    }
+
     if (!fontsLoaded) {
         return <AppLoading />
     }
 
     return (
         < View style={styles.container}>
+
             <View style={styles.userHead} >
-                <View >
-                    <Avatar rounded size={115} source={{ uri: 'https://res.cloudinary.com/lepaffe/image/upload/v1638785691/Artmore/IMG_5535_uu5xwh.png' }} />
+
+                <View style={styles.containerImage}>
+
+                    <Image source={{ uri: image }} style={{ width: 150, height: 150 }} />
+
+                    <View style={styles.uploadBtnContainer}>
+                        <TouchableOpacity onPress={addImage} style={styles.uploadBtn} >
+                            <AntDesign name="camera" size={20} color="black" />
+                        </TouchableOpacity>
+                    </View>
+
                 </View>
+
+
                 <View style={styles.mainInfoContainer}>
                     <Text style={styles.name}>{firstName} {lastName}</Text>
                 </View>
             </View>
 
-            <Divider style={{ marginBottom: 30 }} orientation="horizontal" inset={true} insetType="center" />
 
             <View style={styles.mainInfoContainer}>
+
                 <View>
+
                     <ListItem key={'0'} onPress={() => props.navigation.navigate('TopNav', { screen: 'my Collection' })} >
                         <MyIcon
                             type='AntDesign'
@@ -126,9 +184,7 @@ const ProfileScreen = (props) => {
 
             </View>
 
-
         </View >
-
 
     )
 }
@@ -145,7 +201,27 @@ const styles = StyleSheet.create({
         margin: 0,
         paddingTop: 50,
         backgroundColor: "white"
-
+    },
+    containerImage: {
+        elevation: 2,
+        height: 150,
+        width: 150,
+        borderRadius: 75,
+        overflow: 'hidden',
+    },
+    uploadBtnContainer: {
+        opacity: 0.6,
+        position: 'absolute',
+        right: 0,
+        bottom: 0,
+        backgroundColor: 'lightgrey',
+        width: '100%',
+        height: '18%',
+    },
+    uploadBtn: {
+        display: 'flex',
+        alignItems: "center",
+        justifyContent: 'center'
     },
     menuItem: {
         backgroundColor: 'transparent',
@@ -164,7 +240,7 @@ const styles = StyleSheet.create({
     },
 
     mainInfoContainer: {
-        margin: 20,
+        marginTop: 20,
         alignItems: 'center'
     },
     name: {
@@ -176,7 +252,6 @@ const styles = StyleSheet.create({
         fontSize: 17,
         color: 'grey',
         fontFamily: 'Heebo_300Light'
-
     },
     artist: {
         fontSize: 20

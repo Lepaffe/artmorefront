@@ -30,38 +30,55 @@ function ExhibitionScreen(props) {
     Heebo_900Black
   })
 
-  const [checkedDate, setCheckedDate] = useState(false);
-  const [checkedPref, setCheckedPref] = useState(false);
-  const [checkedNearMe, setCheckedNearMe] = useState(true);
+  const [checkedAllExpo, setCheckedAllExpo] = useState(true);
+  const [checkedMyExpo, setCheckedMyExpo] = useState(false);
+  const [checkedExpoNearMe, setCheckedExpoNearMe] = useState(false);
   const [listExpo, setListExpo] = useState([])
 
+  var dateFormat = function (date) {
+    var newDate = new Date(date)
+    var format = (newDate.getMonth() + 1) + "." + newDate.getDate() + "." + newDate.getFullYear()
+    return format;
+  };
+
+  const getAllExpoNearMe = async () => {
+    console.log("hello")
+    if (checkedExpoNearMe) {
+      setCheckedExpoNearMe(false)
+    } else {
+      setCheckedExpoNearMe(true), setCheckedAllExpo(false), setCheckedMyExpo(false)
+    }
+    var rawResponse = await fetch(`${REACT_APP_URL_BACKEND}/get-exhibitions/:token`);
+    var response = await rawResponse.json();
+    console.log("data near me", response)
+  }
 
   useEffect(() => {
     async function loadExpo() {
-      var rawResponse = await fetch(`${REACT_APP_URL_BACKEND}/get-exhibitions/${props.token}`);
+      var rawResponse = await fetch(`${REACT_APP_URL_BACKEND}/get-exhibitions`);
       var response = await rawResponse.json();
-      // console.log("reponsefetch:", response.data);
+      console.log(response.listExpoBack)
 
-      var listExpoCopy = []
+      // var listExpoCopy = []
 
-      for (var i = 0; i < response.data.length; i++) {
-        listExpoCopy.push({
-          img: response.data[i].fields.image,
-          title: response.data[i].fields.title,
-          city: response.data[i].fields.city,
-          place : response.data[i].fields.placename,
-          address : response.data[i].fields.address,
-          date_start: response.data[i].fields.date_start,
-          date_end: response.data[i].fields.date_end
-        })
+      // for (var i = 0; i < response.data.length; i++) {
+      //   listExpoCopy.push({
+      //     img: response.data[i].fields.image,
+      //     title: response.data[i].fields.title,
+      //     city: response.data[i].fields.city,
+      //     place : response.data[i].fields.placename,
+      //     address : response.data[i].fields.address,
+      //     date_start: dateFormat(response.data[i].fields.date_start),
+      //     date_end: dateFormat(response.data[i].fields.date_end)
+      //   })
 
-        if (response.data[i].fields.image == null) {
-          response.data[i].fields.image = '../assets/category/abstract.jpg';
-        }
-      }
-      setListExpo(listExpoCopy);
+      // if (response.data[i].fields.image == null) {
+      //   response.data[i].fields.image = '../assets/category/abstract.jpg';
+      // }
+      setListExpo(response.listExpoBack);
     }
-    console.log(listExpo);
+
+    //
     loadExpo();
   }, []);
 
@@ -70,7 +87,7 @@ function ExhibitionScreen(props) {
 
     exhibitionsList = listExpo.map((expo, i) => (
       <ListItem key={i} bottomDivider>
-        <Avatar style={{ width: 90, height: 130 }} source={{ uri: expo.img }} />
+        <Avatar style={{ width: 100, height: 160 }} source={{ uri: expo.img }} />
         <ListItem.Content>
           <ListItem.Title style={{ fontFamily: 'Heebo_400Regular' }}>{expo.title}</ListItem.Title>
           <ListItem.Subtitle style={{ fontFamily: 'Heebo_300Light', marginVertical: 5 }}>{expo.place}</ListItem.Subtitle>
@@ -79,29 +96,6 @@ function ExhibitionScreen(props) {
         </ListItem.Content>
       </ListItem>
     ))
-    {/*exhibitionsList = listExpo.map((u, i) => {
-      return (
-        // <View key={i}>
-        //   <Card >
-        //     <View><Text>{expo.title}</Text>
-        //     <Text>{expo.city}</Text>
-        //     <Text>{expo.date_start}</Text>
-        //     <Text>{expo.date_end}</Text></View>
-        //     <View>
-        //     <Card.Image source={{ uri: expo.img }}></Card.Image></View>
-        //b   </Card>
-        // </View>
-
-        <View key={i} style={styles.user}>
-          <Image
-            style={styles.image}
-            resizeMode="cover"
-            source={{ uri: u.img }}
-          />
-          <Text style={styles.name}>{u.title}{"\n"}{u.city}{"\n"}{u.date_start}{"\n"}{u.date_end}</Text>
-        </View>
-      );
-    })*/}
   }
 
   if (!fontsLoaded) {
@@ -109,54 +103,56 @@ function ExhibitionScreen(props) {
   }
 
   return (
-    <ScrollView>
 
-      <View style={styles.container}>
-        <View style={{ borderBottomWidth: 0.7, marginHorizontal: 40, borderBottomColor: "rgba(213, 208, 205, 0.7)", marginBottom: 20 }}>
-          <Text style={{ fontFamily: 'Heebo_300Light', borderBottomColor: "red", textAlign: "center", fontSize: 18, padding: 20 }}> Exhibitions </Text>
-        </View>
-        <View style={{ flexDirection: "row" }} >
-          <CheckBox
-            title='Near me'
-            checkedIcon='dot-circle-o'
-            uncheckedIcon='circle-o'
-            checked={checkedNearMe}
-            checkedColor='rgba(38, 50, 56, 0.8)'
-            uncheckedColor='rgb(213, 208, 205)'
-            onPress={() => setCheckedNearMe(!checkedNearMe)}
-            containerStyle={styles.checkbox}
-            textStyle={{ fontSize: 10, color: 'black' }}
-          />
-
-          <CheckBox
-            title='By date'
-            checkedIcon='dot-circle-o'
-            uncheckedIcon='circle-o'
-            checked={checkedDate}
-            checkedColor='rgba(38, 50, 56, 0.8)'
-            uncheckedColor='rgb(213, 208, 205)'
-            onPress={() => setCheckedDate(!checkedDate)}
-            containerStyle={styles.checkbox}
-            textStyle={{ fontSize: 10, color: 'black' }}
-          />
-          <CheckBox
-            title='By preferences'
-            checkedIcon='dot-circle-o'
-            uncheckedIcon='circle-o'
-            checked={checkedPref}
-            checkedColor='rgba(38, 50, 56, 0.8)'
-            uncheckedColor='rgb(213, 208, 205)'
-            onPress={() => setCheckedPref(!checkedPref)}
-            containerStyle={styles.checkbox}
-            textStyle={{ fontSize: 10, color: 'black' }}
-
-          />
-
-        </View>
-
-        {exhibitionsList}
+    <View style={styles.container}>
+      <View style={{ borderBottomWidth: 0.7, marginHorizontal: 40, borderBottomColor: "rgba(213, 208, 205, 0.7)", marginBottom: 20 }}>
+        <Text style={{ fontFamily: 'Heebo_300Light', borderBottomColor: "red", textAlign: "center", fontSize: 18, padding: 20 }}> Exhibitions </Text>
       </View>
-    </ScrollView>
+      <View style={{ flexDirection: "row" }} >
+        <CheckBox
+          title='All'
+          checkedIcon='dot-circle-o'
+          uncheckedIcon='circle-o'
+          checked={checkedAllExpo}
+          checkedColor='rgba(38, 50, 56, 0.8)'
+          uncheckedColor='rgb(213, 208, 205)'
+          onPress={checkedAllExpo ? () => setCheckedAllExpo(false) : () => [setCheckedAllExpo(true), setCheckedExpoNearMe(false), setCheckedMyExpo(false)]}
+          containerStyle={styles.checkbox}
+          textStyle={{ fontSize: 10, color: 'black' }}
+        />
+
+        <CheckBox
+          title='Near me'
+          checkedIcon='dot-circle-o'
+          uncheckedIcon='circle-o'
+          checked={checkedExpoNearMe}
+          checkedColor='rgba(38, 50, 56, 0.8)'
+          uncheckedColor='rgb(213, 208, 205)'
+          onPress={() => {
+            getAllExpoNearMe()
+          }}
+          containerStyle={styles.checkbox}
+          textStyle={{ fontSize: 10, color: 'black' }}
+        />
+
+        <CheckBox
+          title='My exhibitions'
+          checkedIcon='dot-circle-o'
+          uncheckedIcon='circle-o'
+          checked={checkedMyExpo}
+          checkedColor='rgba(38, 50, 56, 0.8)'
+          uncheckedColor='rgb(213, 208, 205)'
+          onPress={checkedMyExpo ? () => setCheckedMyExpo(false) : () => [setCheckedMyExpo(true), setCheckedAllExpo(false), setCheckedExpoNearMe(false)]}
+          containerStyle={styles.checkbox}
+          textStyle={{ fontSize: 10, color: 'black' }}
+        />
+      </View>
+
+      <ScrollView>
+        {exhibitionsList}
+      </ScrollView>
+    </View>
+
   );
 }
 
