@@ -3,6 +3,7 @@ import { View, StyleSheet, Image, TouchableOpacity } from 'react-native'
 import { AntDesign, Entypo } from '@expo/vector-icons'
 import Swiper from 'react-native-deck-swiper'
 import { connect } from 'react-redux';
+import { useIsFocused } from '@react-navigation/native';
 
 import { REACT_APP_URL_BACKEND } from "@env";
 
@@ -10,19 +11,20 @@ const SwipeScreen = (props) => {
 
     const [artworkList, setArtworkList] = useState([])
     const [favArtwork, setFavArtwork] = useState(false)
-    
+    const isFocused = useIsFocused();
+
 
     const swipeRef = useRef(null);
 
     useEffect(() => {
         const getArtworkList = async () => {
-            const data = await fetch(`${REACT_APP_URL_BACKEND}/get-artwork-list`); //192.168.1.16 ALICE //172.17.1.83 CAPSULE
+            const data = await fetch(`${REACT_APP_URL_BACKEND}/get-artwork-list/${props.token}`); //192.168.1.16 ALICE //172.17.1.83 CAPSULE
             const dataJSON = await data.json();
             setArtworkList(dataJSON.artworks);
         }
         getArtworkList();
 
-    }, [])
+    }, [isFocused])
 
     const handleLike = async (cardIndex) => {
         console.log('like', cardIndex, artworkList[cardIndex])
