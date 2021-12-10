@@ -30,6 +30,7 @@ import MyArtistsScreen from './screens/MyArtistsScreen';
 import ArtworkScreen from './screens/ArtworkScreen';
 import ArtistScreen from './screens/ArtistScreen';
 import ProfileScreen from './screens/ProfileScreen';
+import SettingsScreen from './screens/SettingsScreen'
 
 import selectedArtwork from './reducers/selectedArtwork'
 import selectedArtist from './reducers/selectedArtist'
@@ -127,6 +128,7 @@ export default function App() {
           <Stack.Screen name="ArtworkScreen" options={{ header: MyAppBar }} component={ArtworkScreen} />
           <Stack.Screen name="ArtistScreen" options={{ header: MyAppBar }} component={ArtistScreen} />
           <Stack.Screen name="ProfileScreen" options={{ header: MyAppBar }} component={ProfileScreen} />
+          <Stack.Screen name="SettingsScreen" options={{ header: MyAppBar }} component={SettingsScreen} />
           <Stack.Screen name="BottomNav" component={BottomNav} options={{ header: MyAppBar }} />
         </Stack.Navigator>
       </NavigationContainer>
