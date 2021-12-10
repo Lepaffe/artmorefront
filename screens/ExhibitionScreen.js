@@ -37,8 +37,8 @@ function ExhibitionScreen(props) {
 
   var dateFormat = function (date) {
     var newDate = new Date(date)
-      var format = (newDate.getMonth() + 1) +  "." + newDate.getDate() + "." + newDate.getFullYear()
-      return format;
+    var format = (newDate.getMonth() + 1) + "." + newDate.getDate() + "." + newDate.getFullYear()
+    return format;
   };
 
   useEffect(() => {
@@ -54,8 +54,8 @@ function ExhibitionScreen(props) {
           img: response.data[i].fields.image,
           title: response.data[i].fields.title,
           city: response.data[i].fields.city,
-          place : response.data[i].fields.placename,
-          address : response.data[i].fields.address,
+          place: response.data[i].fields.placename,
+          address: response.data[i].fields.address,
           date_start: dateFormat(response.data[i].fields.date_start),
           date_end: dateFormat(response.data[i].fields.date_end)
         })
@@ -66,12 +66,11 @@ function ExhibitionScreen(props) {
       }
       setListExpo(listExpoCopy);
     }
-    console.log("listExpo:",listExpo);
+    console.log("listExpo:", listExpo);
     loadExpo();
   }, []);
 
-  console.log("listExpo longueur:",listExpo.length);
-
+  console.log("listExpo longueur:", listExpo.length);
 
   var exhibitionsList = <LinearProgress style={{ margin: 30, width: 300 }} color="rgba(213, 208, 205, 0.7)" />
   if (listExpo.length > 0) {
@@ -95,52 +94,52 @@ function ExhibitionScreen(props) {
 
   return (
 
-      <View style={styles.container}>
-        <View style={{ borderBottomWidth: 0.7, marginHorizontal: 40, borderBottomColor: "rgba(213, 208, 205, 0.7)", marginBottom: 20 }}>
-          <Text style={{ fontFamily: 'Heebo_300Light', borderBottomColor: "red", textAlign: "center", fontSize: 18, padding: 20 }}> Exhibitions </Text>
-        </View>
-        <View style={{ flexDirection: "row" }} >
-          <CheckBox
-            title='All'
-            checkedIcon='dot-circle-o'
-            uncheckedIcon='circle-o'
-            checked={checkedAllExpo}
-            checkedColor='rgba(38, 50, 56, 0.8)'
-            uncheckedColor='rgb(213, 208, 205)'
-            onPress={checkedAllExpo ? () => setCheckedAllExpo(false) : () => [setCheckedAllExpo(true),setCheckedExpoNearMe(false), setCheckedMyExpo(false) ]}
-            containerStyle={styles.checkbox}
-            textStyle={{ fontSize: 10, color: 'black' }}
-          />
-
-          <CheckBox
-            title='Near me'
-            checkedIcon='dot-circle-o'
-            uncheckedIcon='circle-o'
-            checked={checkedExpoNearMe}
-            checkedColor='rgba(38, 50, 56, 0.8)'
-            uncheckedColor='rgb(213, 208, 205)'
-            onPress={checkedExpoNearMe ? () => setCheckedExpoNearMe(false) : () => [setCheckedExpoNearMe(true),setCheckedAllExpo(false), setCheckedMyExpo(false) ]}
-            containerStyle={styles.checkbox}
-            textStyle={{ fontSize: 10, color: 'black' }}
-          />
-
-          <CheckBox
-            title='My exhibitions'
-            checkedIcon='dot-circle-o'
-            uncheckedIcon='circle-o'
-            checked={checkedMyExpo}
-            checkedColor='rgba(38, 50, 56, 0.8)'
-            uncheckedColor='rgb(213, 208, 205)'
-            onPress={checkedMyExpo? () => setCheckedMyExpo(false) : () => [setCheckedMyExpo(true),setCheckedAllExpo(false), setCheckedExpoNearMe(false) ]}
-            containerStyle={styles.checkbox}
-            textStyle={{ fontSize: 10, color: 'black' }}
-          />
-        </View>
-
-        <ScrollView>
-        { exhibitionsList }
-    </ScrollView>
+    <View style={styles.container}>
+      <View style={{ borderBottomWidth: 0.7, marginHorizontal: 40, borderBottomColor: "rgba(213, 208, 205, 0.7)", marginBottom: 20 }}>
+        <Text style={{ fontFamily: 'Heebo_300Light', borderBottomColor: "red", textAlign: "center", fontSize: 18, padding: 20 }}> Exhibitions </Text>
       </View>
+      <View style={{ flexDirection: "row" }} >
+        <CheckBox
+          title='All'
+          checkedIcon='dot-circle-o'
+          uncheckedIcon='circle-o'
+          checked={checkedAllExpo}
+          checkedColor='rgba(38, 50, 56, 0.8)'
+          uncheckedColor='rgb(213, 208, 205)'
+          onPress={checkedAllExpo ? () => setCheckedAllExpo(false) : () => [setCheckedAllExpo(true), setCheckedExpoNearMe(false), setCheckedMyExpo(false)]}
+          containerStyle={styles.checkbox}
+          textStyle={{ fontSize: 10, color: 'black' }}
+        />
+
+        <CheckBox
+          title='Near me'
+          checkedIcon='dot-circle-o'
+          uncheckedIcon='circle-o'
+          checked={checkedExpoNearMe}
+          checkedColor='rgba(38, 50, 56, 0.8)'
+          uncheckedColor='rgb(213, 208, 205)'
+          onPress={checkedExpoNearMe ? () => setCheckedExpoNearMe(false) : () => [setCheckedExpoNearMe(true), setCheckedAllExpo(false), setCheckedMyExpo(false)]}
+          containerStyle={styles.checkbox}
+          textStyle={{ fontSize: 10, color: 'black' }}
+        />
+
+        <CheckBox
+          title='My exhibitions'
+          checkedIcon='dot-circle-o'
+          uncheckedIcon='circle-o'
+          checked={checkedMyExpo}
+          checkedColor='rgba(38, 50, 56, 0.8)'
+          uncheckedColor='rgb(213, 208, 205)'
+          onPress={checkedMyExpo ? () => setCheckedMyExpo(false) : () => [setCheckedMyExpo(true), setCheckedAllExpo(false), setCheckedExpoNearMe(false)]}
+          containerStyle={styles.checkbox}
+          textStyle={{ fontSize: 10, color: 'black' }}
+        />
+      </View>
+
+      <ScrollView>
+        {exhibitionsList}
+      </ScrollView>
+    </View>
 
   );
 }
