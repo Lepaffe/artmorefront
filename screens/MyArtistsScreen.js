@@ -42,10 +42,19 @@ function MyArtistsScreen(props) {
     }, [props.artistList])
 
     let list = [...artistCollection]
+    console.log("artist", list )
 
     if (!fontsLoaded) {
         return <AppLoading />
     }
+
+    const openArtistDetail = (artist) => {
+        props.setSelectedArtist(artist)
+       
+        props.navigation.navigate('ArtistScreen')
+        
+    
+      }
 
     return (
         <ScrollView style={{ backgroundColor: '#FFF' }}>
@@ -54,13 +63,15 @@ function MyArtistsScreen(props) {
             </View>
             <View>
                 {list.map((artist, i) => (
+                    <TouchableOpacity onPress={() => openArtistDetail(artist)}>
                     <ListItem key={i} bottomDivider>
                         <Avatar source={{ uri: artist.img }} />
                         <ListItem.Content>
                             <ListItem.Title>{artist.name}</ListItem.Title>
-                            <ListItem.Subtitle>{artist.city}</ListItem.Subtitle>
+                            <ListItem.Subtitle>{artist.instagram}</ListItem.Subtitle>
                         </ListItem.Content>
                     </ListItem>
+                    </TouchableOpacity>
                 ))}
             </View>
         </ScrollView>
@@ -69,10 +80,21 @@ function MyArtistsScreen(props) {
 
 
 function mapStateToProps(state) {
-    return { token: state.token, artistList: state.artistList }
+    return { token: state.token, artistList: state.artistList, selectedArtist: state.selectedArtist}
 }
 
-export default connect(mapStateToProps, null)(MyArtistsScreen);
+function mapDispatchToProps(dispatch) {
+    return {
+        setSelectedArtist: function (artist) {
+            dispatch({ type: 'setSelectedArtist', artist })
+        },
+        setSelectedArtwork: function (artwork) {
+            dispatch({ type: "setSelectedArtwork", artwork })
+        }
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(MyArtistsScreen);
 
 const styles = StyleSheet.create({
     container: {
