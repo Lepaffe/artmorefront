@@ -47,7 +47,7 @@ export default (props) => {
   useEffect(() => {
     setTimeout(() => {
       props.navigation.navigate('LoginScreen')
-    }, 5000)
+    }, 3000)
   }, [])
 
   return (
