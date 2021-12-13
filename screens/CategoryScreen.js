@@ -118,8 +118,8 @@ function CategoryScreen(props) {
         <View style={{ alignItems: 'flex-end' }}>
           <Button
             title="Next"
-            buttonStyle={{ borderRadius: 25, marginVertical: 40, marginRight: 60, paddingHorizontal: 20, backgroundColor: "rgba(38, 50, 56, 0.8)" }}
-            titleStyle={{ fontFamily: 'Heebo_300Light' }}
+            buttonStyle={{ borderColor: "black", borderWidth: 1 ,borderRadius: 20, marginVertical: 40, marginRight: 60, paddingHorizontal: 20, backgroundColor: "white" }}
+            titleStyle={{ fontFamily: 'Heebo_300Light', color: 'black',fontSize: 15 }}
             onPress={() => goToPersonalInfoScreen()}
           />
         </View>

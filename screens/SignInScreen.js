@@ -85,10 +85,8 @@ function SignInScreen(props) {
       </View>
       {tabErrorsSignin}
       <Button title="Connexion"
-        buttonStyle={{ borderRadius: 25, paddingHorizontal: 20, backgroundColor: "rgba(38, 50, 56, 0.8)" }}
-        titleStyle={{
-          fontFamily: 'Heebo_300Light'
-        }}
+        buttonStyle={{ borderColor: "black", borderWidth: 1 ,borderRadius: 20, paddingHorizontal: 20, backgroundColor: "white" }}
+        titleStyle={{ fontFamily: 'Heebo_300Light', color: 'black',fontSize: 15 }}
         onPress={() => signIn()}
       />
     </KeyboardAvoidingView >

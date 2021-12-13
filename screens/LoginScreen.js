@@ -35,12 +35,12 @@ function LoginScreen(props) {
   return (
     <View style={styles.container}>
       {/*<Image style={styles.logo} source={require('../assets/logo.jpg')} ></Image>*/}
-      <Text style={{ fontFamily: 'Heebo_700Bold', fontSize: 30, textAlign: "center" }} >Art + More</Text>
-      <Text style={{ fontFamily: 'Heebo_300Light', fontSize: 20, textAlign: "center", margin: 35 }} >Discover your curated daily selection</Text>
+      <Text style={{ fontFamily: 'Heebo_700Bold', fontSize: 30, textAlign: "center" , marginTop: 100}} >Art + More</Text>
+      <Text style={{ fontFamily: 'Heebo_300Light', fontSize: 20, textAlign: "center", margin: 35 , marginBottom: 180}} >Discover your curated daily selection</Text>
       <Button
         title="SIGN UP / SIGN IN"
         type="outline"
-        buttonStyle={{ margin: 5, width: 280, padding: 15, borderColor: "gray", borderRadius: 10 }}
+        buttonStyle={{ margin: 5, width: 280, padding: 15, borderColor: "gray", borderRadius: 20 }}
         titleStyle={{ fontFamily: 'Heebo_400Regular', color: 'black' }}
         onPress={() => props.navigation.navigate('MediumScreen')} icon={
           <Icon style={styles.icon}
@@ -54,14 +54,14 @@ function LoginScreen(props) {
       <Button
         title="SIGN UP"
         type="outline"
-        buttonStyle={{ margin: 5, width: 280, padding: 15, borderColor: "gray", borderRadius: 10 }}
+        buttonStyle={{ margin: 5, width: 280, padding: 15, borderColor: "gray", borderRadius: 20 }}
         titleStyle={{ fontFamily: 'Heebo_400Regular', color: 'black' }}
         onPress={() => props.navigation.navigate('MediumScreen')}
       />
       <Button
         title="SIGN IN"
         type="outline"
-        buttonStyle={{ margin: 5, width: 280, padding: 15, borderColor: "gray", borderRadius: 10 }}
+        buttonStyle={{ margin: 5, width: 280, padding: 15, borderColor: "grey", borderRadius: 20 }}
         titleStyle={{ fontFamily: 'Heebo_400Regular', color: 'black' }}
         onPress={() => props.navigation.navigate('SignInScreen')}
       />

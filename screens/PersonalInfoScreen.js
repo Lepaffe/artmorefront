@@ -197,9 +197,11 @@ function PersonalInfoScreen(props) {
         {tabErrorsSignUp}
         <View style={{ alignItems: 'center' }}>
           <Button title="Create account"
-            buttonStyle={{ width: '70%', borderRadius: 25, marginTop: 30, marginBottom: 40, paddingRight: 15, backgroundColor: "rgba(38, 50, 56, 0.8)" }}
+            buttonStyle={{ borderColor: "black", borderWidth: 1 ,borderRadius: 20, marginVertical: 20, marginRight: 0, paddingHorizontal: 15, backgroundColor: "white" }}
             titleStyle={{
-              fontFamily: 'Heebo_300Light'
+              fontFamily: 'Heebo_300Light',
+              color: 'black',
+              fontSize: 15,
             }}
             onPress={() => signUp()}
           />

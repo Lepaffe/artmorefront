@@ -76,7 +76,7 @@ function CollectionScreen(props) {
     }
 
     return (
-        <ScrollView>
+        <ScrollView style={{ backgroundColor: '#FFF'}}>
             <View style={{ flex: 1, alignItems: 'center', paddingBottom: 15, backgroundColor: '#FFF', }}>
                 <Text style={{ fontFamily: 'Heebo_300Light', marginTop: 25 }} > My personnal collection</Text>
             </View>

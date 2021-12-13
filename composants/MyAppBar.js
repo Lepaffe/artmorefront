@@ -1,9 +1,10 @@
 
 import * as React from 'react';
 import { Appbar } from 'react-native-paper';
-import { View, Text } from 'react-native';
+import { View, Text, Share } from 'react-native';
 import { Button } from 'react-native-elements';
 import MyIcon from './myIcons'; // impot composant MyIcon
+
 
 import {
   Heebo_100Thin,
@@ -35,6 +36,28 @@ const MyAppBar = (props) => {
     return <AppLoading />
   }
   
+  // fonction du bouton share 
+    const onShare = async () => {
+      try {
+        const result = await Share.share({
+          message:
+            'Art+More| Discover new artworks curated for you by downloading Art+More',
+            url: "http://www.artmore.com"
+        });
+        if (result.action === Share.sharedAction) {
+          if (result.activityType) {
+            // shared with activity type of result.activityType
+          } else {
+            // shared
+          }
+        } else if (result.action === Share.dismissedAction) {
+          // dismissed
+        }
+      } catch (error) {
+        alert(error.message);
+      }
+    };
+  
   return (
 
     <Appbar.Header style={{ backgroundColor: 'white', color: 'black' }} >
@@ -60,10 +83,13 @@ const MyAppBar = (props) => {
       {(props.route.name === 'ArtistScreen'
         || props.route.name === 'ArtworkScreen'
         ) && 
-       <Appbar.Action icon="share" style={{ color: 'black' }} onPress={() => console.log('share it')} />}
+       <Appbar.Action icon="share" style={{ color: 'black' }} onPress={onShare} title="Share" />}
 
     </Appbar.Header>
   )
   //  }
 }
+
+
 export default MyAppBar;
+
