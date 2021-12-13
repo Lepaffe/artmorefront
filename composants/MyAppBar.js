@@ -20,7 +20,7 @@ import AppLoading from 'expo-app-loading';
 
 
 const MyAppBar = (props) => {
-  console.log('route', props.route.name);
+  //console.log('route', props.route.name);
   let [fontsLoaded] = useFonts({
     Heebo_100Thin,
     Heebo_300Light,

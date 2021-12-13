@@ -43,7 +43,7 @@ function SignInScreen(props) {
     })
 
     const body = await data.json()
-    console.log('body', body);
+    
     if (body.result == true) {
       props.addToken(body.token)
       props.loadArtist(body.artistList)

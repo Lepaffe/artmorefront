@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { ScrollView, View, StyleSheet, KeyboardAvoidingView, Text, TouchableOpacity, TextInput, Dimensions } from 'react-native';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { Button, Input } from 'react-native-elements'
 import { connect } from 'react-redux'
 import DateTimePickerModal from "react-native-modal-datetime-picker";
@@ -197,13 +198,14 @@ function PersonalInfoScreen(props) {
         {tabErrorsSignUp}
         <View style={{ alignItems: 'center' }}>
           <Button title="Create account"
-            buttonStyle={{ width: '70%', borderRadius: 25, marginTop: 30, marginBottom: 40, paddingRight: 15, backgroundColor: "rgba(38, 50, 56, 0.8)" }}
+            buttonStyle={{ width: '80%', borderRadius: 25, marginTop: 30, marginBottom: 40, paddingRight: 10, backgroundColor: "rgba(38, 50, 56, 0.8)" }}
             titleStyle={{
               fontFamily: 'Heebo_300Light'
             }}
             onPress={() => signUp()}
           />
         </View>
+        <View style={{ height: 80 }} />
       </ScrollView>
     </KeyboardAvoidingView >
   );
@@ -216,7 +218,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: "#FFFF"
+    backgroundColor: "#FFFF",
   },
   inputsContainer: {
     width: windowWidth - 150,
