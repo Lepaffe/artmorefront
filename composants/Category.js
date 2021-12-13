@@ -42,7 +42,7 @@ function Category(props) {
     return (
 
         <TouchableOpacity onPress={() => handleClickCategory(props.name)}>
-            <Card wrapperStyle={{ border: 0, margin: 0 }} containerStyle={{ borderWidth: 0, borderColor: 'transparent', elevation: 0 }}>
+            <Card wrapperStyle={{ border: 0, margin: 0}} containerStyle={{ borderWidth: 0, borderColor: 'transparent', elevation: 0 }}>
                 <Card.Image
                     source={{ uri: props.img }}
                     style={{ width: 70, height: 70, borderRadius: 50, opacity: opacityStyle }}

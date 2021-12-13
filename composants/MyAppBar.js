@@ -52,8 +52,15 @@ const MyAppBar = (props) => {
       
       {(props.route.name !== 'ProfileScreen'
         && props.route.name !== 'SignInScreen'
+        && props.route.name !== 'ArtistScreen'
+        && props.route.name !== 'ArtworkScreen'
         && props.route.name !== 'MediumScreen') && 
        <Appbar.Action icon="account" style={{ color: 'black' }} onPress={() => props.navigation.navigate('ProfileScreen')} />}
+      
+      {(props.route.name === 'ArtistScreen'
+        || props.route.name === 'ArtworkScreen'
+        ) && 
+       <Appbar.Action icon="share" style={{ color: 'black' }} onPress={() => console.log('share it')} />}
 
     </Appbar.Header>
   )

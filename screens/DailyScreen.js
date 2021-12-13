@@ -39,7 +39,8 @@ function DailyScreen(props) {
     const getDailySelection = async () => {
       const data = await fetch(`${REACT_APP_URL_BACKEND}/get-daily-selection/${props.token}`);
       const dataJSON = await data.json();
-      const dailyListBack = dataJSON.artworksWithArtists
+      console.log('dataJSON', dataJSON);
+      const dailyListBack = dataJSON.artworksWithArtists;
       setDailyList(dailyListBack);
     }
     
@@ -105,6 +106,7 @@ function DailyScreen(props) {
         horizontal={true}
       >
         {dailyList.map((el, i) => {
+          console.log('artistimg',el.artist)
           return (
             <View key={el.artwork._id} style={styles.itemDaily}>
 
