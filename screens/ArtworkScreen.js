@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { View, Image, ScrollView, Text, StyleSheet, TouchableOpacity, Dimensions } from 'react-native'
 import { connect } from 'react-redux'
-import MyIcon from './myIcons';
+import MyIcon from '../composants/myIcons';
 import {
     Heebo_100Thin,
     Heebo_300Light,

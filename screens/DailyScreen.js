@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Image, SafeAreaView, Dimensions } from 'react-native';
-import MyIcon from './myIcons';
+import MyIcon from '../composants/myIcons';
 import { connect } from 'react-redux'
 //import Carousel from 'react-native-snap-carousel';
 import {

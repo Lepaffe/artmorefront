@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { View, Image, ScrollView, Text, StyleSheet, TouchableOpacity, SafeAreaView, FlatList } from 'react-native'
 import { connect } from 'react-redux'
 import { Avatar, ListItem, Divider } from 'react-native-elements';
-import MyIcon from './myIcons';
+import MyIcon from '../composants/myIcons';
 // masonryList to display the images in a grid
 import MasonryList from '@react-native-seoul/masonry-list';
 import { REACT_APP_URL_BACKEND } from "@env";
