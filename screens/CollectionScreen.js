@@ -38,26 +38,26 @@ function CollectionScreen(props) {
             const data = await fetch(`${REACT_APP_URL_BACKEND}/get-collection/${props.token}`); //192.168.1.16 ALICE //172.17.1.83 CAPSULE
             const dataJSON = await data.json();
             setCollection(dataJSON.collection.artworkList);
-            console.log("data", dataJSON.collection.artworkList)
+
         }
         getCollection();
     }, [props.artworkList])
 
     let list = [...collection]
 
-    console.log("list", list)
+
 
 
     // renderItem to use in the MasonryList componment to render a grid with two colum to display
     // the artworks of the artists (instead of a map, which does not work with flatlist and masonryList)
     const renderItem = ({ item }) => {
-        console.log(item)
+
         return (
-            <TouchableOpacity onPress={() => openArtworkDetail(item)}>
+            <TouchableOpacity key={item._id} onPress={() => openArtworkDetail(item)}>
                 < Image
                     source={{ uri: item.cloudinary }}
                     style={styles.minipicture}
-                    key={item._id}
+
                 />
             </TouchableOpacity>
         )
@@ -65,7 +65,7 @@ function CollectionScreen(props) {
 
     // Récupère donnée du artwork pour le store et redirige vers le ArtworkScreen de l'oeuvre cliquée
     const openArtworkDetail = artwork => {
-        console.log(artwork)
+
         props.setSelectedArtwork(artwork);
         props.navigation.navigate('ArtworkScreen');
     }

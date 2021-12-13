@@ -36,13 +36,13 @@ function MyArtistsScreen(props) {
             const data = await fetch(`${REACT_APP_URL_BACKEND}/get-artist-collection/${props.token}`); //192.168.1.16 ALICE //172.17.1.83 CAPSULE
             const dataJSON = await data.json();
             setArtistCollection(dataJSON.artistCollection.artistList);
-            console.log("data", dataJSON.artistCollection.artistList)
+            
         }
         getArtistCollection();
     }, [props.artistList])
 
     let list = [...artistCollection]
-    console.log("artist", list )
+   
 
     if (!fontsLoaded) {
         return <AppLoading />
@@ -50,7 +50,6 @@ function MyArtistsScreen(props) {
 
     const openArtistDetail = (artist) => {
         props.setSelectedArtist(artist)
-       
         props.navigation.navigate('ArtistScreen')
         
     
@@ -63,8 +62,8 @@ function MyArtistsScreen(props) {
             </View>
             <View>
                 {list.map((artist, i) => (
-                    <TouchableOpacity onPress={() => openArtistDetail(artist)}>
-                    <ListItem key={i} bottomDivider>
+                    <TouchableOpacity key={i} onPress={() => openArtistDetail(artist)}>
+                    <ListItem  bottomDivider>
                         <Avatar source={{ uri: artist.img }} />
                         <ListItem.Content>
                             <ListItem.Title>{artist.name}</ListItem.Title>

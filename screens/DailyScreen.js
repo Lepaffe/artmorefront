@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Image, SafeAreaView, Dimensions } from 'react-native';
-import { AntDesign } from '@expo/vector-icons'
+import MyIcon from '../composants/myIcons';
 import { connect } from 'react-redux'
 //import Carousel from 'react-native-snap-carousel';
 import {
@@ -39,7 +39,6 @@ function DailyScreen(props) {
     const getDailySelection = async () => {
       const data = await fetch(`${REACT_APP_URL_BACKEND}/get-daily-selection/${props.token}`);
       const dataJSON = await data.json();
-      console.log('dataJSON', dataJSON);
       const dailyListBack = dataJSON.artworksWithArtists;
       setDailyList(dailyListBack);
     }
@@ -90,7 +89,6 @@ function DailyScreen(props) {
 
   setLikedArtwork(!likedArtwork);
 
-    console.log('add to collection', artwork)
   }
 
   if (!fontsLoaded) {
@@ -106,7 +104,7 @@ function DailyScreen(props) {
         horizontal={true}
       >
         {dailyList.map((el, i) => {
-          console.log('artistimg',el.artist)
+         
           return (
             <View key={el.artwork._id} style={styles.itemDaily}>
 
@@ -139,7 +137,8 @@ function DailyScreen(props) {
                 </TouchableOpacity>
 
                 <TouchableOpacity onPress={() => addToCollection(el.artwork, i)}>
-                  <AntDesign
+                  <MyIcon
+                    type='AntDesign'
                     name="hearto"
                     size={25}
                     color={colorLike[i]}
