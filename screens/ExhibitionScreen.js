@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react'
-import { View, Text, StyleSheet, Dimensions, FlatList, TouchableOpacity } from 'react-native'
-import { ListItem, Avatar, LinearProgress } from 'react-native-elements'
+import { View, Text, StyleSheet, Dimensions, TouchableOpacity, ScrollView } from 'react-native'
+import { LinearProgress } from 'react-native-elements'
 import { connect } from 'react-redux'
 import { REACT_APP_URL_BACKEND } from "@env";
-import Icon from 'react-native-vector-icons/FontAwesome'
-
+import { useIsFocused } from '@react-navigation/native';
+import Expo from '../composants/Expo'
 
 import {
   Heebo_100Thin,
@@ -46,59 +46,62 @@ function ExhibitionScreen(props) {
 
   const [listExpo, setListExpo] = useState([])
   const [status, setStatus] = useState('')
-  const [datalist, setDatalist] = useState(listExpo)
-  const [likedExpo, setLikedExpo] = useState('')
+  const [datalist, setDatalist] = useState([])
   const [myExpoList, setMyExpoList] = useState([]);
   const [userCity, setUserCity] = useState('')
-  const [colorIconAddExpo, setColorIconAddExpo] = useState("black")
+  const isFocused = useIsFocused();
 
   useEffect(() => {
-    async function loadExpo() {
+    async function loadAllExpo() {
       var rawResponse = await fetch(`${REACT_APP_URL_BACKEND}/get-exhibitions/${props.token}`);
       var response = await rawResponse.json();
-      setListExpo(response.listExpoBack);
-      setUserCity(response.userCity)
+
+      if (response.listExpoBack && response.userCity) {
+        setListExpo(response.listExpoBack);
+        setUserCity(response.userCity)
+        setDatalist(response.listExpoBack)
+        setStatus('All')
+      }
+
     }
-    loadExpo();
-  }, []);
+    loadAllExpo();
 
-  var exhibitionsList = <LinearProgress style={{ margin: 30, width: 300 }} color="rgba(213, 208, 205, 0.7)" />
-  if (listExpo.length > 0) {
+    async function loadMyExpo() {
+      var rawResponse = await fetch(`${REACT_APP_URL_BACKEND}/get-my-exhibitions/${props.token}`);
+      var response = await rawResponse.json();
+      response.userExpoList && setMyExpoList(response.userExpoList);
+    }
+    loadMyExpo();
 
-    exhibitionsList = <FlatList
-      data={datalist}
-      keyExtractor={(index) => index.toString()}
-      renderItem={({ item, index }) => {
-        return <View>
-          <ListItem bottomDivider>
-            <Avatar style={{ width: 100, height: 160 }} source={{ uri: item.img }} />
-            <ListItem.Content>
-              <ListItem.Title style={{ fontFamily: 'Heebo_400Regular' }}>{item.title}</ListItem.Title>
-              <ListItem.Subtitle style={{ fontFamily: 'Heebo_300Light', marginVertical: 5 }}>{item.place}</ListItem.Subtitle>
-              <ListItem.Subtitle style={{ fontFamily: 'Heebo_300Light', marginVertical: 5 }}>{item.address}</ListItem.Subtitle>
-              <ListItem.Subtitle style={{ fontFamily: 'Heebo_400Regular', fontSize: 12 }}>From {item.date_start} to {item.date_end}</ListItem.Subtitle>
-              <View style={{ alignSelf: 'flex-end' }} >
-                <TouchableOpacity>
-                  <Icon style={{ marginEnd: 10 }}
-                    name="plus"
-                    size={20}
-                    color={colorIconAddExpo}
-                    contentStyle={{ margin: 20 }}
-                    onPress={() => addToMyExpo()}
-                  >
-                  </Icon>
-                </TouchableOpacity>
-              </View>
-            </ListItem.Content>
-          </ListItem>
-        </View >
-      }}
-    />
+
+  }, [isFocused]);
+
+
+  const addExpo = async (title, place, address, date_start, date_end, img, city) => {
+
+    const data = await fetch(`${REACT_APP_URL_BACKEND}/add-exhibitions/${props.token}`, {
+      method: "POST",
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: `token=${props.token}&title=${title}&place=${place}&address=${address}&date_start=${date_start}&date_end=${date_end}&img=${img}&city=${city}`
+    });
+
+    const dataJSON = await data.json();
+    dataJSON.result && setMyExpoList([...myExpoList, dataJSON.addedExpo])
+
   }
 
-  if (!fontsLoaded) {
-    return <AppLoading />
-  }
+  const deleteExpo = async (title) => {
+
+    const data = await fetch(`${REACT_APP_URL_BACKEND}/delete-exhibitions/${props.token}/${title}`, {
+      method: "DELETE"
+    });
+    const dataJSON = await data.json();
+    if (dataJSON.result) {
+      setMyExpoList(myExpoList.filter(expo => expo.title != title))
+      setDatalist(myExpoList.filter(expo => expo.title != title))
+    }
+  };
+
 
   const setStatusFilter = status => {
     if (status === 'All') {
@@ -113,34 +116,21 @@ function ExhibitionScreen(props) {
     setStatus(status)
   }
 
+  var exhibitionsList = <LinearProgress style={{ margin: 30, width: 300 }} color="rgba(213, 208, 205, 0.7)" />
 
-  const addToMyExpo = async () => {
-    console.log('hello')
-    for (let i = 0; i < datalist.length; i++) {
-      console.log("datalist boucle :",datalist)
-    if (likedExpo == false) {
-      const data = await fetch(`${REACT_APP_URL_BACKEND}/add-exhibitions`, {
-        method: "POST",
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: `token=${props.token}&title=${datalist[i].title}&place=${datalist[i].place}&address=${datalist[i].address}&date_start=${datalist[i].date_start}&date_end=${datalist[i].date_end}`
-      });
-      const dataJSON = await data.json();
-      setColorIconAddExpo('orange');
-      // props.addArtist(props.selectedArtist._id)
-    } else {
-      const data = await fetch(`${REACT_APP_URL_BACKEND}/delete-exhibitions`, {
-        method: "POST",
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: `token=${props.token}&title=${datalist[i].title}`
-      });
-      const dataJSON = await data.json();
-      setColorLike('black');
-      // props.deleteArtist(props.selectedArtist._id)
-    }
+  if (datalist.length > 0) {
+    exhibitionsList = datalist.map(item => {
+      let isFav = myExpoList.some(expo => item.title === expo.title)
+      return (
+        < Expo key={item.title} isFav={isFav} addExpo={addExpo} deleteExpo={deleteExpo} title={item.title} place={item.place} img={item.img} date_start={item.date_start} date_end={item.date_end} address={item.address} city={item.city} />
+      )
+    })
+  }
 
-    setLikedExpo(!likedArtist);
+  if (!fontsLoaded) {
+    return <AppLoading />
   }
-  }
+
   return (
 
     <View style={styles.container}>
@@ -148,6 +138,7 @@ function ExhibitionScreen(props) {
         <Text style={{ fontFamily: 'Heebo_300Light', borderBottomColor: "red", textAlign: "center", fontSize: 18, padding: 20 }}> Exhibitions </Text>
       </View>
       <View style={{ flexDirection: "row" }} >
+
         {listTab.map(e => (
           <TouchableOpacity style={[styles.btnTab, status === e.name && styles.btnTabActive]} onPress={() => setStatusFilter(e.name)}>
             <Text style={styles.textTab}>{e.name}</Text>
@@ -155,9 +146,9 @@ function ExhibitionScreen(props) {
         ))
         }
       </View>
-
-      {exhibitionsList}
-
+      <ScrollView>
+        {exhibitionsList}
+      </ScrollView>
     </View>
 
   );
@@ -170,18 +161,6 @@ const styles = StyleSheet.create({
     flex: 1,
     height: windowHeight,
     backgroundColor: "#FFFF",
-  },
-  checkbox: {
-    backgroundColor: "transparent",
-    padding: 0,
-    paddingBottom: 20,
-    borderColor: 0,
-    marginHorizontal: 0,
-    width: 100,
-    alignItems: "center",
-  },
-  fonts: {
-    marginBottom: 8,
   },
   user: {
     flexDirection: 'row',
@@ -207,13 +186,13 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     borderWidth: 0.5,
     width: Dimensions.get('window').width / 3,
-    borderColor: '#D5D8DC'
+    borderColor: 'rgba(213, 208, 205, 0.3)'
   },
   textTab: {
     textAlign: 'center'
   },
   btnTabActive: {
-    backgroundColor: '#82E0AA'
+    backgroundColor: 'rgba(213, 208, 205, 0.3)'
   },
 });
 

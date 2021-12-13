@@ -27,7 +27,7 @@ const SwipeScreen = (props) => {
     }, [isFocused])
 
     const handleLike = async (cardIndex) => {
-        console.log('like', cardIndex, artworkList[cardIndex])
+       // console.log('like', cardIndex, artworkList[cardIndex])
         const data = await fetch(`${REACT_APP_URL_BACKEND}/like`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
@@ -37,7 +37,7 @@ const SwipeScreen = (props) => {
     }
 
     const handleDislike = async (cardIndex) => {
-        console.log('dislike', artworkList[cardIndex])
+     //   console.log('dislike', artworkList[cardIndex])
         const data = await fetch(`${REACT_APP_URL_BACKEND}/dislike`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
@@ -47,7 +47,7 @@ const SwipeScreen = (props) => {
     }
 
     const openArtworkDetail = (cardIndex) => {
-        console.log('openArtworkDetail', artworkList[cardIndex])
+       // console.log('openArtworkDetail', artworkList[cardIndex])
         props.setSelectedArtwork(artworkList[cardIndex])
         props.navigation.navigate('ArtworkScreen')
     }
@@ -68,7 +68,7 @@ const SwipeScreen = (props) => {
     
 
         setFavArtwork(!favArtwork);
-        console.log('addArtworkToCollection', artworkList[cardIndex])
+       // console.log('addArtworkToCollection', artworkList[cardIndex])
         
     }
 

@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { View, Image, ScrollView, Text, StyleSheet, TouchableOpacity, SafeAreaView, FlatList } from 'react-native'
 import { connect } from 'react-redux'
-import { AntDesign } from '@expo/vector-icons'
 import { Avatar, ListItem, Divider } from 'react-native-elements';
+import MyIcon from '../composants/myIcons';
 // masonryList to display the images in a grid
 import MasonryList from '@react-native-seoul/masonry-list';
 import { REACT_APP_URL_BACKEND } from "@env";
@@ -46,13 +46,12 @@ const ArtistScreen = (props) => {
     // the artworks of the artists (instead of a map, which does not work with flatlist and masonryList)
 
     const renderItem = ({ item }) => {
-        console.log(item)
+
         return (
-            <TouchableOpacity onPress={() => openArtworkDetail(item)}>
+            <TouchableOpacity key={item._id} onPress={() => openArtworkDetail(item)}>
                 < Image
                     source={{ uri: item.cloudinary }}
                     style={styles.minipicture}
-                    key={item._id}
                     onPress={() => openArtworkDetail(item)}
                 />
             </TouchableOpacity>
@@ -101,7 +100,7 @@ const ArtistScreen = (props) => {
 
     // Récupère donnée du artwork pour le store et redirige vers le ArtworkScreen de l'oeuvre cliquée
     const openArtworkDetail = artwork => {
-        console.log(artwork)
+
         props.setSelectedArtwork(artwork);
         props.navigation.navigate('ArtworkScreen');
     }
@@ -116,7 +115,7 @@ const ArtistScreen = (props) => {
             <View style={styles.container}>
 
                 <View >
-                    <ListItem containerStyle={{ flex: 1, marginLeft: 110, backgroundColor: "none" }}>
+                    <ListItem containerStyle={{ flex: 1, marginLeft: 80, backgroundColor: "none" }}>
 
                         <Avatar rounded size="large" source={{ uri: props.selectedArtist.img }} />
                         <ListItem.Content>
@@ -132,8 +131,9 @@ const ArtistScreen = (props) => {
 
                     <Text style={{ fontFamily: 'Heebo_700Bold' }}>{props.selectedArtist.city}, {props.selectedArtist.country} </Text>
                     <TouchableOpacity style={styles.button}>
-                        <AntDesign
-                            name="heart"
+                        <MyIcon
+                            type='AntDesign'
+                            name="hearto"
                             size={20}
                             color={colorLike}
                             onPress={() => addToCollection(props.selectedArtist._id)}

@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { View, Image, ScrollView, Text, StyleSheet, TouchableOpacity, Dimensions } from 'react-native'
 import { connect } from 'react-redux'
-import { AntDesign } from '@expo/vector-icons';
-
+import MyIcon from '../composants/myIcons';
 import {
     Heebo_100Thin,
     Heebo_300Light,
@@ -39,9 +38,9 @@ const ArtworkScreen = (props) => {
             const data = await fetch(`${REACT_APP_URL_BACKEND}/get-artist-detail/${props.selectedArtwork._id}`); //192.168.1.16 ALICE //172.17.1.83 CAPSULE
             const dataJSON = await data.json();
             props.setSelectedArtist(dataJSON.artist);
-            
-        }; console.log("coucou", props.selectedArtwork)
-        if( props.artworkList.includes(props.selectedArtwork._id)) {
+        };
+
+        if (props.artworkList.includes(props.selectedArtwork._id)) {
             setLikedArtwork(true);
             setColorLike('#FF565E')
         }
@@ -68,7 +67,7 @@ const ArtworkScreen = (props) => {
 
     // Récupère donnée du artwork pour le store et redirige vers le ArtworkScreen de l'oeuvre cliquée
     const openArtworkDetailFromSameArtist = artwork => {
-        console.log(artwork)
+
         props.setSelectedArtwork(artwork);
         props.navigation.navigate('ArtworkScreen');
     }
@@ -83,20 +82,20 @@ const ArtworkScreen = (props) => {
             });
 
             const dataJSON = await data.json();
-             setColorLike('#FF565E');
-             props.addArtwork(props.selectedArtwork._id)
-             
+            setColorLike('#FF565E');
+            props.addArtwork(props.selectedArtwork._id)
 
-    } else {
-        const data = await fetch(`${REACT_APP_URL_BACKEND}/delete-artworklist/`,{
-            method: "POST",
-            headers: {'Content-Type':'application/x-www-form-urlencoded'},
-            body:`token=${props.token}&artworkId=${id}`
-        });
+
+        } else {
+            const data = await fetch(`${REACT_APP_URL_BACKEND}/delete-artworklist/`, {
+                method: "POST",
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: `token=${props.token}&artworkId=${id}`
+            });
             const dataJSON = await data.json();
             setColorLike('black');
             props.deleteArtwork(props.selectedArtwork._id)
-    }
+        }
 
         setLikedArtwork(!likedArtwork);
     }
@@ -115,8 +114,9 @@ const ArtworkScreen = (props) => {
                     <View style={styles.imageContainer}>
                         <Image source={{ uri: props.selectedArtwork.cloudinary }} style={styles.image} />
                         <TouchableOpacity style={styles.button}>
-                            <AntDesign
-                                name="heart"
+                            <MyIcon
+                                type='AntDesign'
+                                name="hearto"
                                 size={35}
                                 color={colorLike}
                                 onPress={() => addToCollection(props.selectedArtwork._id)}
@@ -180,7 +180,7 @@ const ArtworkScreen = (props) => {
 }
 
 function mapStateToProps(state) {
-    return { selectedArtwork: state.selectedArtwork, selectedArtist: state.selectedArtist, token: state.token , artworkList: state.artworkList}
+    return { selectedArtwork: state.selectedArtwork, selectedArtist: state.selectedArtist, token: state.token, artworkList: state.artworkList }
 }
 
 function mapDispatchToProps(dispatch) {
@@ -191,12 +191,12 @@ function mapDispatchToProps(dispatch) {
         setSelectedArtwork: function (artwork) {
             dispatch({ type: "setSelectedArtwork", artwork })
         },
-            addArtwork: function (artworkId) {
-                dispatch({ type: 'addArtwork', artworkId })
-            },
-            deleteArtwork: function (artworkId) {
-                dispatch({ type: 'deleteArtwork', artworkId })
-            },
+        addArtwork: function (artworkId) {
+            dispatch({ type: 'addArtwork', artworkId })
+        },
+        deleteArtwork: function (artworkId) {
+            dispatch({ type: 'deleteArtwork', artworkId })
+        },
 
     }
 }
