@@ -13,6 +13,7 @@
     "@ant-design/icons": "^4.7.0",
     "@ant-design/react-native": "^4.2.0",
     "@expo-google-fonts/heebo": "^0.2.0",
+    "@react-native-async-storage/async-storage": "^1.15.14",
     "@react-native-community/datetimepicker": "3.5.2",
     "@react-native-community/masked-view": "^0.1.11",
     "@react-native-seoul/masonry-list": "^1.1.3",

@@ -4,6 +4,7 @@ import { Button, Input } from 'react-native-elements'
 import { connect } from 'react-redux'
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { AntDesign } from '@expo/vector-icons';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import {
   Heebo_100Thin,
@@ -22,6 +23,7 @@ import { REACT_APP_URL_BACKEND } from "@env";
 
 function PersonalInfoScreen(props) {
 
+  
   let [fontsLoaded] = useFonts({
     Heebo_100Thin,
     Heebo_300Light,
@@ -45,6 +47,7 @@ function PersonalInfoScreen(props) {
   const [messageMail, setMessageMail] = useState('');
   const [isPasswordValid, setIsPasswordValid] = useState(false);
   const [messagePassword, setMessagePassword] = useState('');
+  const [userToken2, setUserToken2] = useState('')
 
   const showDatePicker = () => {
     setDatePickerVisibility(true);
@@ -103,7 +106,6 @@ function PersonalInfoScreen(props) {
         body: `firstName=${firstName}&lastName=${lastName}&birthday=${birthday}&email=${email}&city=${city}&password=${password}&mediums=${mediums}&categories=${categories}`
       });
       const dataJSON = await data.json();
-
       if (dataJSON.result) {
         props.addToken(dataJSON.token)
         props.navigation.navigate('BottomNav', { screen: 'DailyScreen' })
@@ -113,6 +115,7 @@ function PersonalInfoScreen(props) {
     } else {
       console.log('email ou password non valide')
     }
+    AsyncStorage.setItem('token2', dataJSON.token) 
   }
 
   let tabErrorsSignUp = listErrorsSignUp.map((error, i) => {
