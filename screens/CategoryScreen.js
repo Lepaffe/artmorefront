@@ -40,7 +40,7 @@ function CategoryScreen(props) {
   }
 
   const goToPersonalInfoScreen = () => {
-    console.log(categoryPreferences)
+   
     props.setCategoryPreferencesSignUp(categoryPreferences)
     props.navigation.navigate('PersonalInfoScreen')
   }

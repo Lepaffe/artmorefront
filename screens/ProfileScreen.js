@@ -130,7 +130,7 @@ const ProfileScreen = (props) => {
                             type='AntDesign'
                             name="hearto"
                             size={22}
-
+                            
                             color="rgb(136, 136, 156)"
                         />
                         <ListItem.Title style={styles.list} > {'My Collection'} </ListItem.Title>

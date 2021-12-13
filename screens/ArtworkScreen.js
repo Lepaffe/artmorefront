@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { View, Image, ScrollView, Text, StyleSheet, TouchableOpacity, Dimensions } from 'react-native'
 import { connect } from 'react-redux'
-import { AntDesign } from '@expo/vector-icons';
-
+import MyIcon from './myIcons';
 import {
     Heebo_100Thin,
     Heebo_300Light,
@@ -40,7 +39,7 @@ const ArtworkScreen = (props) => {
             const dataJSON = await data.json();
             props.setSelectedArtist(dataJSON.artist);
             
-        }; console.log("coucou", props.selectedArtwork)
+        }; 
         if( props.artworkList.includes(props.selectedArtwork._id)) {
             setLikedArtwork(true);
             setColorLike('#FF565E')
@@ -68,7 +67,7 @@ const ArtworkScreen = (props) => {
 
     // Récupère donnée du artwork pour le store et redirige vers le ArtworkScreen de l'oeuvre cliquée
     const openArtworkDetailFromSameArtist = artwork => {
-        console.log(artwork)
+        
         props.setSelectedArtwork(artwork);
         props.navigation.navigate('ArtworkScreen');
     }
@@ -115,7 +114,8 @@ const ArtworkScreen = (props) => {
                     <View style={styles.imageContainer}>
                         <Image source={{ uri: props.selectedArtwork.cloudinary }} style={styles.image} />
                         <TouchableOpacity style={styles.button}>
-                            <AntDesign
+                            <MyIcon
+                                type='AntDesign'
                                 name="heart"
                                 size={35}
                                 color={colorLike}
