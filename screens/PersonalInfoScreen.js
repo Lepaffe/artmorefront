@@ -36,6 +36,7 @@ function PersonalInfoScreen(props) {
   const [lastName, setLastName] = useState('');
   const [password, setPassword] = useState('');
   const [birthday, setBirthday] = useState('');
+  const [birthdayDisplay, setBirthdayDisplay]=useState('');
   const [city, setCity] = useState('');
   const [email, setEmail] = useState('');
   const [listErrorsSignUp, setErrorsSignUp] = useState([])
@@ -54,7 +55,8 @@ function PersonalInfoScreen(props) {
   };
 
   const handleConfirm = (date) => {
-    date = date.toLocaleDateString()
+    let dateDisplay = date.toLocaleDateString()
+    setBirthdayDisplay(dateDisplay);
     setBirthday(date)
     hideDatePicker();
   };
@@ -163,7 +165,7 @@ function PersonalInfoScreen(props) {
           <TextInput //format date
             style={styles.input}
             onChangeText={(val) => setBirthday(val)}
-            value={birthday}
+            value={birthdayDisplay}
             editable={false}
           />
 
