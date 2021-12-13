@@ -62,6 +62,37 @@ function ExhibitionScreen(props) {
     loadExpo();
   }, []);
 
+
+
+  const addToMyExpo = async () => {
+    console.log('hello')
+    for (let i = 0; i < datalist.length; i++) {
+      console.log("datalist boucle :", datalist)
+      if (likedExpo == false) {
+        const data = await fetch(`${REACT_APP_URL_BACKEND}/add-exhibitions`, {
+          method: "POST",
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: `token=${props.token}&title=${datalist[i].title}&place=${datalist[i].place}&address=${datalist[i].address}&date_start=${datalist[i].date_start}&date_end=${datalist[i].date_end}`
+        });
+        const dataJSON = await data.json();
+        setColorIconAddExpo('orange');
+        // props.addArtist(props.selectedArtist._id)
+      } else {
+        const data = await fetch(`${REACT_APP_URL_BACKEND}/delete-exhibitions`, {
+          method: "POST",
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: `token=${props.token}&title=${datalist[i].title}`
+        });
+        const dataJSON = await data.json();
+        setColorLike('black');
+        // props.deleteArtist(props.selectedArtist._id)
+      }
+
+      setLikedExpo(!likedArtist);
+    }
+  }
+
+
   var exhibitionsList = <LinearProgress style={{ margin: 30, width: 300 }} color="rgba(213, 208, 205, 0.7)" />
   if (listExpo.length > 0) {
 
@@ -113,34 +144,6 @@ function ExhibitionScreen(props) {
     setStatus(status)
   }
 
-
-  const addToMyExpo = async () => {
-    console.log('hello')
-    for (let i = 0; i < datalist.length; i++) {
-      console.log("datalist boucle :",datalist)
-    if (likedExpo == false) {
-      const data = await fetch(`${REACT_APP_URL_BACKEND}/add-exhibitions`, {
-        method: "POST",
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: `token=${props.token}&title=${datalist[i].title}&place=${datalist[i].place}&address=${datalist[i].address}&date_start=${datalist[i].date_start}&date_end=${datalist[i].date_end}`
-      });
-      const dataJSON = await data.json();
-      setColorIconAddExpo('orange');
-      // props.addArtist(props.selectedArtist._id)
-    } else {
-      const data = await fetch(`${REACT_APP_URL_BACKEND}/delete-exhibitions`, {
-        method: "POST",
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: `token=${props.token}&title=${datalist[i].title}`
-      });
-      const dataJSON = await data.json();
-      setColorLike('black');
-      // props.deleteArtist(props.selectedArtist._id)
-    }
-
-    setLikedExpo(!likedArtist);
-  }
-  }
   return (
 
     <View style={styles.container}>
