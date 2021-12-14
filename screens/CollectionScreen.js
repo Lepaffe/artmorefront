@@ -35,17 +35,15 @@ function CollectionScreen(props) {
     useEffect(() => {
 
         const getCollection = async () => {
-            const data = await fetch(`${REACT_APP_URL_BACKEND}/get-collection/${props.token}`); //192.168.1.16 ALICE //172.17.1.83 CAPSULE
+            const data = await fetch(`${REACT_APP_URL_BACKEND}/get-collection/${props.token}`);
             const dataJSON = await data.json();
             setCollection(dataJSON.collection.artworkList);
 
         }
         getCollection();
-    }, [props.artworkList])
+    }, [props.artworkList]) // *** Pourquoi pas un useIsFocused pour ne pas avoir à utiliser le store ?
 
     let list = [...collection]
-
-
 
 
     // renderItem to use in the MasonryList componment to render a grid with two colum to display
@@ -57,7 +55,6 @@ function CollectionScreen(props) {
                 < Image
                     source={{ uri: item.cloudinary }}
                     style={styles.minipicture}
-
                 />
             </TouchableOpacity>
         )
@@ -100,12 +97,13 @@ function CollectionScreen(props) {
 }
 
 function mapStateToProps(state) {
+    // *** certains ne sont pas utilisés
     return { token: state.token, selectedArtwork: state.selectedArtwork, selectedArtist: state.selectedArtist, artworkList: state.artworkList }
 }
 function mapDispatchToProps(dispatch) {
     return {
         setSelectedArtist: function (artist) {
-            dispatch({ type: 'setSelectedArtist', artist })
+            dispatch({ type: 'setSelectedArtist', artist })  // *** n'est pas utilisé dans le composant
         },
         setSelectedArtwork: function (artwork) {
             dispatch({ type: "setSelectedArtwork", artwork })

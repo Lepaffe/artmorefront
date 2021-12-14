@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react'
-import { View, Image, ScrollView, Text, StyleSheet, TouchableOpacity, SafeAreaView, FlatList } from 'react-native'
+import { View, Image, ScrollView, Text, StyleSheet, TouchableOpacity } from 'react-native'
 import { connect } from 'react-redux'
 import { Avatar, ListItem, Divider } from 'react-native-elements';
 import MyIcon from '../composants/myIcons';
-// masonryList to display the images in a grid
-import MasonryList from '@react-native-seoul/masonry-list';
+import MasonryList from '@react-native-seoul/masonry-list'; // masonryList to display the images in a grid
 import { REACT_APP_URL_BACKEND } from "@env";
 
 import {
@@ -31,16 +30,25 @@ const ArtistScreen = (props) => {
         Heebo_800ExtraBold,
         Heebo_900Black
     })
-    useEffect(() => {
 
+    const [dataSource, setDataSource] = useState([]); // *** pas utilisé ?
+    const [likedArtist, setLikedArtist] = useState(false);
+    const [colorLike, setColorLike] = useState("black")
+
+    useEffect(() => {
 
         if (props.artistList.includes(props.selectedArtist._id)) {
             setLikedArtist(true);
             setColorLike('#FF565E')
         }
 
-
     }, [])
+
+    /*useEffect(() => {
+     aller chercher l'artiste lié à l'oeuvre en BDD et le mettre dans le store
+     const data = fetch('/getArtist/:artworkId')
+ }, [])*/
+
 
     // renderItem to use in the MasonryList componment to render a grid with two colum to display
     // the artworks of the artists (instead of a map, which does not work with flatlist and masonryList)
@@ -59,20 +67,7 @@ const ArtistScreen = (props) => {
     };
 
 
-
-
-    /*useEffect(() => {
-        aller chercher l'artiste lié à l'oeuvre en BDD et le mettre dans le store
-        const data = fetch('/getArtist/:artworkId')
-    }, [])*/
-    const [dataSource, setDataSource] = useState([]);
-    const [likedArtist, setLikedArtist] = useState(false);
-    const [colorLike, setColorLike] = useState("black")
-
-
-
     // Toggle qui add et delete des oeuvres dans la artistlist sur le store quand on press sur le coeur du like + changement de couleur
-
     let addToCollection = async (id) => {
         if (likedArtist == false) {
             const data = await fetch(`${REACT_APP_URL_BACKEND}/add-artistlist/`, {
@@ -80,7 +75,7 @@ const ArtistScreen = (props) => {
                 headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
                 body: `token=${props.token}&artistId=${id}`
             });
-            const dataJSON = await data.json();
+            const dataJSON = await data.json(); //***  exploiter le résultat pour enclencher l'action si result == true 
             setColorLike('#FF565E');
             props.addArtist(props.selectedArtist._id)
         } else {
@@ -89,7 +84,7 @@ const ArtistScreen = (props) => {
                 headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
                 body: `token=${props.token}&artistId=${id}`
             });
-            const dataJSON = await data.json();
+            const dataJSON = await data.json(); //***  exploiter le résultat pour enclencher l'action si result == true 
             setColorLike('black');
             props.deleteArtist(props.selectedArtist._id)
         }
@@ -100,7 +95,6 @@ const ArtistScreen = (props) => {
 
     // Récupère donnée du artwork pour le store et redirige vers le ArtworkScreen de l'oeuvre cliquée
     const openArtworkDetail = artwork => {
-
         props.setSelectedArtwork(artwork);
         props.navigation.navigate('ArtworkScreen');
     }
@@ -171,13 +165,7 @@ const ArtistScreen = (props) => {
 
                 />
 
-
-
             </View>
-
-
-
-
 
         </ScrollView>
 
@@ -192,7 +180,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
     return {
         setSelectedArtist: function (artist) {
-            dispatch({ type: 'setSelectedArtist', artist })
+            dispatch({ type: 'setSelectedArtist', artist }) //*** pas utilisé
         },
         setSelectedArtwork: function (artwork) {
             dispatch({ type: "setSelectedArtwork", artwork })
@@ -214,8 +202,6 @@ const styles = StyleSheet.create({
         padding: 22,
         paddingTop: 20,
         backgroundColor: '#FFF',
-
-
     },
     imageContainer: {
         alignItems: 'center',

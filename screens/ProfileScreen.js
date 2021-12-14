@@ -101,7 +101,13 @@ const ProfileScreen = (props) => {
 
     const logout = () => {
         AsyncStorage.clear()
-        props.resetStore()
+        props.resetArtistList()
+        props.resetArtworkList()
+        props.resetCategorySignUp()
+        props.resetMediumSignUp()
+        props.resetSelectedArtist()
+        props.resetSelectedArtwork()
+        props.resetToken()
         props.navigation.navigate('LoginScreen')
     }
 
@@ -202,7 +208,7 @@ const ProfileScreen = (props) => {
 
                     </ListItem>
 
-                    
+
                     <ListItem containerStyle={{ marginTop: 10 }} key={'5'} onPress={() => logout()}>
                         <MyIcon
                             type='Ionicons'
@@ -227,13 +233,32 @@ function mapStateToProps(state) {
     return ({ token: state.token })
 }
 
+
 function mapDispatchToProps(dispatch) {
     return {
-        resetStore: function () {
-          dispatch({ type: 'resetStore' })
-      },
+        resetArtworkList: function () {
+            dispatch({ type: 'resetArtworkList' })
+        },
+        resetArtistList: function () {
+            dispatch({ type: 'resetArtistList' })
+        },
+        resetCategorySignUp: function () {
+            dispatch({ type: 'resetCategorySignUp' })
+        },
+        resetMediumSignUp: function () {
+            dispatch({ type: 'resetMediumSignUp' })
+        },
+        resetSelectedArtist: function () {
+            dispatch({ type: 'resetSelectedArtist' })
+        },
+        resetSelectedArtwork: function () {
+            dispatch({ type: 'resetSelectedArtwork' })
+        },
+        resetToken: function () {
+            dispatch({ type: 'resetToken' })
+        },
     }
-  }
+}
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProfileScreen);
 
