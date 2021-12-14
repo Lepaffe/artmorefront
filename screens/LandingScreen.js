@@ -49,59 +49,44 @@ const FadeInView = (props) => {
 
 function LandingScreen(props) {
 
-  const [userToken2, setUserToken2] = useState()
-
   useEffect(() => {
-    // async function autoLog() {
-    //   var rawResponse = await fetch(`${REACT_APP_URL_BACKEND}/auto-loggedIn/hKbIiHKvvHyHMtQAJZSwC3DPuMgAHZvo`);
-    //   const body = await rawResponse.json()
-    //   console.log('body', body);
-    //   if (body.result == true) {
-    //     props.addToken(body.token)
-    //     props.loadArtist(body.artistList)
-    //     props.loadArtwork(body.artworkList)
-    //     props.navigation.navigate('BottomNav', { screen: 'DailyScreen' })
-    //   } else {
-    //     setErrorsSignin(body.error)
-    //   }
-    // }
-    // autoLog();
 
-    AsyncStorage.getItem('token2', (err, value) => {
-      console.log("Value ? ", value)
-      if (value) {
-        setUserToken2(value)
-      }
-      //   setTimeout(() => {
-      //     props.navigation.navigate('BottomNav', { screen: 'DailyScreen' })
-      //   }, 3000)
-      // } else {
-      //   setTimeout(() => {
-      //     props.navigation.navigate('LoginScreen')
-      //   }, 3000)
-      // }
-    })
-  }, [])
-  console.log(userToken2)
-
-  async function autoLog() {
-    var rawResponse = await fetch(`${REACT_APP_URL_BACKEND}/auto-loggedIn/${userToken2}`);
-    const body = await rawResponse.json()
-    console.log('body', body);
-    if (body.result == true) {
-      props.addToken(body.token)
-      props.loadArtist(body.artistList)
-      props.loadArtwork(body.artworkList)
-      setTimeout(() => {
-        props.navigation.navigate('BottomNav', { screen: 'DailyScreen' })
-      }, 3000)
-    } else {
-      setTimeout(() => {
-        props.navigation.navigate('LoginScreen')
-      }, 3000)
+    async function autoLog() {
+      //récupération du token dans le local storage
+      AsyncStorage.getItem('token2', async (err, value) => {
+        console.log("Value ? ", value)
+        if (value) {
+          var rawResponse = await fetch(`${REACT_APP_URL_BACKEND}/auto-loggedIn/${value}`);
+          const body = await rawResponse.json()
+          if (body.result == true) {
+            props.addToken(body.token)
+            props.loadArtist(body.artistList)
+            props.loadArtwork(body.artworkList)
+            setTimeout(() => {
+              props.navigation.navigate('BottomNav', { screen: 'DailyScreen' })
+            }, 3000)
+          }
+        } else {
+          setTimeout(() => {
+            props.navigation.navigate('LoginScreen')
+          }, 3000)
+        }
+      })
     }
-  }
-  autoLog();
+    autoLog();
+
+
+    //   setTimeout(() => {
+    //     props.navigation.navigate('BottomNav', { screen: 'DailyScreen' })
+    //   }, 3000)
+    // } else {
+    //   setTimeout(() => {
+    //     props.navigation.navigate('LoginScreen')
+    //   }, 3000)
+    // }
+
+  }, [])
+
 
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: '#FFFFFF', flexDirection: 'row' }}>

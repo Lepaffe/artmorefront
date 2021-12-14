@@ -3,6 +3,7 @@ import { View, Image, ScrollView, Text, StyleSheet, TouchableOpacity, SafeAreaVi
 import { connect } from 'react-redux'
 import * as ImagePicker from 'expo-image-picker'
 import { AntDesign } from '@expo/vector-icons'
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { Avatar, ListItem, Divider } from 'react-native-elements';
 
@@ -54,6 +55,7 @@ const ProfileScreen = (props) => {
 
     }, [])
 
+
     //au clic sur add Image, on modifie la photo et on l'envoie au backend
     const addImage = async () => {
         //on demande l'accès à la caméra
@@ -95,6 +97,12 @@ const ProfileScreen = (props) => {
 
     if (!fontsLoaded) {
         return <AppLoading />
+    }
+
+    const logout = () => {
+        AsyncStorage.clear()
+        props.resetStore()
+        props.navigation.navigate('LoginScreen')
     }
 
     return (
@@ -180,6 +188,17 @@ const ProfileScreen = (props) => {
                         <ListItem.Title style={styles.list} > {'Settings'} </ListItem.Title>
 
                     </ListItem>
+                    <ListItem containerStyle={{ marginTop: 10 }} key={'5'} onPress={() => logout()}>
+                        <MyIcon
+                            type='Ionicons'
+                            name="log-out"
+                            size={25}
+
+                            color="rgb(136, 136, 156)"
+                        />
+                        <ListItem.Title style={styles.list} > {'Log out'} </ListItem.Title>
+
+                    </ListItem>
                 </View>
 
             </View>
@@ -193,7 +212,15 @@ function mapStateToProps(state) {
     return ({ token: state.token })
 }
 
-export default connect(mapStateToProps, null)(ProfileScreen);
+function mapDispatchToProps(dispatch) {
+    return {
+        resetStore: function () {
+          dispatch({ type: 'resetStore' })
+      },
+    }
+  }
+
+export default connect(mapStateToProps, mapDispatchToProps)(ProfileScreen);
 
 const styles = StyleSheet.create({
     container: {

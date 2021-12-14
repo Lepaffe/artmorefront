@@ -34,7 +34,7 @@ function SignInScreen(props) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [listErrorsSignin, setErrorsSignin] = useState([])
-  const [userToken2, setUserToken2] = useState('')
+  
 
   var signIn = async () => {
     
@@ -50,14 +50,13 @@ function SignInScreen(props) {
       props.addToken(body.token)
       props.loadArtist(body.artistList)
       props.loadArtwork(body.artworkList)
+      // Store le token dans le LocalStorage
+      AsyncStorage.setItem('token2', body.token) 
       props.navigation.navigate('BottomNav', { screen: 'DailyScreen' })
     } else {
       setErrorsSignin(body.error)
     }
-    // Store le token dans le LocalStorage
-    AsyncStorage.setItem('token2', body.token) 
   }
-  console.log("stored userToken2 ", userToken2)
 
   // voir ce qu'il y a dans le localStorage
   AsyncStorage.getAllKeys((err, keys) => {

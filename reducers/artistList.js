@@ -4,11 +4,9 @@ export default function (artistList = [], action) {
     } else if (action.type === 'addArtist'){ 
         var artistListCopy= [...artistList, action.artistId]
         return artistListCopy
-    } else if (action.type === 'deleteArtist'){ 
-        var artistListCopy= [...artistList]
-        artistListCopy= artistListCopy.filter(e => e!== action.artistId)
-
-        return artistListCopy
-    }else {
+    } else if (action.type === 'resetStore'){ 
+        return null
+    }
+    else {
         return artistList
 }}
