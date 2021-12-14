@@ -130,13 +130,12 @@ const ArtistScreen = (props) => {
                 <View style={styles.mainInfoContainer}>
 
                     <Text style={{ fontFamily: 'Heebo_700Bold' }}>{props.selectedArtist.city}, {props.selectedArtist.country} </Text>
-                    <TouchableOpacity style={styles.button}>
+                    <TouchableOpacity style={styles.button} onPress={() => addToCollection(props.selectedArtist._id)}>
                         <MyIcon
                             type='AntDesign'
                             name="hearto"
                             size={20}
                             color={colorLike}
-                            onPress={() => addToCollection(props.selectedArtist._id)}
                         />
                     </TouchableOpacity>
                 </View>

@@ -31,6 +31,7 @@ import ArtworkScreen from './screens/ArtworkScreen';
 import ArtistScreen from './screens/ArtistScreen';
 import ProfileScreen from './screens/ProfileScreen';
 import SettingsScreen from './screens/SettingsScreen'
+import StatisticsScreen from './screens/StatisticsScreen';
 
 import selectedArtwork from './reducers/selectedArtwork'
 import selectedArtist from './reducers/selectedArtist'
@@ -52,6 +53,7 @@ const BottomTab = createBottomTabNavigator();
 const TopTab = createMaterialTopTabNavigator();
 
 const TopNav = () => {
+
   return (
 
     <TopTab.Navigator
@@ -129,6 +131,7 @@ export default function App() {
           <Stack.Screen name="ArtistScreen" options={{ header: MyAppBar }} component={ArtistScreen} />
           <Stack.Screen name="ProfileScreen" options={{ header: MyAppBar }} component={ProfileScreen} />
           <Stack.Screen name="SettingsScreen" options={{ header: MyAppBar }} component={SettingsScreen} />
+          <Stack.Screen name="StatisticsScreen" options={{ header: MyAppBar }} component={StatisticsScreen} />
           <Stack.Screen name="BottomNav" component={BottomNav} options={{ header: MyAppBar }} />
         </Stack.Navigator>
       </NavigationContainer>

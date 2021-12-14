@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react'
 import { View, Image, ScrollView, Text, StyleSheet, TouchableOpacity, SafeAreaView, FlatList } from 'react-native'
 import { connect } from 'react-redux'
 import * as ImagePicker from 'expo-image-picker'
-import { AntDesign } from '@expo/vector-icons'
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { AntDesign, Ionicons } from '@expo/vector-icons'
 
 import { Avatar, ListItem, Divider } from 'react-native-elements';
 
@@ -54,6 +55,7 @@ const ProfileScreen = (props) => {
 
     }, [])
 
+
     //au clic sur add Image, on modifie la photo et on l'envoie au backend
     const addImage = async () => {
         //on demande l'accès à la caméra
@@ -97,6 +99,12 @@ const ProfileScreen = (props) => {
         return <AppLoading />
     }
 
+    const logout = () => {
+        AsyncStorage.clear()
+        props.resetStore()
+        props.navigation.navigate('LoginScreen')
+    }
+
     return (
         < View style={styles.container}>
 
@@ -125,18 +133,42 @@ const ProfileScreen = (props) => {
 
                 <View>
 
+                    <ListItem containerStyle={{ marginTop: 10 }} key={'4'} onPress={() => props.navigation.navigate('SettingsScreen')}>
+                        <MyIcon
+                            type='Ionicons'
+                            name="ios-settings-outline"
+                            size={25}
+
+                            color="rgb(136, 136, 156)"
+                        />
+                        <ListItem.Title style={styles.list} > {'Settings'} </ListItem.Title>
+
+                    </ListItem>
+
+                    <ListItem containerStyle={{ marginTop: 6 }} key={'4'} onPress={() => props.navigation.navigate('StatisticsScreen')}>
+                        <MyIcon
+                            type='Ionicons'
+                            name="md-stats-chart"
+                            size={25}
+
+                            color="rgb(136, 136, 156)"
+                        />
+                        <ListItem.Title style={styles.list} > {'Statistics'} </ListItem.Title>
+
+                    </ListItem>
+
                     <ListItem key={'0'} onPress={() => props.navigation.navigate('TopNav', { screen: 'my Collection' })} >
                         <MyIcon
                             type='AntDesign'
                             name="hearto"
                             size={22}
-                            
+
                             color="rgb(136, 136, 156)"
                         />
                         <ListItem.Title style={styles.list} > {'My Collection'} </ListItem.Title>
 
                     </ListItem>
-                    <ListItem key={'1'} containerStyle={{ marginTop: 10 }} onPress={() => props.navigation.navigate('TopNav', { screen: 'my Artists' })}>
+                    <ListItem key={'1'} containerStyle={{ marginTop: 6 }} onPress={() => props.navigation.navigate('TopNav', { screen: 'my Artists' })}>
                         <MyIcon
                             type='MaterialCommunityIcons'
                             name="account-heart-outline"
@@ -147,7 +179,7 @@ const ProfileScreen = (props) => {
                         <ListItem.Title style={styles.list} > {'My Artists'} </ListItem.Title>
 
                     </ListItem>
-                    <ListItem key={'2'} containerStyle={{ marginTop: 10 }} onPress={() => props.navigation.navigate('ExhibitionScreen')}>
+                    <ListItem key={'2'} containerStyle={{ marginTop: 6 }} onPress={() => props.navigation.navigate('ExhibitionScreen')}>
                         <MyIcon
                             type='AntDesign'
                             name="calendar"
@@ -158,7 +190,7 @@ const ProfileScreen = (props) => {
                         <ListItem.Title style={styles.list} > {'Exhibitions'} </ListItem.Title>
                         {/* <ListItem.Chevron /> */}
                     </ListItem>
-                    <ListItem key={'3'} containerStyle={{ marginTop: 10 }} onPress={() => props.navigation.navigate('DailyScreen')} r>
+                    <ListItem key={'3'} containerStyle={{ marginTop: 6 }} onPress={() => props.navigation.navigate('DailyScreen')} r>
                         <MyIcon
                             type='Ionicons'
                             name="ios-eye-outline"
@@ -169,15 +201,17 @@ const ProfileScreen = (props) => {
                         <ListItem.Title style={styles.list} > {'Daily Selection'} </ListItem.Title>
 
                     </ListItem>
-                    <ListItem containerStyle={{ marginTop: 10 }} key={'4'} onPress={() => props.navigation.navigate('SettingsScreen')}>
+
+                    
+                    <ListItem containerStyle={{ marginTop: 10 }} key={'5'} onPress={() => logout()}>
                         <MyIcon
                             type='Ionicons'
-                            name="ios-settings-outline"
+                            name="log-out"
                             size={25}
 
                             color="rgb(136, 136, 156)"
                         />
-                        <ListItem.Title style={styles.list} > {'Settings'} </ListItem.Title>
+                        <ListItem.Title style={styles.list} > {'Log out'} </ListItem.Title>
 
                     </ListItem>
                 </View>
@@ -193,7 +227,15 @@ function mapStateToProps(state) {
     return ({ token: state.token })
 }
 
-export default connect(mapStateToProps, null)(ProfileScreen);
+function mapDispatchToProps(dispatch) {
+    return {
+        resetStore: function () {
+          dispatch({ type: 'resetStore' })
+      },
+    }
+  }
+
+export default connect(mapStateToProps, mapDispatchToProps)(ProfileScreen);
 
 const styles = StyleSheet.create({
     container: {

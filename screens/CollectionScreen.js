@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react'
+import React, { useEffect, useState } from 'react'
 import { View, StyleSheet, Image, TouchableOpacity, Text, ScrollView } from 'react-native'
 import MasonryList from '@react-native-seoul/masonry-list';
 import { REACT_APP_URL_BACKEND } from "@env";

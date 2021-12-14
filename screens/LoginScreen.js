@@ -9,6 +9,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 
+
 import {
   Heebo_100Thin,
   Heebo_300Light,
@@ -92,9 +93,9 @@ function LoginScreen(props) {
   }
   
   return (
-    <View style={styles.container}>
+    <View style={styles.container}> 
       {/*<Image style={styles.logo} source={require('../assets/logo.jpg')} ></Image>*/}
-      <Text style={{ fontFamily: 'Heebo_700Bold', fontSize: 30, textAlign: "center" , marginTop: 100}} >Art + More</Text>
+      <Text style={{ fontFamily: 'Heebo_700Bold', fontSize: 30, textAlign: "center" , marginTop: 100}} >Art + More </Text>
       <Text style={{ fontFamily: 'Heebo_300Light', fontSize: 20, textAlign: "center", margin: 35 , marginBottom: 180}} >Discover your curated daily selection</Text>
       <Button
         title="SIGN UP / SIGN IN"
@@ -145,5 +146,7 @@ const styles = StyleSheet.create({
     paddingEnd: 20
   }
 });
+
+
 
 export default LoginScreen;
