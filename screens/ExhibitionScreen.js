@@ -122,7 +122,7 @@ function ExhibitionScreen(props) {
     exhibitionsList = datalist.map(item => {
       let isFav = myExpoList.some(expo => item.title === expo.title)
       return (
-        < Expo key={item.title} isFav={isFav} addExpo={addExpo} deleteExpo={deleteExpo} title={item.title} place={item.place} img={item.img} date_start={item.date_start} date_end={item.date_end} address={item.address} city={item.city} />
+        < Expo isFav={isFav} addExpo={addExpo} deleteExpo={deleteExpo} title={item.title} place={item.place} img={item.img} date_start={item.date_start} date_end={item.date_end} address={item.address} city={item.city} />
       )
     })
   }
