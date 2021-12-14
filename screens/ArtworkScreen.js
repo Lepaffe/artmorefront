@@ -73,7 +73,8 @@ const ArtworkScreen = (props) => {
     }
 
     // Toggle qui add et delete des oeuvres dans la artworklist sur le store quand on press sur le coeur du like + changement de couleur
-    let addToCollection = async (id) => {
+    const addToCollection = async (id) => {
+        console.log('fonction addTocollection')
         if (likedArtwork == false) {
             const data = await fetch(`${REACT_APP_URL_BACKEND}/add-artworklist/`, {
                 method: "POST",
@@ -113,13 +114,12 @@ const ArtworkScreen = (props) => {
                 <>
                     <View style={styles.imageContainer}>
                         <Image source={{ uri: props.selectedArtwork.cloudinary }} style={styles.image} />
-                        <TouchableOpacity style={styles.button}>
+                        <TouchableOpacity onPress={() => addToCollection(props.selectedArtwork._id)} style={styles.button}>
                             <MyIcon
                                 type='AntDesign'
                                 name="hearto"
                                 size={35}
                                 color={colorLike}
-                                onPress={() => addToCollection(props.selectedArtwork._id)}
                             />
                         </TouchableOpacity>
                     </View>
