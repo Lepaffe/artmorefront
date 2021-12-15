@@ -49,8 +49,6 @@ function PersonalInfoScreen(props) {
   const [isPasswordValid, setIsPasswordValid] = useState(false);
   const [messagePassword, setMessagePassword] = useState('');
 
-  const [userToken2, setUserToken2] = useState('') // ???
-
   const showDatePicker = () => {
     setDatePickerVisibility(true);
   };
@@ -119,7 +117,6 @@ function PersonalInfoScreen(props) {
       }
     }
   }
-
 
   AsyncStorage.getAllKeys((err, keys) => {
     AsyncStorage.multiGet(keys, (error, stores) => {
