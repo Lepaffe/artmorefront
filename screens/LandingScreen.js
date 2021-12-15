@@ -1,21 +1,5 @@
-/*import React from 'react';
-import { View, Button } from 'react-native';
-
-
-function LandingScreen(props) {
-  return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: '#FFFFFF' }}>
-      <Button title="Go LoginScreen"
-        onPress={() => props.navigation.navigate('LoginScreen')}
-      />
-    </View>
-  );
-}
-
-export default LandingScreen;*/
-
-import React, { useRef, useEffect, useState } from 'react';
-import { Animated, Text, View, Image } from 'react-native';
+import React, { useRef, useEffect } from 'react';
+import { Animated, View, Image } from 'react-native';
 import { connect } from 'react-redux';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { REACT_APP_URL_BACKEND } from "@env";
@@ -74,16 +58,6 @@ function LandingScreen(props) {
       })
     }
     autoLog();
-
-
-    //   setTimeout(() => {
-    //     props.navigation.navigate('BottomNav', { screen: 'DailyScreen' })
-    //   }, 3000)
-    // } else {
-    //   setTimeout(() => {
-    //     props.navigation.navigate('LoginScreen')
-    //   }, 3000)
-    // }
 
   }, [])
 

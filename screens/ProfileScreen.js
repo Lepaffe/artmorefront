@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react'
-import { View, Image, ScrollView, Text, StyleSheet, TouchableOpacity, SafeAreaView, FlatList } from 'react-native'
+import { View, Image, Text, StyleSheet, TouchableOpacity } from 'react-native'
 import { connect } from 'react-redux'
 import * as ImagePicker from 'expo-image-picker'
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { AntDesign, Ionicons } from '@expo/vector-icons'
+import { AntDesign } from '@expo/vector-icons'
 
-import { Avatar, ListItem, Divider } from 'react-native-elements';
+import { ListItem } from 'react-native-elements';
 
 import MyIcon from '../composants/myIcons';
 import { REACT_APP_URL_BACKEND } from "@env";
@@ -132,8 +132,7 @@ const ProfileScreen = (props) => {
             <View style={styles.mainInfoContainer}>
 
                 <View>
-
-                    <ListItem containerStyle={{ marginTop: 10 }} key={'4'} onPress={() => props.navigation.navigate('SettingsScreen')}>
+                    <ListItem containerStyle={{ marginTop: 10, paddingTop: 3 }} key={'4'} onPress={() => props.navigation.navigate('SettingsScreen')}>
                         <MyIcon
                             type='Ionicons'
                             name="ios-settings-outline"
@@ -145,7 +144,7 @@ const ProfileScreen = (props) => {
 
                     </ListItem>
 
-                    <ListItem containerStyle={{ marginTop: 6 }} key={'4'} onPress={() => props.navigation.navigate('StatisticsScreen')}>
+                    <ListItem containerStyle={{ marginTop: 10, paddingTop: 3 }} key={'4'} onPress={() => props.navigation.navigate('StatisticsScreen')}>
                         <MyIcon
                             type='Ionicons'
                             name="md-stats-chart"
@@ -157,7 +156,7 @@ const ProfileScreen = (props) => {
 
                     </ListItem>
 
-                    <ListItem key={'0'} onPress={() => props.navigation.navigate('TopNav', { screen: 'my Collection' })} >
+                    <ListItem containerStyle={{ marginTop: 10, paddingTop: 3 }} key={'0'} onPress={() => props.navigation.navigate('TopNav', { screen: 'my Collection' })} >
                         <MyIcon
                             type='AntDesign'
                             name="hearto"
@@ -168,7 +167,7 @@ const ProfileScreen = (props) => {
                         <ListItem.Title style={styles.list} > {'My Collection'} </ListItem.Title>
 
                     </ListItem>
-                    <ListItem key={'1'} containerStyle={{ marginTop: 6 }} onPress={() => props.navigation.navigate('TopNav', { screen: 'my Artists' })}>
+                    <ListItem key={'1'} containerStyle={{ marginTop: 10, paddingTop: 3 }} onPress={() => props.navigation.navigate('TopNav', { screen: 'my Artists' })}>
                         <MyIcon
                             type='MaterialCommunityIcons'
                             name="account-heart-outline"
@@ -179,7 +178,7 @@ const ProfileScreen = (props) => {
                         <ListItem.Title style={styles.list} > {'My Artists'} </ListItem.Title>
 
                     </ListItem>
-                    <ListItem key={'2'} containerStyle={{ marginTop: 6 }} onPress={() => props.navigation.navigate('ExhibitionScreen')}>
+                    <ListItem key={'2'} containerStyle={{ marginTop: 10, paddingTop: 3 }} onPress={() => props.navigation.navigate('ExhibitionScreen')}>
                         <MyIcon
                             type='AntDesign'
                             name="calendar"
@@ -190,7 +189,7 @@ const ProfileScreen = (props) => {
                         <ListItem.Title style={styles.list} > {'Exhibitions'} </ListItem.Title>
                         {/* <ListItem.Chevron /> */}
                     </ListItem>
-                    <ListItem key={'3'} containerStyle={{ marginTop: 6 }} onPress={() => props.navigation.navigate('DailyScreen')} r>
+                    <ListItem key={'3'} containerStyle={{ marginTop: 10 ,paddingTop: 3 }} onPress={() => props.navigation.navigate('DailyScreen')} r>
                         <MyIcon
                             type='Ionicons'
                             name="ios-eye-outline"
@@ -203,7 +202,7 @@ const ProfileScreen = (props) => {
                     </ListItem>
 
                     
-                    <ListItem containerStyle={{ marginTop: 10 }} key={'5'} onPress={() => logout()}>
+                    <ListItem containerStyle={{ marginTop: 10, paddingTop: 3 }} key={'5'} onPress={() => logout()}>
                         <MyIcon
                             type='Ionicons'
                             name="log-out"
@@ -241,7 +240,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         margin: 0,
-        paddingTop: 50,
+        paddingTop: 20,
         backgroundColor: "white"
     },
     containerImage: {

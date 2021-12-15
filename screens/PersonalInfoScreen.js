@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { ScrollView, View, StyleSheet, KeyboardAvoidingView, Text, TouchableOpacity, TextInput, Dimensions } from 'react-native';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import { Button, Input } from 'react-native-elements'
+import { Button } from 'react-native-elements'
 import { connect } from 'react-redux'
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { AntDesign } from '@expo/vector-icons';
@@ -48,7 +47,6 @@ function PersonalInfoScreen(props) {
   const [messageMail, setMessageMail] = useState('');
   const [isPasswordValid, setIsPasswordValid] = useState(false);
   const [messagePassword, setMessagePassword] = useState('');
-  const [userToken2, setUserToken2] = useState('')
 
   const showDatePicker = () => {
     setDatePickerVisibility(true);
@@ -122,7 +120,6 @@ function PersonalInfoScreen(props) {
     }
   }
 
-  console.log("token localstorage :", userToken2)
   AsyncStorage.getAllKeys((err, keys) => {
     AsyncStorage.multiGet(keys, (error, stores) => {
       stores.map((result, i, store) => {

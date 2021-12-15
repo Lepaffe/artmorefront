@@ -10,7 +10,7 @@ export default function (artworkList = [], action) {
 console.log("artworkListCopy",artworkListCopy)
         return artworkListCopy
     }else if (action.type === 'resetStore'){ 
-        return null
+        return []
     }else {
         return artworkList
 }}

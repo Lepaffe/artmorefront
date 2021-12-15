@@ -5,7 +5,7 @@ export default function (artistList = [], action) {
         var artistListCopy= [...artistList, action.artistId]
         return artistListCopy
     } else if (action.type === 'resetStore'){ 
-        return null
+        return []
     }
     else {
         return artistList
