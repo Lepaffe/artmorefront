@@ -45,7 +45,7 @@ const ArtistScreen = (props) => {
     // renderItem to use in the MasonryList componment to render a grid with two colum to display
     // the artworks of the artists (instead of a map, which does not work with flatlist and masonryList)
 
-    const renderItem = ({ item }) => {
+  const renderItem = ({ item }) => {
        
         return (
             <TouchableOpacity key={item._id} onPress={() => openArtworkDetail(item)}>

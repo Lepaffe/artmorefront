@@ -5,6 +5,7 @@ import Swiper from 'react-native-deck-swiper'
 import { connect } from 'react-redux';
 import { useIsFocused } from '@react-navigation/native';
 
+
 import { REACT_APP_URL_BACKEND } from "@env";
 
 const SwipeScreen = (props) => {

@@ -2,7 +2,15 @@ import React from 'react';
 import { View, Image, StyleSheet, Text } from 'react-native';
 import { Button } from 'react-native-elements'
 import Icon from 'react-native-vector-icons/FontAwesome';
+import { SliderBox } from "react-native-image-slider-box";
 
+
+var images = [
+  require('../assets/screen1.jpg'),
+  require('../assets/screen2.jpg'),
+  require('../assets/screen3.jpg'),
+  require('../assets/screen4.jpg')
+]
 import {
   Heebo_100Thin,
   Heebo_300Light,
@@ -34,13 +42,42 @@ function LoginScreen(props) {
 
   return (
     <View style={styles.container}>
-      {/*<Image style={styles.logo} source={require('../assets/logo.jpg')} ></Image>*/}
-      <Text style={{ fontFamily: 'Heebo_700Bold', fontSize: 30, textAlign: "center" , marginTop: 100}} >Art + More</Text>
-      <Text style={{ fontFamily: 'Heebo_300Light', fontSize: 20, textAlign: "center", margin: 35 , marginBottom: 180}} >Discover your curated daily selection</Text>
+      <View style={{  
+}}>
+      <Image style={styles.logo} source={require('../assets/logo2.jpg')} ></Image>
+      </View>
+    
+<View style={{ flex:0.7, 
+}}>
+      <SliderBox images={images}
+        sliderBoxHeight={400}
+        
+        dotColor="#FFEE58"
+  inactiveDotColor="#90A4AE"
+  paginationBoxVerticalPadding={20}
+  circleLoop
+ 
+ 
+  dotStyle={{
+    width: 10,
+    height: 10,
+    borderRadius: 5,
+    marginHorizontal: 0,
+    padding: 0,
+    margin: 0,
+    backgroundColor: "rgba(128, 128, 128, 0.92)"
+  }}
+  ImageComponentStyle={{borderRadius: 15, width: '97%', marginTop: 0, marginBottom:0}}
+  imageLoadingColor="#2196F3" />
+
+</View>
+     
+    
+
       <Button
         title="SIGN UP / SIGN IN"
         type="outline"
-        buttonStyle={{ margin: 5, width: 280, padding: 15, borderColor: "gray", borderRadius: 20 }}
+        buttonStyle={{ margin: 5, width: 250, padding: 15, borderColor: "gray", borderRadius: 20 ,marginTop: 20}}
         titleStyle={{ fontFamily: 'Heebo_400Regular', color: 'black' }}
         onPress={() => props.navigation.navigate('MediumScreen')} icon={
           <Icon style={styles.icon}
@@ -54,18 +91,20 @@ function LoginScreen(props) {
       <Button
         title="SIGN UP"
         type="outline"
-        buttonStyle={{ margin: 5, width: 280, padding: 15, borderColor: "gray", borderRadius: 20 }}
+        buttonStyle={{ margin: 5, width: 250, padding: 15, borderColor: "gray", borderRadius: 20 }}
         titleStyle={{ fontFamily: 'Heebo_400Regular', color: 'black' }}
         onPress={() => props.navigation.navigate('MediumScreen')}
       />
       <Button
         title="SIGN IN"
         type="outline"
-        buttonStyle={{ margin: 5, width: 280, padding: 15, borderColor: "grey", borderRadius: 20 }}
+        buttonStyle={{ margin: 5, width: 250, padding: 15, borderColor: "grey", borderRadius: 20 }}
         titleStyle={{ fontFamily: 'Heebo_400Regular', color: 'black' }}
         onPress={() => props.navigation.navigate('SignInScreen')}
       />
-    </View>
+      </View>  
+      
+    
   );
 }
 
@@ -75,10 +114,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: "#FFFF",
+    
   },
   logo: {
-    width: 320,
-    height: 150,
+    width: 120,
+    height: 60,
   },
   icon: {
     paddingEnd: 20
