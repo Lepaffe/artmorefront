@@ -1,13 +1,10 @@
 import React, { useState, useEffect } from 'react';
-
 import { KeyboardAvoidingView, StyleSheet, Text, TextInput, View, Dimensions, ScrollView } from 'react-native';
 import { Button, Switch } from 'react-native-elements';
-
 import Category from '../composants/Category';
 import { connect } from 'react-redux';
 import { useFonts } from 'expo-font'
 import AppLoading from 'expo-app-loading'
-
 import { REACT_APP_URL_BACKEND } from "@env";
 
 import {
@@ -24,80 +21,53 @@ import {
 const categories = [
     {
         name: 'Abstract',
-        img: 'https://images.pexels.com/photos/2693212/pexels-photo-2693212.png?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940'
-    },
-    {
+        img: 'https://res.cloudinary.com/artplusmore/image/upload/v1639557979/pexels-photo-2693212_fjvesn.jpg'
+      },
+      {
         name: 'Landscape',
-        img: 'https://images.pexels.com/photos/2356059/pexels-photo-2356059.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940'
-    },
-    {
+        img: 'https://res.cloudinary.com/artplusmore/image/upload/v1639558028/pexels-photo-2356059_nonufa.jpg'
+      },
+      {
         name: 'Portrait',
-        img: 'https://images.pexels.com/photos/3657140/pexels-photo-3657140.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940'
-    },
-    {
+        img: 'https://res.cloudinary.com/artplusmore/image/upload/v1639558067/pexels-photo-3657140_sb1u6d.jpg'
+      },
+      {
         name: 'Animal',
-        img: 'https://images.pexels.com/photos/1076758/pexels-photo-1076758.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940'
-    },
-    {
+        img: 'https://res.cloudinary.com/artplusmore/image/upload/v1639558110/pexels-photo-1076758_ah9dyf.jpg'
+      },
+      {
         name: 'EverydayLife',
-        img: 'https://images.pexels.com/photos/6127025/pexels-photo-6127025.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940'
-    },
-    {
+        img: 'https://res.cloudinary.com/artplusmore/image/upload/v1639558134/pexels-photo-6127025_fbi7vr.jpg'
+      },
+      {
         name: 'PopArt',
-        img: 'https://cdn.pixabay.com/photo/2017/09/02/06/26/pop-art-2706464_960_720.jpg'
-    },
-    {
+        img: 'https://res.cloudinary.com/artplusmore/image/upload/v1639558186/pop-art-2706464_960_720_s704vd.jpg'
+      },
+      {
         name: 'Nude',
-        img: 'https://images.pexels.com/photos/230675/pexels-photo-230675.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940'
-    },
-    {
+        img: 'https://res.cloudinary.com/artplusmore/image/upload/v1639558246/pexels-photo-230675_smp64w.jpg'
+      },
+      {
         name: 'Nature',
-        img: 'https://images.pexels.com/photos/3225517/pexels-photo-3225517.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940'
-    },
-    {
+        img: 'https://res.cloudinary.com/artplusmore/image/upload/v1639558276/pexels-photo-3225517_cvgkgg.jpg'
+      },
+      {
         name: 'Urban',
-        img: 'https://images.pexels.com/photos/417023/pexels-photo-417023.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940'
-    },
-    {
+        img: 'https://res.cloudinary.com/artplusmore/image/upload/v1639558306/pexels-photo-417023_oa6nlg.jpg'
+      },
+      {
         name: 'StillLife',
-        img: 'https://upload.wikimedia.org/wikipedia/commons/1/1a/Nature_morte_%28Paul_C%C3%A9zanne%29_%283332859798%29.jpg'
-    },
-    {
+        img: 'https://res.cloudinary.com/artplusmore/image/upload/v1639558361/Nature_morte__28Paul_C_C3_A9zanne_29__283332859798_29_zoil8w.jpg'
+      },
+      {
         name: 'Monumental',
-        img: 'https://images.pexels.com/photos/5308359/pexels-photo-5308359.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940'
-    },
-    {
+        img: 'https://res.cloudinary.com/artplusmore/image/upload/v1639558392/pexels-photo-5308359_po3xrh.jpg'
+      },
+      {
         name: 'Digital',
-        img: 'https://images.pexels.com/photos/7859782/pexels-photo-7859782.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940'
-    },
+        img: 'https://res.cloudinary.com/artplusmore/image/upload/v1639558392/pexels-photo-5308359_po3xrh.jpg'
+      },
 ]
-
-/*const mediums = [
-    {
-        name: 'painting',
-        img: 'https://images.pexels.com/photos/1585325/pexels-photo-1585325.jpeg?cs=srgb&dl=pexels-steve-johnson-1585325.jpg&fm=jpg'
-    },
-    {
-        name: 'sculpture',
-        img: 'https://images.pexels.com/photos/5665104/pexels-photo-5665104.jpeg?cs=srgb&dl=pexels-miggy-rivera-5665104.jpg&fm=jpg'
-    },
-    {
-        name: 'photography',
-        img: 'https://images.pexels.com/photos/1787235/pexels-photo-1787235.jpeg?cs=srgb&dl=pexels-luis-quintero-1787235.jpg&fm=jpg'
-    },
-    {
-        name: 'drawing',
-        img: 'https://images.pexels.com/photos/3778179/pexels-photo-3778179.jpeg?cs=srgb&dl=pexels-cottonbro-3778179.jpg&fm=jpg'
-    },
-    {
-        name: 'digitalArt',
-        img: 'https://images.pexels.com/photos/4238489/pexels-photo-4238489.jpeg?cs=srgb&dl=pexels-ivan-samkov-4238489.jpg&fm=jpg'
-    },
-    {
-        name: 'streetArt',
-        img: 'https://images.pexels.com/photos/2235182/pexels-photo-2235182.jpeg?cs=srgb&dl=pexels-braven-nguyen-2235182.jpg&fm=jpg'
-    }
-]*/
 
 function SettingsScreen(props) {
 
@@ -134,11 +104,12 @@ function SettingsScreen(props) {
         const getUserInfo = async () => {
             const data = await fetch(`${REACT_APP_URL_BACKEND}/get-user-info/${props.token}`);
             const dataJSON = await data.json();
+
             setCity(dataJSON.city)
             setEmail(dataJSON.email)
             setMediumPreferences(dataJSON.mediums)
             setCategoryPreferences(dataJSON.categories)
-            console.log(dataJSON.mediums)
+
             dataJSON.mediums.forEach(el => {
                 el === "painting" && setPainting(true)
                 el === "sculpture" && setSculpture
@@ -305,7 +276,6 @@ function SettingsScreen(props) {
     const toggleSwitchStreetArt = () => {
         setStreetArt(previousState => !previousState);
         if (mediumPreferences.includes("streetArt")) {
-            console.log(mediumPreferences)
             setMediumPreferences(mediumPreferences.filter(el => el != "streetArt"))
         } else {
             setMediumPreferences([...mediumPreferences, "streetArt"])
@@ -399,9 +369,18 @@ function SettingsScreen(props) {
                     <Text style={{ fontFamily: 'Heebo_300Light', fontSize: 20 }}>Category preferences</Text>
 
                     <View style={{ flexDirection: "row", flexWrap: 'wrap', justifyContent: 'center' }}>
+
                         {categories.map(category => {
                             let isSelected = categoryPreferences.some(el => category.name == el)
-                            return (<Category key={category.name} name={category.name} img={category.img} addCategory={addCategory} removeCategory={removeCategory} isSelected={isSelected} />)
+                            return (
+                                <Category
+                                    key={category.name}
+                                    name={category.name}
+                                    img={category.img}
+                                    addCategory={addCategory}
+                                    removeCategory={removeCategory}
+                                    isSelected={isSelected}
+                                />)
                         })}
                     </View >
 
@@ -420,11 +399,10 @@ function SettingsScreen(props) {
                     <Text style={{ fontFamily: 'Heebo_300Light', fontSize: 20, marginBottom: 25 }}>Medium preferences</Text>
 
                     <View style={{ width: '90%', justifyContent: 'space-around' }}>
-                        <View style={{
-                            flexDirection: 'row',
-                            alignItems: 'center',
-                            justifyContent: "flex-start"
-                        }}>
+                        <View style={{ 
+                            flexDirection: 'row', 
+                            alignItems: 'center', 
+                            justifyContent: "space-between" }}>
                             <Text style={{ fontFamily: 'Heebo_300Light', marginLeft: 80, marginRight: 60, marginBottom: 8, fontSize: 16 }}>Painting</Text>
                             <Switch
                                 trackColor={{ false: "#767577", true: "rgba(58, 187, 109, 0.2)" }}
@@ -435,11 +413,11 @@ function SettingsScreen(props) {
                                 style={{ marginRight: 80, marginBottom: 8, }}
                             />
                         </View>
-                        <View style={{
-                            flexDirection: 'row',
-                            alignItems: 'center',
-                            justifyContent: "space-between"
-                        }}>
+
+                        <View style={{ 
+                            flexDirection: 'row', 
+                            alignItems: 'center', 
+                            justifyContent: "space-between" }}>
                             <Text style={{ fontFamily: 'Heebo_300Light', marginLeft: 80, marginBottom: 8, fontSize: 16 }}>Sculpture</Text>
                             <Switch
                                 trackColor={{ false: "#767577", true: "rgba(58, 187, 109, 0.2)" }}
@@ -450,11 +428,11 @@ function SettingsScreen(props) {
                                 style={{ marginRight: 80, marginBottom: 8 }}
                             />
                         </View>
-                        <View style={{
-                            flexDirection: 'row',
-                            alignItems: 'center',
-                            justifyContent: "space-between"
-                        }}>
+
+                        <View style={{ 
+                            flexDirection: 'row', 
+                            alignItems: 'center', 
+                            justifyContent: "space-between" }}>
                             <Text style={{ fontFamily: 'Heebo_300Light', marginLeft: 80, marginBottom: 8, fontSize: 16 }}>Photography</Text>
                             <Switch
                                 trackColor={{ false: "#767577", true: "rgba(58, 187, 109, 0.2)" }}
@@ -465,11 +443,11 @@ function SettingsScreen(props) {
                                 style={{ marginRight: 80, marginBottom: 8 }}
                             />
                         </View>
-                        <View style={{
-                            flexDirection: 'row',
-                            alignItems: 'center',
-                            justifyContent: "space-between"
-                        }}>
+
+                        <View style={{ 
+                            flexDirection: 'row', 
+                            alignItems: 'center', 
+                            justifyContent: "space-between" }}>
                             <Text style={{ fontFamily: 'Heebo_300Light', marginLeft: 80, marginBottom: 8, fontSize: 16 }}>Drawing</Text>
                             <Switch
                                 trackColor={{ false: "#767577", true: "rgba(58, 187, 109, 0.2)" }}
@@ -480,11 +458,11 @@ function SettingsScreen(props) {
                                 style={{ marginRight: 80, marginBottom: 8 }}
                             />
                         </View>
-                        <View style={{
-                            flexDirection: 'row',
-                            alignItems: 'center',
-                            justifyContent: "space-between"
-                        }}>
+
+                        <View style={{ 
+                            flexDirection: 'row', 
+                            alignItems: 'center', 
+                            justifyContent: "space-between" }}>
                             <Text style={{ fontFamily: 'Heebo_300Light', marginLeft: 80, marginBottom: 8, fontSize: 16 }}>Digital Art</Text>
                             <Switch
                                 trackColor={{ false: "#767577", true: "rgba(58, 187, 109, 0.2)" }}
@@ -495,11 +473,11 @@ function SettingsScreen(props) {
                                 style={{ marginRight: 80, marginBottom: 8 }}
                             />
                         </View>
-                        <View style={{
-                            flexDirection: 'row',
-                            alignItems: 'center',
-                            justifyContent: "space-between"
-                        }}>
+
+                        <View style={{ 
+                            flexDirection: 'row', 
+                            alignItems: 'center', 
+                            justifyContent: "space-between" }}>
                             <Text style={{ fontFamily: 'Heebo_300Light', marginLeft: 80, fontSize: 16, marginBottom: 15 }}>Street Art</Text>
                             <Switch
                                 trackColor={{ false: "#767577", true: "rgba(58, 187, 109, 0.2)" }}
@@ -523,7 +501,9 @@ function SettingsScreen(props) {
                     />
 
                 </View>
+
             </ScrollView>
+
         </KeyboardAvoidingView >
     )
 };

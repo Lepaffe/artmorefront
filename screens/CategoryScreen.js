@@ -40,60 +40,59 @@ function CategoryScreen(props) {
   }
 
   const goToPersonalInfoScreen = () => {
-   
+
     props.setCategoryPreferencesSignUp(categoryPreferences)
     props.navigation.navigate('PersonalInfoScreen')
   }
 
-  //ATTENTION correspond à "category" en BDD
-  const categorys = [
+  const categories = [
     {
       name: 'Abstract',
-      img: 'https://images.pexels.com/photos/2693212/pexels-photo-2693212.png?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940'
+      img: 'https://res.cloudinary.com/artplusmore/image/upload/v1639557979/pexels-photo-2693212_fjvesn.jpg'
     },
     {
       name: 'Landscape',
-      img: 'https://images.pexels.com/photos/2356059/pexels-photo-2356059.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940'
+      img: 'https://res.cloudinary.com/artplusmore/image/upload/v1639558028/pexels-photo-2356059_nonufa.jpg'
     },
     {
       name: 'Portrait',
-      img: 'https://images.pexels.com/photos/3657140/pexels-photo-3657140.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940'
+      img: 'https://res.cloudinary.com/artplusmore/image/upload/v1639558067/pexels-photo-3657140_sb1u6d.jpg'
     },
     {
       name: 'Animal',
-      img: 'https://images.pexels.com/photos/1076758/pexels-photo-1076758.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940'
+      img: 'https://res.cloudinary.com/artplusmore/image/upload/v1639558110/pexels-photo-1076758_ah9dyf.jpg'
     },
     {
       name: 'EverydayLife',
-      img: 'https://images.pexels.com/photos/6127025/pexels-photo-6127025.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940'
+      img: 'https://res.cloudinary.com/artplusmore/image/upload/v1639558134/pexels-photo-6127025_fbi7vr.jpg'
     },
     {
       name: 'PopArt',
-      img: 'https://cdn.pixabay.com/photo/2017/09/02/06/26/pop-art-2706464_960_720.jpg'
+      img: 'https://res.cloudinary.com/artplusmore/image/upload/v1639558186/pop-art-2706464_960_720_s704vd.jpg'
     },
     {
       name: 'Nude',
-      img: 'https://images.pexels.com/photos/230675/pexels-photo-230675.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940'
+      img: 'https://res.cloudinary.com/artplusmore/image/upload/v1639558246/pexels-photo-230675_smp64w.jpg'
     },
     {
       name: 'Nature',
-      img: 'https://images.pexels.com/photos/3225517/pexels-photo-3225517.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940'
+      img: 'https://res.cloudinary.com/artplusmore/image/upload/v1639558276/pexels-photo-3225517_cvgkgg.jpg'
     },
     {
       name: 'Urban',
-      img: 'https://images.pexels.com/photos/417023/pexels-photo-417023.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940'
+      img: 'https://res.cloudinary.com/artplusmore/image/upload/v1639558306/pexels-photo-417023_oa6nlg.jpg'
     },
     {
       name: 'StillLife',
-      img: 'https://upload.wikimedia.org/wikipedia/commons/1/1a/Nature_morte_%28Paul_C%C3%A9zanne%29_%283332859798%29.jpg'
+      img: 'https://res.cloudinary.com/artplusmore/image/upload/v1639558361/Nature_morte__28Paul_C_C3_A9zanne_29__283332859798_29_zoil8w.jpg'
     },
     {
       name: 'Monumental',
-      img: 'https://images.pexels.com/photos/5308359/pexels-photo-5308359.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940'
+      img: 'https://res.cloudinary.com/artplusmore/image/upload/v1639558392/pexels-photo-5308359_po3xrh.jpg'
     },
     {
       name: 'Digital',
-      img: 'https://images.pexels.com/photos/7859782/pexels-photo-7859782.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940'
+      img: 'https://res.cloudinary.com/artplusmore/image/upload/v1639575121/pexels-photo-3977529_yhslxr.jpg'
     },
   ]
 
@@ -106,22 +105,37 @@ function CategoryScreen(props) {
     <View style={styles.container}>
 
       <ScrollView showsVerticalScrollIndicator={false}>
+
         <Text style={{ fontFamily: 'Heebo_300Light', fontSize: 25, textAlign: "center", marginTop: 30, marginBottom: 10 }} >What do you like?</Text>
 
         <View style={{ flexDirection: "row", flexWrap: 'wrap', justifyContent: 'center' }}>
-          {categorys.map(category => {
+
+          {categories.map(category => {
+
             let isSelected = categoryPreferences.some(el => category.name == el)
-            return (<Category key={category.name} name={category.name} img={category.img} addCategory={addCategory} removeCategory={removeCategory} isSelected={isSelected} />)
+            return (
+              <Category
+                key={category.name}
+                name={category.name}
+                img={category.img}
+                addCategory={addCategory}
+                removeCategory={removeCategory}
+                isSelected={isSelected}
+              />
+            )
           })}
+
         </View >
 
         <View style={{ alignItems: 'flex-end' }}>
+
           <Button
             title="Next"
-            buttonStyle={{ borderColor: "black", borderWidth: 1 ,borderRadius: 20, marginVertical: 40, marginRight: 60, paddingHorizontal: 20, backgroundColor: "white" }}
-            titleStyle={{ fontFamily: 'Heebo_300Light', color: 'black',fontSize: 15 }}
+            buttonStyle={{ borderColor: "black", borderWidth: 1, borderRadius: 20, marginVertical: 40, marginRight: 60, paddingHorizontal: 20, backgroundColor: "white" }}
+            titleStyle={{ fontFamily: 'Heebo_300Light', color: 'black', fontSize: 15 }}
             onPress={() => goToPersonalInfoScreen()}
           />
+
         </View>
 
       </ScrollView >
@@ -134,7 +148,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: "#FFFF"
+    backgroundColor: "#FFF"
   }
 });
 
@@ -145,5 +159,6 @@ function mapDispatchToProps(dispatch) {
     }
   }
 }
+
 export default connect(null, mapDispatchToProps)(CategoryScreen);
 

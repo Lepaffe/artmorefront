@@ -85,7 +85,6 @@ function MediumScreen(props) {
   const toggleSwitchStreetArt = () => {
     setStreetArt(previousState => !previousState);
     if (mediumPreferences.includes("streetArt")) {
-      console.log(mediumPreferences)
       setMediumPreferences(mediumPreferences.filter(el => el != "streetArt"))
     } else {
       setMediumPreferences([...mediumPreferences, "streetArt"])
@@ -95,7 +94,6 @@ function MediumScreen(props) {
   const goToCategoryScreen = () => {
     props.setMediumPreferencesSignUp(mediumPreferences)
     props.navigation.navigate('CategoryScreen')
-    console.log(mediumPreferences)
   }
 
   if (!fontsLoaded) {
@@ -104,12 +102,12 @@ function MediumScreen(props) {
 
   return (
     <View style={styles.container}>
-      <Text style={{ fontFamily: 'Heebo_300Light', fontSize: 25, textAlign: "center", paddingHorizontal: 20, paddingVertical: 60, marginBottom: 30}} >What are you looking for ?</Text>
-      <View style={{
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: "space-between"
-      }}>
+
+      <Text style={{ fontFamily: 'Heebo_300Light', fontSize: 25, textAlign: "center", paddingHorizontal: 20, paddingVertical: 60, marginBottom: 30 }} >
+        What are you looking for ?
+      </Text>
+
+      <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: "space-between" }}>
         <Text style={{ fontFamily: 'Heebo_300Light', marginLeft: 80, marginBottom: 20, fontSize: 16 }}>Painting</Text>
         <Switch
           trackColor={{ false: "#767577", true: "rgba(58, 187, 109, 0.2)" }}
@@ -120,11 +118,8 @@ function MediumScreen(props) {
           style={{ marginRight: 80, marginBottom: 20, }}
         />
       </View>
-      <View style={{
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: "space-between"
-      }}>
+
+      <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: "space-between" }}>
         <Text style={{ fontFamily: 'Heebo_300Light', marginLeft: 80, marginBottom: 20, fontSize: 16 }}>Sculpture</Text>
         <Switch
           trackColor={{ false: "#767577", true: "rgba(58, 187, 109, 0.2)" }}
@@ -135,11 +130,8 @@ function MediumScreen(props) {
           style={{ marginRight: 80, marginBottom: 20 }}
         />
       </View>
-      <View style={{
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: "space-between"
-      }}>
+
+      <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: "space-between" }}>
         <Text style={{ fontFamily: 'Heebo_300Light', marginLeft: 80, marginBottom: 20, fontSize: 16 }}>Photography</Text>
         <Switch
           trackColor={{ false: "#767577", true: "rgba(58, 187, 109, 0.2)" }}
@@ -150,11 +142,8 @@ function MediumScreen(props) {
           style={{ marginRight: 80, marginBottom: 20 }}
         />
       </View>
-      <View style={{
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: "space-between"
-      }}>
+
+      <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: "space-between" }}>
         <Text style={{ fontFamily: 'Heebo_300Light', marginLeft: 80, marginBottom: 20, fontSize: 16 }}>Drawing</Text>
         <Switch
           trackColor={{ false: "#767577", true: "rgba(58, 187, 109, 0.2)" }}
@@ -165,11 +154,8 @@ function MediumScreen(props) {
           style={{ marginRight: 80, marginBottom: 20 }}
         />
       </View>
-      <View style={{
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: "space-between"
-      }}>
+
+      <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: "space-between" }}>
         <Text style={{ fontFamily: 'Heebo_300Light', marginLeft: 80, marginBottom: 20, fontSize: 16 }}>Digital Art</Text>
         <Switch
           trackColor={{ false: "#767577", true: "rgba(58, 187, 109, 0.2)" }}
@@ -180,11 +166,8 @@ function MediumScreen(props) {
           style={{ marginRight: 80, marginBottom: 20 }}
         />
       </View>
-      <View style={{
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: "space-between"
-      }}>
+
+      <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: "space-between" }}>
         <Text style={{ fontFamily: 'Heebo_300Light', marginLeft: 80, fontSize: 16 }}>Street Art</Text>
         <Switch
           trackColor={{ false: "#767577", true: "rgba(58, 187, 109, 0.2)" }}
@@ -195,13 +178,16 @@ function MediumScreen(props) {
           style={{ marginRight: 80 }}
         />
       </View>
+
       <View style={{ alignItems: 'flex-end' }}>
         <Button
           title="Next"
-          buttonStyle={{ borderColor: "black", borderWidth: 1 ,borderRadius: 20, marginVertical: 60, marginRight: 60, paddingHorizontal: 20, backgroundColor: "white" }}
-            titleStyle={{ fontFamily: 'Heebo_300Light', color: 'black',fontSize: 15 }}
+          buttonStyle={{ borderColor: "black", borderWidth: 1, borderRadius: 20, marginVertical: 60, marginRight: 60, paddingHorizontal: 20, backgroundColor: "white" }}
+          titleStyle={{ fontFamily: 'Heebo_300Light', color: 'black', fontSize: 15 }}
           onPress={() => goToCategoryScreen()}
-        /></View>
+        />
+      </View>
+
     </View>
   );
 }
@@ -209,11 +195,8 @@ function MediumScreen(props) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // alignItems: 'center',
-    // justifyContent: 'center',
     backgroundColor: "#FFFF"
   }
-
 });
 
 function mapDispatchToProps(dispatch) {
@@ -223,4 +206,5 @@ function mapDispatchToProps(dispatch) {
     }
   }
 }
+
 export default connect(null, mapDispatchToProps)(MediumScreen);

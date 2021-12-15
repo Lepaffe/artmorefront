@@ -1,7 +1,6 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ScrollView, View, StyleSheet, KeyboardAvoidingView, Text, TouchableOpacity, TextInput, Dimensions } from 'react-native';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import { Button, Input } from 'react-native-elements'
+import { Button } from 'react-native-elements'
 import { connect } from 'react-redux'
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { AntDesign } from '@expo/vector-icons';
@@ -24,7 +23,6 @@ import { REACT_APP_URL_BACKEND } from "@env";
 
 function PersonalInfoScreen(props) {
 
-
   let [fontsLoaded] = useFonts({
     Heebo_100Thin,
     Heebo_300Light,
@@ -42,13 +40,35 @@ function PersonalInfoScreen(props) {
   const [birthdayDisplay, setBirthdayDisplay] = useState('');
   const [city, setCity] = useState('');
   const [email, setEmail] = useState('');
+
   const [listErrorsSignUp, setErrorsSignUp] = useState([])
+
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
   const [isEmailValid, setIsEmailValid] = useState(false);
   const [messageMail, setMessageMail] = useState('');
   const [isPasswordValid, setIsPasswordValid] = useState(false);
   const [messagePassword, setMessagePassword] = useState('');
-  const [userToken2, setUserToken2] = useState('')
+  const [isVisible, setIsVisible]=useState(true);
+  //au chargement on verifie si le user a utiliser GoogleSignIn ou pas 
+ 
+
+  useEffect (()=>{
+    if (props.tmpGoogleUser !== {}){
+      setFirstName(props.tmpGoogleUser.firstName);
+      setLastName(props.tmpGoogleUser.lastName);
+      validateEmail(props.tmpGoogleUser.email);
+      setIsPasswordValid(true);
+      setMessagePassword('Sign up via Google');
+      setIsVisible(false);
+    } else {
+      setFirstName('');
+      setLastName('');
+      validateEmail('');
+      setIsPasswordValid(false);
+      setMessagePassword('');
+      setIsVisible(true);
+    }
+  }, [])
 
   const showDatePicker = () => {
     setDatePickerVisibility(true);
@@ -96,33 +116,46 @@ function PersonalInfoScreen(props) {
   const signUp = async () => {
 
     if (isEmailValid && isPasswordValid) {
-
+      var dataJSON={};
       console.log('SignUp activated')
       let mediums = JSON.stringify(props.medium)
       let categories = JSON.stringify(props.category)
+      console.log('tmpGgleUser', props.tmpGoogleUser);
+      
+      if (props.tmpGoogleUser.firstName){
 
-      const data = await fetch(`${REACT_APP_URL_BACKEND}/sign-up`, { //192.168.1.16 ALICE //172.17.1.83 CAPSULE
-        method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: `firstName=${firstName}&lastName=${lastName}&birthday=${birthday}&email=${email}&city=${city}&password=${password}&mediums=${mediums}&categories=${categories}`
-      });
+        const dataGgle = await fetch(`${REACT_APP_URL_BACKEND}/sign-up-google`, { //192.168.1.16 ALICE //172.17.1.83 CAPSULE
+          method: 'POST',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: `firstName=${firstName}&lastName=${lastName}&birthday=${birthday}&img=${props.tmpGoogleUser.img}&email=${email}&city=${city}&mediums=${mediums}&categories=${categories}`
+        });
+        dataJSON= await dataGgle.json();
+        
+      } else {
+        
+        const data = await fetch(`${REACT_APP_URL_BACKEND}/sign-up`, { //192.168.1.16 ALICE //172.17.1.83 CAPSULE
+          method: 'POST',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: `firstName=${firstName}&lastName=${lastName}&birthday=${birthday}&email=${email}&city=${city}&password=${password}&mediums=${mediums}&categories=${categories}`
+        });
+        dataJSON = await data.json();
 
-      const dataJSON = await data.json();
-
+      }
+      
+      props.deleteTmpGoogleUser();
       if (dataJSON.result) {
+
         props.addToken(dataJSON.token)
-        AsyncStorage.setItem('token2', dataJSON.token)
+        AsyncStorage.setItem('token2', dataJSON.token);
+        
         props.navigation.navigate('BottomNav', { screen: 'DailyScreen' })
+
       } else {
         setErrorsSignUp(dataJSON.error)
       }
-      console.log("je suis le futur token",dataJSON.token)
-    } else {
-      console.log('email ou password non valide')
     }
   }
 
-  console.log("token localstorage :", userToken2)
   AsyncStorage.getAllKeys((err, keys) => {
     AsyncStorage.multiGet(keys, (error, stores) => {
       stores.map((result, i, store) => {
@@ -145,12 +178,16 @@ function PersonalInfoScreen(props) {
   if (!fontsLoaded) {
     return <AppLoading />
   }
-
+  console.log('isVisible',isVisible, props.tmpGoogleUser);
   return (
     <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === "ios" ? "padding" : "height"}>
+
       <ScrollView showsVerticalScrollIndicator={false}>
+
         <Text style={{ fontFamily: 'Heebo_300Light', fontSize: 25, textAlign: "center", marginTop: 40, marginBottom: 30 }} >Almost there </Text>
+
         <View style={styles.inputsContainer}>
+
           <Text style={styles.label}>First name</Text>
           <TextInput
             style={styles.input}
@@ -179,7 +216,7 @@ function PersonalInfoScreen(props) {
             </TouchableOpacity>
           </View>
 
-          <TextInput //format date
+          <TextInput
             style={styles.input}
             onChangeText={(val) => setBirthday(val)}
             value={birthdayDisplay}
@@ -199,19 +236,26 @@ function PersonalInfoScreen(props) {
             onChangeText={(value) => validateEmail(value)}
             value={email}
           />
-          <Text style={{ color: colorMessageMail, textAlign: 'center' }} >{messageMail}</Text>
 
+          <Text style={{ color: colorMessageMail, textAlign: 'center' }} >{messageMail}</Text>
+          {/* {isVisible && ( */}
           <Text style={styles.label}>Password</Text>
+          {/* )} */}
+
+        {/* {isVisible && */}
           <TextInput
             style={styles.input}
             secureTextEntry={true}
             onChangeText={(value) => validatePassword(value)}
             value={password}
           />
+          {/* } */}
           <Text style={{ color: colorMessagePassword, textAlign: 'center' }} >{messagePassword}</Text>
+
         </View>
 
         {tabErrorsSignUp}
+
         <View style={{ alignItems: 'center' }}>
           <Button title="Create account"
             buttonStyle={{ borderColor: "black", borderWidth: 1, borderRadius: 20, marginVertical: 20, marginRight: 0, paddingHorizontal: 15, backgroundColor: "white" }}
@@ -223,8 +267,11 @@ function PersonalInfoScreen(props) {
             onPress={() => signUp()}
           />
         </View>
+
         <View style={{ height: 80 }} />
+
       </ScrollView>
+
     </KeyboardAvoidingView >
   );
 }
@@ -257,13 +304,16 @@ const styles = StyleSheet.create({
 });
 
 function mapStateToProps(state) {
-  return { medium: state.mediumSignUp, category: state.categorySignUp }
+  return { medium: state.mediumSignUp, category: state.categorySignUp, tmpGoogleUser:state.tmpGoogleUser }
 }
 
 function mapDispatchToProps(dispatch) {
   return {
     addToken: function (token) {
       dispatch({ type: 'addToken', token })
+    },
+    deleteTmpGoogleUser: function () {
+      dispatch({ type: 'deleteTmpGoogleUser'})
     }
   }
 }

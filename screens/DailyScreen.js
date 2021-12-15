@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Image, SafeAreaView, Dimensions } from 'react-native';
-import MyIcon from '../composants/myIcons';
+import { Text, StyleSheet, ScrollView, SafeAreaView } from 'react-native';
 import { connect } from 'react-redux'
-//import Carousel from 'react-native-snap-carousel';
+import DailyArtwork from '../composants/DailyArtwork';
+
 import {
   Heebo_100Thin,
   Heebo_300Light,
@@ -31,8 +31,6 @@ function DailyScreen(props) {
   })
 
   const [dailyList, setDailyList] = useState([]);
-  const [likedArtwork, setLikedArtwork] = useState(false)
-  const [colorLike, setColorLike] = useState(["black","black","black","black" ])
 
   useEffect(() => {
 
@@ -42,7 +40,7 @@ function DailyScreen(props) {
       const dailyListBack = dataJSON.artworksWithArtists;
       setDailyList(dailyListBack);
     }
-    
+
     getDailySelection();
 
   }, [])
@@ -58,37 +56,26 @@ function DailyScreen(props) {
 
   }
 
-  const addToCollection = async (artwork, i) => {
-    if (likedArtwork == false) {
-      const data = await fetch(`${REACT_APP_URL_BACKEND}/add-artworklist/`, {
-          method: "POST",
-          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-          body: `token=${props.token}&artworkId=${artwork._id}`
-      });
+  const addToCollection = async (artwork) => {
 
-      const dataJSON = await data.json();
-      copyColorLike= [...colorLike]
-      copyColorLike.splice(i,1, '#FF565E')
-      setColorLike(copyColorLike)
-       
-       props.addArtwork(artwork._id)
-       
-
-} else {
-  const data = await fetch(`${REACT_APP_URL_BACKEND}/delete-artworklist/`,{
+    const data = await fetch(`${REACT_APP_URL_BACKEND}/add-artworklist/`, {
       method: "POST",
-      headers: {'Content-Type':'application/x-www-form-urlencoded'},
-      body:`token=${props.token}&artworkId=${artwork._id}`
-  });
-      const dataJSON = await data.json();
-      copyColorLike= [...colorLike]
-      copyColorLike.splice(i,1, 'black')
-      props.deleteArtwork(artwork._id)
-      setColorLike(copyColorLike)
-}
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: `token=${props.token}&artworkId=${artwork._id}`
+    });
 
-  setLikedArtwork(!likedArtwork);
+    props.addArtwork(artwork._id)
+  }
 
+  const removeFromCollection = async (artwork) => {
+
+    const data = await fetch(`${REACT_APP_URL_BACKEND}/delete-artworklist/`, {
+      method: "POST",
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: `token=${props.token}&artworkId=${artwork._id}`
+    });
+
+    props.deleteArtwork(artwork._id)
   }
 
   if (!fontsLoaded) {
@@ -100,53 +87,22 @@ function DailyScreen(props) {
       <Text style={styles.dailyText}>Daily selection</Text>
       <Text style={styles.forYouText}>WHAT'S FOR YOU TODAY ?</Text>
 
-      <ScrollView
-        horizontal={true}
-      >
-        {dailyList.map((el, i) => {
-         
+      <ScrollView horizontal={true} >
+
+        {dailyList.map(el => {
+
           return (
-            <View key={el.artwork._id} style={styles.itemDaily}>
-
-              <TouchableOpacity
-                style={styles.pictureArtwork}
-                onPress={() => openArtworkDetail(el.artwork)}
-              >
-                < Image
-                  source={{ uri: el.artwork.cloudinary }}
-                  style={styles.pictureArtwork}
-                />
-              </TouchableOpacity>
-
-              <View style={styles.bottomPicture}>
-
-                <TouchableOpacity
-                  style={styles.artistInfo}
-                  onPress={() => openArtistDetail(el.artist)}
-                >
-                  < Image
-                    source={{ uri: el.artist.img }}
-                    style={styles.pictureArtist}
-                  />
-
-                  <View>
-                    <Text style={{ fontFamily: 'Heebo_700Bold' }}>{el.artist.name} </Text>
-                    <Text style={{ fontFamily: 'Heebo_300Light' }}>{el.artist.instagram} </Text>
-                  </View>
-
-                </TouchableOpacity>
-
-                <TouchableOpacity onPress={() => addToCollection(el.artwork, i)}>
-                  <MyIcon
-                    type='AntDesign'
-                    name="hearto"
-                    size={25}
-                    color={colorLike[i]}
-                  />
-                </TouchableOpacity>
-              </View>
-
-            </View>)
+            <DailyArtwork
+              key={el.artwork._id}
+              openArtworkDetail={openArtworkDetail}
+              openArtistDetail={openArtistDetail}
+              addToCollection={addToCollection}
+              removeFromCollection={removeFromCollection}
+              artwork={el.artwork}
+              artist={el.artist}
+              isFav={el.isFav}
+            />
+          )
         })}
 
       </ScrollView>
@@ -154,7 +110,6 @@ function DailyScreen(props) {
   );
 }
 
-const windowWidth = Dimensions.get('window').width;
 
 const styles = StyleSheet.create({
   container: {
@@ -171,34 +126,6 @@ const styles = StyleSheet.create({
   forYouText: {
     fontSize: 15,
     fontFamily: 'Heebo_700Bold'
-  },
-  itemDaily: {
-    width: windowWidth - 20,
-    alignItems: 'center',
-    height: '85%',
-    marginTop: 30,
-    marginLeft: 10
-  },
-  pictureArtwork: {
-    flex: 1,
-    width: '100%'
-  },
-  pictureArtist: {
-    width: 50,
-    height: 50,
-    borderRadius: 25,
-    marginRight: 10
-  },
-  artistInfo: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  bottomPicture: {
-    marginTop: 10,
-    width: '90%',
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-around'
   }
 })
 
@@ -211,10 +138,10 @@ function mapDispatchToProps(dispatch) {
       dispatch({ type: 'setSelectedArtist', artist })
     },
     addArtwork: function (artworkId) {
-        dispatch({ type: 'addArtwork', artworkId })
+      dispatch({ type: 'addArtwork', artworkId })
     },
     deleteArtwork: function (artworkId) {
-        dispatch({ type: 'deleteArtwork', artworkId })
+      dispatch({ type: 'deleteArtwork', artworkId })
     },
 
   }

@@ -31,7 +31,6 @@ const listTab = [
   }
 ]
 
-
 function ExhibitionScreen(props) {
 
   let [fontsLoaded] = useFonts({
@@ -52,18 +51,19 @@ function ExhibitionScreen(props) {
   const isFocused = useIsFocused();
 
   useEffect(() => {
+
     async function loadAllExpo() {
       var rawResponse = await fetch(`${REACT_APP_URL_BACKEND}/get-exhibitions/${props.token}`);
       var response = await rawResponse.json();
 
       if (response.listExpoBack && response.userCity) {
         setListExpo(response.listExpoBack);
-        setUserCity(response.userCity)
         setDatalist(response.listExpoBack)
+        setUserCity(response.userCity)
         setStatus('All')
       }
-
     }
+
     loadAllExpo();
 
     async function loadMyExpo() {
@@ -86,6 +86,7 @@ function ExhibitionScreen(props) {
     });
 
     const dataJSON = await data.json();
+
     dataJSON.result && setMyExpoList([...myExpoList, dataJSON.addedExpo])
 
   }
@@ -95,7 +96,9 @@ function ExhibitionScreen(props) {
     const data = await fetch(`${REACT_APP_URL_BACKEND}/delete-exhibitions/${props.token}/${title}`, {
       method: "DELETE"
     });
+
     const dataJSON = await data.json();
+
     if (dataJSON.result) {
       setMyExpoList(myExpoList.filter(expo => expo.title != title))
       setDatalist(myExpoList.filter(expo => expo.title != title))
@@ -119,10 +122,22 @@ function ExhibitionScreen(props) {
   var exhibitionsList = <LinearProgress style={{ margin: 30, width: 300 }} color="rgba(213, 208, 205, 0.7)" />
 
   if (datalist.length > 0) {
+
     exhibitionsList = datalist.map(item => {
+
       let isFav = myExpoList.some(expo => item.title === expo.title)
       return (
-        < Expo isFav={isFav} addExpo={addExpo} deleteExpo={deleteExpo} title={item.title} place={item.place} img={item.img} date_start={item.date_start} date_end={item.date_end} address={item.address} city={item.city} />
+        < Expo
+          isFav={isFav}
+          addExpo={addExpo}
+          deleteExpo={deleteExpo}
+          title={item.title}
+          place={item.place}
+          img={item.img}
+          date_start={item.date_start}
+          date_end={item.date_end}
+          address={item.address}
+          city={item.city} />
       )
     })
   }
@@ -134,21 +149,25 @@ function ExhibitionScreen(props) {
   return (
 
     <View style={styles.container}>
+
       <View style={{ borderBottomWidth: 0.7, marginHorizontal: 40, borderBottomColor: "rgba(213, 208, 205, 0.7)", marginBottom: 20 }}>
         <Text style={{ fontFamily: 'Heebo_300Light', borderBottomColor: "red", textAlign: "center", fontSize: 18, padding: 20 }}> Exhibitions </Text>
       </View>
+
       <View style={{ flexDirection: "row" }} >
 
-        {listTab.map(e => (
-          <TouchableOpacity style={[styles.btnTab, status === e.name && styles.btnTabActive]} onPress={() => setStatusFilter(e.name)}>
+        {listTab.map((e,i) => (
+          <TouchableOpacity key={i} style={[styles.btnTab, status === e.name && styles.btnTabActive]} onPress={() => setStatusFilter(e.name)}>
             <Text style={styles.textTab}>{e.name}</Text>
           </TouchableOpacity>
         ))
         }
       </View>
+
       <ScrollView>
         {exhibitionsList}
       </ScrollView>
+
     </View>
 
   );
@@ -161,25 +180,6 @@ const styles = StyleSheet.create({
     flex: 1,
     height: windowHeight,
     backgroundColor: "#FFFF",
-  },
-  user: {
-    flexDirection: 'row',
-    marginBottom: 6,
-  },
-  image: {
-    width: 90,
-    height: 90,
-    marginHorizontal: 10,
-  },
-  name: {
-    fontSize: 15,
-    marginTop: 5,
-    fontFamily: 'Heebo_300Light'
-  },
-  item: {
-    padding: 10,
-    fontSize: 18,
-    height: 44,
   },
   btnTab: {
     padding: 10,
