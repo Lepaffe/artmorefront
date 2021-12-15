@@ -399,7 +399,10 @@ function SettingsScreen(props) {
                     <Text style={{ fontFamily: 'Heebo_300Light', fontSize: 20, marginBottom: 25 }}>Medium preferences</Text>
 
                     <View style={{ width: '90%', justifyContent: 'space-around' }}>
-                        <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: "flex-start" }}>
+                        <View style={{ 
+                            flexDirection: 'row', 
+                            alignItems: 'center', 
+                            justifyContent: "space-between" }}>
                             <Text style={{ fontFamily: 'Heebo_300Light', marginLeft: 80, marginRight: 60, marginBottom: 8, fontSize: 16 }}>Painting</Text>
                             <Switch
                                 trackColor={{ false: "#767577", true: "rgba(58, 187, 109, 0.2)" }}
@@ -411,7 +414,10 @@ function SettingsScreen(props) {
                             />
                         </View>
 
-                        <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: "flex-start" }}>
+                        <View style={{ 
+                            flexDirection: 'row', 
+                            alignItems: 'center', 
+                            justifyContent: "space-between" }}>
                             <Text style={{ fontFamily: 'Heebo_300Light', marginLeft: 80, marginBottom: 8, fontSize: 16 }}>Sculpture</Text>
                             <Switch
                                 trackColor={{ false: "#767577", true: "rgba(58, 187, 109, 0.2)" }}
@@ -423,7 +429,10 @@ function SettingsScreen(props) {
                             />
                         </View>
 
-                        <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: "flex-start" }}>
+                        <View style={{ 
+                            flexDirection: 'row', 
+                            alignItems: 'center', 
+                            justifyContent: "space-between" }}>
                             <Text style={{ fontFamily: 'Heebo_300Light', marginLeft: 80, marginBottom: 8, fontSize: 16 }}>Photography</Text>
                             <Switch
                                 trackColor={{ false: "#767577", true: "rgba(58, 187, 109, 0.2)" }}
@@ -435,7 +444,10 @@ function SettingsScreen(props) {
                             />
                         </View>
 
-                        <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: "flex-start" }}>
+                        <View style={{ 
+                            flexDirection: 'row', 
+                            alignItems: 'center', 
+                            justifyContent: "space-between" }}>
                             <Text style={{ fontFamily: 'Heebo_300Light', marginLeft: 80, marginBottom: 8, fontSize: 16 }}>Drawing</Text>
                             <Switch
                                 trackColor={{ false: "#767577", true: "rgba(58, 187, 109, 0.2)" }}
@@ -447,7 +459,10 @@ function SettingsScreen(props) {
                             />
                         </View>
 
-                        <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: "flex-start" }}>
+                        <View style={{ 
+                            flexDirection: 'row', 
+                            alignItems: 'center', 
+                            justifyContent: "space-between" }}>
                             <Text style={{ fontFamily: 'Heebo_300Light', marginLeft: 80, marginBottom: 8, fontSize: 16 }}>Digital Art</Text>
                             <Switch
                                 trackColor={{ false: "#767577", true: "rgba(58, 187, 109, 0.2)" }}
@@ -459,7 +474,10 @@ function SettingsScreen(props) {
                             />
                         </View>
 
-                        <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: "flex-start" }}>
+                        <View style={{ 
+                            flexDirection: 'row', 
+                            alignItems: 'center', 
+                            justifyContent: "space-between" }}>
                             <Text style={{ fontFamily: 'Heebo_300Light', marginLeft: 80, fontSize: 16, marginBottom: 15 }}>Street Art</Text>
                             <Switch
                                 trackColor={{ false: "#767577", true: "rgba(58, 187, 109, 0.2)" }}

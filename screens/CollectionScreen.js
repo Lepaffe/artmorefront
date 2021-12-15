@@ -102,7 +102,7 @@ const styles = StyleSheet.create({
 })
 
 function mapStateToProps(state) {
-    return { token: state.token, artworkList: state.artworkList }
+    return { token: state.token }
 }
 function mapDispatchToProps(dispatch) {
     return {

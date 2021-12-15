@@ -156,8 +156,8 @@ function ExhibitionScreen(props) {
 
       <View style={{ flexDirection: "row" }} >
 
-        {listTab.map(e => (
-          <TouchableOpacity style={[styles.btnTab, status === e.name && styles.btnTabActive]} onPress={() => setStatusFilter(e.name)}>
+        {listTab.map((e,i) => (
+          <TouchableOpacity key={i} style={[styles.btnTab, status === e.name && styles.btnTabActive]} onPress={() => setStatusFilter(e.name)}>
             <Text style={styles.textTab}>{e.name}</Text>
           </TouchableOpacity>
         ))

@@ -56,6 +56,11 @@ function SignInScreen(props) {
 
     } else {
       setErrorsSignin(body.error)
+      if (body.error.includes('Go back and Signin via Google')){
+         setTimeout(() => {
+          props.navigation.navigate('LoginScreen')}
+        , 2000);
+      }
     }
   }
 
@@ -70,7 +75,7 @@ function SignInScreen(props) {
   });
 
   var tabErrorsSignin = listErrorsSignin.map((error, i) => {
-    return (<Text>{error}</Text>)
+    return (<Text style={{ color: "rgba(255, 86, 94,0.8)", textAlign: 'center' }}>{error}</Text>)
   })
 
   if (!fontsLoaded) {
@@ -87,6 +92,7 @@ function SignInScreen(props) {
       <View >
         <Text style={styles.label}>E-mail</Text>
         <TextInput
+          key={0}
           style={styles.input}
           onChangeText={(val) => setEmail(val)}
           value={email}
@@ -94,6 +100,7 @@ function SignInScreen(props) {
 
         <Text style={styles.label}>Password</Text>
         <TextInput
+          key={1}
           style={styles.input}
           onChangeText={(val) => setPassword(val)}
           secureTextEntry={true}
