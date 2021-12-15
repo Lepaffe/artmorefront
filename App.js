@@ -40,13 +40,13 @@ import categorySignUp from './reducers/categorySignUp';
 import token from './reducers/token';
 import artistList from './reducers/artistList';
 import artworkList from './reducers/artworkList';
-
+import tmpGoogleUser from './reducers/googleUser';
 import MyIcon from './composants/myIcons'; // impot composant MyIcon
 
 import { Provider } from 'react-redux';
 import { createStore, combineReducers } from 'redux';
 
-const store = createStore(combineReducers({ selectedArtwork, selectedArtist, categorySignUp, mediumSignUp, token, artistList, artworkList }));
+const store = createStore(combineReducers({ selectedArtwork, selectedArtist, categorySignUp, mediumSignUp, token, artistList, artworkList,tmpGoogleUser }));
 
 const Stack = createStackNavigator();
 const BottomTab = createBottomTabNavigator();

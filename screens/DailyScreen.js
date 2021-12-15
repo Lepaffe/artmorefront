@@ -31,8 +31,8 @@ function DailyScreen(props) {
   })
 
   const [dailyList, setDailyList] = useState([]);
-  const [likedArtwork, setLikedArtwork] = useState(false)
-  const [colorLike, setColorLike] = useState(["black","black","black","black" ])
+  const [likedArtwork, setLikedArtwork] = useState(false);
+  const [colorLike, setColorLike] = useState(["black","black","black","black" ]);
 
   useEffect(() => {
 

@@ -133,7 +133,7 @@ const ProfileScreen = (props) => {
 
                 <View>
 
-                    <ListItem containerStyle={{ marginTop: 10 }} key={'4'} onPress={() => props.navigation.navigate('SettingsScreen')}>
+                    <ListItem  key={'1'} containerStyle={{ marginTop: 10 }} onPress={() => props.navigation.navigate('SettingsScreen')}>
                         <MyIcon
                             type='Ionicons'
                             name="ios-settings-outline"
@@ -145,7 +145,7 @@ const ProfileScreen = (props) => {
 
                     </ListItem>
 
-                    <ListItem containerStyle={{ marginTop: 6 }} key={'4'} onPress={() => props.navigation.navigate('StatisticsScreen')}>
+                    <ListItem key={'2'} containerStyle={{ marginTop: 6 }}  onPress={() => props.navigation.navigate('StatisticsScreen')}>
                         <MyIcon
                             type='Ionicons'
                             name="md-stats-chart"
@@ -157,7 +157,7 @@ const ProfileScreen = (props) => {
 
                     </ListItem>
 
-                    <ListItem key={'0'} onPress={() => props.navigation.navigate('TopNav', { screen: 'my Collection' })} >
+                    <ListItem key={'3'} onPress={() => props.navigation.navigate('TopNav', { screen: 'my Collection' })} >
                         <MyIcon
                             type='AntDesign'
                             name="hearto"
@@ -168,7 +168,7 @@ const ProfileScreen = (props) => {
                         <ListItem.Title style={styles.list} > {'My Collection'} </ListItem.Title>
 
                     </ListItem>
-                    <ListItem key={'1'} containerStyle={{ marginTop: 6 }} onPress={() => props.navigation.navigate('TopNav', { screen: 'my Artists' })}>
+                    <ListItem key={'4'} containerStyle={{ marginTop: 6 }} onPress={() => props.navigation.navigate('TopNav', { screen: 'my Artists' })}>
                         <MyIcon
                             type='MaterialCommunityIcons'
                             name="account-heart-outline"
@@ -179,7 +179,7 @@ const ProfileScreen = (props) => {
                         <ListItem.Title style={styles.list} > {'My Artists'} </ListItem.Title>
 
                     </ListItem>
-                    <ListItem key={'2'} containerStyle={{ marginTop: 6 }} onPress={() => props.navigation.navigate('ExhibitionScreen')}>
+                    <ListItem key={'5'} containerStyle={{ marginTop: 6 }} onPress={() => props.navigation.navigate('ExhibitionScreen')}>
                         <MyIcon
                             type='AntDesign'
                             name="calendar"
@@ -190,7 +190,7 @@ const ProfileScreen = (props) => {
                         <ListItem.Title style={styles.list} > {'Exhibitions'} </ListItem.Title>
                         {/* <ListItem.Chevron /> */}
                     </ListItem>
-                    <ListItem key={'3'} containerStyle={{ marginTop: 6 }} onPress={() => props.navigation.navigate('DailyScreen')} r>
+                    <ListItem key={'6'} containerStyle={{ marginTop: 6 }} onPress={() => props.navigation.navigate('DailyScreen')} r>
                         <MyIcon
                             type='Ionicons'
                             name="ios-eye-outline"
@@ -203,7 +203,7 @@ const ProfileScreen = (props) => {
                     </ListItem>
 
                     
-                    <ListItem containerStyle={{ marginTop: 10 }} key={'5'} onPress={() => logout()}>
+                    <ListItem key={'7'} containerStyle={{ marginTop: 10 }}  onPress={() => logout()}>
                         <MyIcon
                             type='Ionicons'
                             name="log-out"

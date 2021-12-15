@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ScrollView, View, StyleSheet, KeyboardAvoidingView, Text, TouchableOpacity, TextInput, Dimensions } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { Button, Input } from 'react-native-elements'
@@ -50,6 +50,17 @@ function PersonalInfoScreen(props) {
   const [messagePassword, setMessagePassword] = useState('');
   const [userToken2, setUserToken2] = useState('')
 
+  //au chargement on verifie si le user a utiliser GoogleSignIn ou pas 
+  useEffect (()=>{
+    if (props.tmpGoogleUser !== {}){
+      setFirstName(props.tmpGoogleUser.firstName);
+      setLastName(props.tmpGoogleUser.lastName);
+      validateEmail(props.tmpGoogleUser.email);
+      setIsPasswordValid(true);
+      setMessagePassword('Sign up via Google');
+    }
+  }, [])
+
   const showDatePicker = () => {
     setDatePickerVisibility(true);
   };
@@ -96,18 +107,33 @@ function PersonalInfoScreen(props) {
   const signUp = async () => {
 
     if (isEmailValid && isPasswordValid) {
-
+      var dataJSON={};
       console.log('SignUp activated')
       let mediums = JSON.stringify(props.medium)
       let categories = JSON.stringify(props.category)
+      console.log('tmpGgleUser', props.tmpGoogleUser);
+      
+      if (props.tmpGoogleUser.firstName){
 
-      const data = await fetch(`${REACT_APP_URL_BACKEND}/sign-up`, { //192.168.1.16 ALICE //172.17.1.83 CAPSULE
-        method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: `firstName=${firstName}&lastName=${lastName}&birthday=${birthday}&email=${email}&city=${city}&password=${password}&mediums=${mediums}&categories=${categories}`
-      });
+        console.log ('coucou')
+        const dataGgle = await fetch(`${REACT_APP_URL_BACKEND}/sign-up-google`, { //192.168.1.16 ALICE //172.17.1.83 CAPSULE
+          method: 'POST',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: `firstName=${firstName}&lastName=${lastName}&birthday=${birthday}&img=${props.tmpGoogleUser.img}&email=${email}&city=${city}&mediums=${mediums}&categories=${categories}`
+        });
+        dataJSON= await dataGgle.json();
 
-      const dataJSON = await data.json();
+      } else {
+        console.log('tmpGgleUser', props.tmpGoogleUser);
+        const data = await fetch(`${REACT_APP_URL_BACKEND}/sign-up`, { //192.168.1.16 ALICE //172.17.1.83 CAPSULE
+          method: 'POST',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: `firstName=${firstName}&lastName=${lastName}&birthday=${birthday}&email=${email}&city=${city}&password=${password}&mediums=${mediums}&categories=${categories}`
+        });
+        dataJSON = await data.json();
+
+      }
+      console.log('dataJSON', dataJSON.result);
 
       if (dataJSON.result) {
         props.addToken(dataJSON.token)
@@ -257,7 +283,7 @@ const styles = StyleSheet.create({
 });
 
 function mapStateToProps(state) {
-  return { medium: state.mediumSignUp, category: state.categorySignUp }
+  return { medium: state.mediumSignUp, category: state.categorySignUp, tmpGoogleUser:state.tmpGoogleUser }
 }
 
 function mapDispatchToProps(dispatch) {
