@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react'
+import React, { useEffect, useState } from 'react'
 import { View, StyleSheet, Image, TouchableOpacity, Text, ScrollView } from 'react-native'
 import MasonryList from '@react-native-seoul/masonry-list';
 import { REACT_APP_URL_BACKEND } from "@env";
@@ -35,29 +35,26 @@ function CollectionScreen(props) {
     useEffect(() => {
 
         const getCollection = async () => {
-            const data = await fetch(`${REACT_APP_URL_BACKEND}/get-collection/${props.token}`); //192.168.1.16 ALICE //172.17.1.83 CAPSULE
+            const data = await fetch(`${REACT_APP_URL_BACKEND}/get-collection/${props.token}`);
             const dataJSON = await data.json();
             setCollection(dataJSON.collection.artworkList);
-           
+
         }
         getCollection();
-    }, [props.artworkList])
+    }, [props.artworkList]) // *** Pourquoi pas un useIsFocused pour ne pas avoir à utiliser le store ?
 
     let list = [...collection]
-
-    
 
 
     // renderItem to use in the MasonryList componment to render a grid with two colum to display
     // the artworks of the artists (instead of a map, which does not work with flatlist and masonryList)
     const renderItem = ({ item }) => {
-        
+
         return (
             <TouchableOpacity key={item._id} onPress={() => openArtworkDetail(item)}>
                 < Image
                     source={{ uri: item.cloudinary }}
                     style={styles.minipicture}
-                    
                 />
             </TouchableOpacity>
         )
@@ -65,7 +62,7 @@ function CollectionScreen(props) {
 
     // Récupère donnée du artwork pour le store et redirige vers le ArtworkScreen de l'oeuvre cliquée
     const openArtworkDetail = artwork => {
-      
+
         props.setSelectedArtwork(artwork);
         props.navigation.navigate('ArtworkScreen');
     }
@@ -76,11 +73,11 @@ function CollectionScreen(props) {
     }
 
     return (
-        <ScrollView style={{ backgroundColor: '#FFF'}}>
+        <ScrollView style={{ backgroundColor: '#FFF' }}>
             <View style={{ flex: 1, alignItems: 'center', paddingBottom: 15, backgroundColor: '#FFF', }}>
                 <Text style={{ fontFamily: 'Heebo_300Light', marginTop: 25 }} > My personnal collection</Text>
             </View>
-            <View style={{ flex: 1, backgroundColor: '#FFF' }}>
+            <View>
 
                 <MasonryList
                     data={list}
@@ -90,27 +87,23 @@ function CollectionScreen(props) {
                     renderItem={renderItem}
                     contentContainerStyle={{
                         paddingHorizontal: 0,
-                        alignSelf: 'stretch',
+                        alignSelf: 'stretch'
                     }}
 
                 />
-
-
-
-
-
             </View>
         </ScrollView>
     );
 }
 
 function mapStateToProps(state) {
+    // *** certains ne sont pas utilisés
     return { token: state.token, selectedArtwork: state.selectedArtwork, selectedArtist: state.selectedArtist, artworkList: state.artworkList }
 }
 function mapDispatchToProps(dispatch) {
     return {
         setSelectedArtist: function (artist) {
-            dispatch({ type: 'setSelectedArtist', artist })
+            dispatch({ type: 'setSelectedArtist', artist })  // *** n'est pas utilisé dans le composant
         },
         setSelectedArtwork: function (artwork) {
             dispatch({ type: "setSelectedArtwork", artwork })

@@ -14,8 +14,12 @@ function LandingScreen(props) {
 
 export default LandingScreen;*/
 
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import { Animated, Text, View, Image } from 'react-native';
+import { connect } from 'react-redux';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { REACT_APP_URL_BACKEND } from "@env";
+
 
 const FadeInView = (props) => {
 
@@ -43,13 +47,46 @@ const FadeInView = (props) => {
   );
 }
 
-export default (props) => {
+function LandingScreen(props) {
 
   useEffect(() => {
-    setTimeout(() => {
-      props.navigation.navigate('LoginScreen')
-    }, 3000)
+
+    async function autoLog() {
+      //récupération du token dans le local storage
+      AsyncStorage.getItem('token2', async (err, value) => {
+        console.log("Value ? ", value)
+        if (value) {
+          var rawResponse = await fetch(`${REACT_APP_URL_BACKEND}/auto-loggedIn/${value}`);
+          const body = await rawResponse.json()
+          if (body.result == true) {
+            props.addToken(body.token)
+            props.loadArtist(body.artistList)
+            props.loadArtwork(body.artworkList)
+            setTimeout(() => {
+              props.navigation.navigate('BottomNav', { screen: 'DailyScreen' })
+            }, 3000)
+          }
+        } else {
+          setTimeout(() => {
+            props.navigation.navigate('LoginScreen')
+          }, 3000)
+        }
+      })
+    }
+    autoLog();
+
+
+    //   setTimeout(() => {
+    //     props.navigation.navigate('BottomNav', { screen: 'DailyScreen' })
+    //   }, 3000)
+    // } else {
+    //   setTimeout(() => {
+    //     props.navigation.navigate('LoginScreen')
+    //   }, 3000)
+    // }
+
   }, [])
+
 
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: '#FFFFFF', flexDirection: 'row' }}>
@@ -64,3 +101,26 @@ export default (props) => {
     </View >
   )
 }
+
+function mapStateToProps(state) {
+  return { token: state.token }
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    addToken: function (token) {
+      dispatch({ type: 'addToken', token: token })
+    },
+    loadArtist: function (artistList) {
+      dispatch({ type: 'loadArtist', artistList: artistList })
+    },
+    loadArtwork: function (artworkList) {
+      dispatch({ type: 'loadArtwork', artworkList: artworkList })
+    }
+  }
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(LandingScreen)

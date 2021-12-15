@@ -5,6 +5,7 @@ import { Button, Input } from 'react-native-elements'
 import { connect } from 'react-redux'
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { AntDesign } from '@expo/vector-icons';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import {
   Heebo_100Thin,
@@ -23,6 +24,7 @@ import { REACT_APP_URL_BACKEND } from "@env";
 
 function PersonalInfoScreen(props) {
 
+
   let [fontsLoaded] = useFonts({
     Heebo_100Thin,
     Heebo_300Light,
@@ -37,7 +39,7 @@ function PersonalInfoScreen(props) {
   const [lastName, setLastName] = useState('');
   const [password, setPassword] = useState('');
   const [birthday, setBirthday] = useState('');
-  const [birthdayDisplay, setBirthdayDisplay]=useState('');
+  const [birthdayDisplay, setBirthdayDisplay] = useState('');
   const [city, setCity] = useState('');
   const [email, setEmail] = useState('');
   const [listErrorsSignUp, setErrorsSignUp] = useState([])
@@ -46,6 +48,7 @@ function PersonalInfoScreen(props) {
   const [messageMail, setMessageMail] = useState('');
   const [isPasswordValid, setIsPasswordValid] = useState(false);
   const [messagePassword, setMessagePassword] = useState('');
+  const [userToken2, setUserToken2] = useState('')
 
   const showDatePicker = () => {
     setDatePickerVisibility(true);
@@ -103,18 +106,31 @@ function PersonalInfoScreen(props) {
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
         body: `firstName=${firstName}&lastName=${lastName}&birthday=${birthday}&email=${email}&city=${city}&password=${password}&mediums=${mediums}&categories=${categories}`
       });
+
       const dataJSON = await data.json();
 
       if (dataJSON.result) {
         props.addToken(dataJSON.token)
+        AsyncStorage.setItem('token2', dataJSON.token)
         props.navigation.navigate('BottomNav', { screen: 'DailyScreen' })
       } else {
         setErrorsSignUp(dataJSON.error)
       }
+      console.log("je suis le futur token",dataJSON.token)
     } else {
       console.log('email ou password non valide')
     }
   }
+
+  console.log("token localstorage :", userToken2)
+  AsyncStorage.getAllKeys((err, keys) => {
+    AsyncStorage.multiGet(keys, (error, stores) => {
+      stores.map((result, i, store) => {
+        console.log({ [store[i][0]]: store[i][1] });
+        return true;
+      });
+    });
+  });
 
   let tabErrorsSignUp = listErrorsSignUp.map((error, i) => {
     return (<Text style={{ marginTop: 20 }} key={i}>{error}</Text>)
@@ -198,7 +214,7 @@ function PersonalInfoScreen(props) {
         {tabErrorsSignUp}
         <View style={{ alignItems: 'center' }}>
           <Button title="Create account"
-            buttonStyle={{ borderColor: "black", borderWidth: 1 ,borderRadius: 20, marginVertical: 20, marginRight: 0, paddingHorizontal: 15, backgroundColor: "white" }}
+            buttonStyle={{ borderColor: "black", borderWidth: 1, borderRadius: 20, marginVertical: 20, marginRight: 0, paddingHorizontal: 15, backgroundColor: "white" }}
             titleStyle={{
               fontFamily: 'Heebo_300Light',
               color: 'black',

@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { KeyboardAvoidingView, StyleSheet, Text, TextInput, View, Dimensions } from 'react-native';
 import { Button } from 'react-native-elements';
 import { connect } from 'react-redux';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import {
   Heebo_100Thin,
@@ -33,6 +34,7 @@ function SignInScreen(props) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [listErrorsSignin, setErrorsSignin] = useState([])
+  
 
   var signIn = async () => {
     
@@ -48,11 +50,23 @@ function SignInScreen(props) {
       props.addToken(body.token)
       props.loadArtist(body.artistList)
       props.loadArtwork(body.artworkList)
+      // Store le token dans le LocalStorage
+      AsyncStorage.setItem('token2', body.token) 
       props.navigation.navigate('BottomNav', { screen: 'DailyScreen' })
     } else {
       setErrorsSignin(body.error)
     }
   }
+
+  // voir ce qu'il y a dans le localStorage
+  AsyncStorage.getAllKeys((err, keys) => {
+    AsyncStorage.multiGet(keys, (error, stores) => {
+      stores.map((result, i, store) => {
+        console.log({ [store[i][0]]: store[i][1] });
+        return true;
+      });
+    });
+  });
 
   var tabErrorsSignin = listErrorsSignin.map((error, i) => {
     return (<Text>{error}</Text>)
@@ -119,6 +133,10 @@ const styles = StyleSheet.create({
   }
 });
 
+function mapStateToProps(state) {
+  return { token: state.token }
+}
+
 function mapDispatchToProps(dispatch) {
   return {
     addToken: function (token) {
@@ -134,6 +152,6 @@ function mapDispatchToProps(dispatch) {
 }
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(SignInScreen)
