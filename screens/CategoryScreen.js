@@ -40,13 +40,12 @@ function CategoryScreen(props) {
   }
 
   const goToPersonalInfoScreen = () => {
-   
+
     props.setCategoryPreferencesSignUp(categoryPreferences)
     props.navigation.navigate('PersonalInfoScreen')
   }
 
-  //ATTENTION correspond à "category" en BDD
-  const categorys = [
+  const categories = [
     {
       name: 'Abstract',
       img: 'https://images.pexels.com/photos/2693212/pexels-photo-2693212.png?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940'
@@ -106,22 +105,37 @@ function CategoryScreen(props) {
     <View style={styles.container}>
 
       <ScrollView showsVerticalScrollIndicator={false}>
+
         <Text style={{ fontFamily: 'Heebo_300Light', fontSize: 25, textAlign: "center", marginTop: 30, marginBottom: 10 }} >What do you like?</Text>
 
         <View style={{ flexDirection: "row", flexWrap: 'wrap', justifyContent: 'center' }}>
-          {categorys.map(category => {
+
+          {categories.map(category => {
+
             let isSelected = categoryPreferences.some(el => category.name == el)
-            return (<Category key={category.name} name={category.name} img={category.img} addCategory={addCategory} removeCategory={removeCategory} isSelected={isSelected} />)
+            return (
+              <Category
+                key={category.name}
+                name={category.name}
+                img={category.img}
+                addCategory={addCategory}
+                removeCategory={removeCategory}
+                isSelected={isSelected}
+              />
+            )
           })}
+
         </View >
 
         <View style={{ alignItems: 'flex-end' }}>
+
           <Button
             title="Next"
-            buttonStyle={{ borderColor: "black", borderWidth: 1 ,borderRadius: 20, marginVertical: 40, marginRight: 60, paddingHorizontal: 20, backgroundColor: "white" }}
-            titleStyle={{ fontFamily: 'Heebo_300Light', color: 'black',fontSize: 15 }}
+            buttonStyle={{ borderColor: "black", borderWidth: 1, borderRadius: 20, marginVertical: 40, marginRight: 60, paddingHorizontal: 20, backgroundColor: "white" }}
+            titleStyle={{ fontFamily: 'Heebo_300Light', color: 'black', fontSize: 15 }}
             onPress={() => goToPersonalInfoScreen()}
           />
+
         </View>
 
       </ScrollView >
@@ -134,7 +148,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: "#FFFF"
+    backgroundColor: "#FFF"
   }
 });
 
@@ -145,5 +159,6 @@ function mapDispatchToProps(dispatch) {
     }
   }
 }
+
 export default connect(null, mapDispatchToProps)(CategoryScreen);
 

@@ -63,6 +63,7 @@ const StatisticsScreen = (props) => {
             <Text style={styles.whatILiked} >MOVEMENTS I LIKED</Text>
 
             {hasUserAlreadyLiked ?
+
                 <View style={styles.categoriesContainer}>
                     {movementsPourcentage.length > 0 &&
                         movementsPourcentage.map(movement => {
@@ -79,11 +80,14 @@ const StatisticsScreen = (props) => {
                         })}
                 </View>
 
-                : <Text style={styles.noArtworks}>No artworks liked yet</Text>}
+                :
+
+                <Text style={styles.noArtworks}>No artworks liked yet</Text>}
 
             <Text style={styles.whatILiked} >CATEGORIES I LIKED</Text>
 
             {hasUserAlreadyLiked ?
+
                 <View style={styles.categoriesContainer}>
 
                     {categoriesPourcentage.length > 0 &&
@@ -102,7 +106,10 @@ const StatisticsScreen = (props) => {
 
                 </View>
 
-                : <Text style={styles.noArtworks}>No artworks liked yet</Text>}
+                :
+
+                <Text style={styles.noArtworks}>No artworks liked yet</Text>}
+
         </ScrollView >
 
     )

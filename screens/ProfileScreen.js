@@ -1,12 +1,10 @@
 import React, { useEffect, useState } from 'react'
-import { View, Image, ScrollView, Text, StyleSheet, TouchableOpacity, SafeAreaView, FlatList } from 'react-native'
+import { View, Image, Text, StyleSheet, TouchableOpacity } from 'react-native'
 import { connect } from 'react-redux'
 import * as ImagePicker from 'expo-image-picker'
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { AntDesign, Ionicons } from '@expo/vector-icons'
-
-import { Avatar, ListItem, Divider } from 'react-native-elements';
-
+import { AntDesign } from '@expo/vector-icons'
+import { ListItem } from 'react-native-elements';
 import MyIcon from '../composants/myIcons';
 import { REACT_APP_URL_BACKEND } from "@env";
 
@@ -41,22 +39,19 @@ const ProfileScreen = (props) => {
 
     useEffect(() => {
 
-        //on récupère le nom de l'utilisateur
-        const getUsername = async () => {
+        const getInfo = async () => {
             const data = await fetch(`${REACT_APP_URL_BACKEND}/get-username/${props.token}`);
             const dataJSON = await data.json();
             setFirstName(dataJSON.firstName)
             setLastName(dataJSON.lastName)
             setImage(dataJSON.img)
-
         };
-        getUsername();
+        getInfo();
 
 
     }, [])
 
 
-    //au clic sur add Image, on modifie la photo et on l'envoie au backend
     const addImage = async () => {
         //on demande l'accès à la caméra
         const checkForCameraRollPermission = async () => {
@@ -128,10 +123,10 @@ const ProfileScreen = (props) => {
 
                 </View>
 
-
                 <View style={styles.mainInfoContainer}>
                     <Text style={styles.name}>{firstName} {lastName}</Text>
                 </View>
+
             </View>
 
 
@@ -148,7 +143,6 @@ const ProfileScreen = (props) => {
                             color="rgb(136, 136, 156)"
                         />
                         <ListItem.Title style={styles.list} > {'Settings'} </ListItem.Title>
-
                     </ListItem>
 
                     <ListItem containerStyle={{ marginTop: 6 }} key={'4'} onPress={() => props.navigation.navigate('StatisticsScreen')}>
@@ -160,7 +154,6 @@ const ProfileScreen = (props) => {
                             color="rgb(136, 136, 156)"
                         />
                         <ListItem.Title style={styles.list} > {'Statistics'} </ListItem.Title>
-
                     </ListItem>
 
                     <ListItem key={'0'} onPress={() => props.navigation.navigate('TopNav', { screen: 'my Collection' })} >
@@ -172,8 +165,8 @@ const ProfileScreen = (props) => {
                             color="rgb(136, 136, 156)"
                         />
                         <ListItem.Title style={styles.list} > {'My Collection'} </ListItem.Title>
-
                     </ListItem>
+
                     <ListItem key={'1'} containerStyle={{ marginTop: 6 }} onPress={() => props.navigation.navigate('TopNav', { screen: 'my Artists' })}>
                         <MyIcon
                             type='MaterialCommunityIcons'
@@ -183,8 +176,8 @@ const ProfileScreen = (props) => {
                             color="rgb(136, 136, 156)"
                         />
                         <ListItem.Title style={styles.list} > {'My Artists'} </ListItem.Title>
-
                     </ListItem>
+
                     <ListItem key={'2'} containerStyle={{ marginTop: 6 }} onPress={() => props.navigation.navigate('ExhibitionScreen')}>
                         <MyIcon
                             type='AntDesign'
@@ -194,8 +187,8 @@ const ProfileScreen = (props) => {
                             color="rgb(136, 136, 156)"
                         />
                         <ListItem.Title style={styles.list} > {'Exhibitions'} </ListItem.Title>
-                        {/* <ListItem.Chevron /> */}
                     </ListItem>
+
                     <ListItem key={'3'} containerStyle={{ marginTop: 6 }} onPress={() => props.navigation.navigate('DailyScreen')} r>
                         <MyIcon
                             type='Ionicons'
@@ -205,7 +198,6 @@ const ProfileScreen = (props) => {
                             color="rgb(136, 136, 156)"
                         />
                         <ListItem.Title style={styles.list} > {'Daily Selection'} </ListItem.Title>
-
                     </ListItem>
 
 
@@ -218,8 +210,8 @@ const ProfileScreen = (props) => {
                             color="rgb(136, 136, 156)"
                         />
                         <ListItem.Title style={styles.list} > {'Log out'} </ListItem.Title>
-
                     </ListItem>
+
                 </View>
 
             </View>
@@ -228,6 +220,53 @@ const ProfileScreen = (props) => {
 
     )
 }
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        margin: 0,
+        paddingTop: 50,
+        backgroundColor: "white"
+    },
+    containerImage: {
+        elevation: 2,
+        height: 150,
+        width: 150,
+        borderRadius: 75,
+        overflow: 'hidden',
+    },
+    uploadBtnContainer: {
+        opacity: 0.6,
+        position: 'absolute',
+        right: 0,
+        bottom: 0,
+        backgroundColor: 'lightgrey',
+        width: '100%',
+        height: '18%',
+    },
+    uploadBtn: {
+        display: 'flex',
+        alignItems: "center",
+        justifyContent: 'center'
+    },
+    userHead: {
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    mainInfoContainer: {
+        marginTop: 20,
+        alignItems: 'center'
+    },
+    name: {
+        fontSize: 20,
+        fontFamily: 'Heebo_700Bold'
+    },
+    list: {
+        fontSize: 17,
+        color: 'grey',
+        fontFamily: 'Heebo_300Light'
+    }
+})
 
 function mapStateToProps(state) {
     return ({ token: state.token })
@@ -261,93 +300,3 @@ function mapDispatchToProps(dispatch) {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProfileScreen);
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        margin: 0,
-        paddingTop: 50,
-        backgroundColor: "white"
-    },
-    containerImage: {
-        elevation: 2,
-        height: 150,
-        width: 150,
-        borderRadius: 75,
-        overflow: 'hidden',
-    },
-    uploadBtnContainer: {
-        opacity: 0.6,
-        position: 'absolute',
-        right: 0,
-        bottom: 0,
-        backgroundColor: 'lightgrey',
-        width: '100%',
-        height: '18%',
-    },
-    uploadBtn: {
-        display: 'flex',
-        alignItems: "center",
-        justifyContent: 'center'
-    },
-    menuItem: {
-        backgroundColor: 'transparent',
-    },
-    userHead: {
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    imageContainer: {
-        alignItems: 'center',
-        padding: 10,
-    },
-    image: {
-        width: "100%",
-        height: 500
-    },
-
-    mainInfoContainer: {
-        marginTop: 20,
-        alignItems: 'center'
-    },
-    name: {
-        fontSize: 20,
-        fontFamily: 'Heebo_700Bold'
-
-    },
-    list: {
-        fontSize: 17,
-        color: 'grey',
-        fontFamily: 'Heebo_300Light'
-    },
-    artist: {
-        fontSize: 20
-    },
-    info: {
-        marginBottom: 25
-    },
-    description: {
-        marginBottom: 25,
-        textAlign: 'justify'
-    },
-    moreArtworks: {
-        fontWeight: 'bold',
-        marginBottom: 12
-    },
-    minipicturesContainer: {
-        flexDirection: 'row'
-    },
-    minipicture: {
-        justifyContent: 'center',
-        alignItems: 'center',
-
-        height: 200,
-
-        margin: 5,
-    },
-    avatar: {
-        width: 100,
-        height: 100,
-
-    }
-})

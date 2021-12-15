@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { KeyboardAvoidingView, StyleSheet, Text, TextInput, View, Dimensions } from 'react-native';
 import { Button } from 'react-native-elements';
 import { connect } from 'react-redux';
@@ -34,10 +34,9 @@ function SignInScreen(props) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [listErrorsSignin, setErrorsSignin] = useState([])
-  
 
   var signIn = async () => {
-    
+
     const data = await fetch(`${REACT_APP_URL_BACKEND}/sign-in`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
@@ -45,14 +44,16 @@ function SignInScreen(props) {
     })
 
     const body = await data.json()
-    
+
     if (body.result == true) {
       props.addToken(body.token)
       props.loadArtist(body.artistList)
       props.loadArtwork(body.artworkList)
       // Store le token dans le LocalStorage
-      AsyncStorage.setItem('token2', body.token) 
+      AsyncStorage.setItem('token2', body.token)
+
       props.navigation.navigate('BottomNav', { screen: 'DailyScreen' })
+
     } else {
       setErrorsSignin(body.error)
     }
@@ -79,7 +80,9 @@ function SignInScreen(props) {
   return (
     <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === "ios" ? "padding" : "height"}>
 
-      <Text style={{ fontFamily: 'Heebo_300Light', fontSize: 25, textAlign: "center", padding: 20, marginBottom: 30, marginTop: 10 }} >Login</Text>
+      <Text style={{ fontFamily: 'Heebo_300Light', fontSize: 25, textAlign: "center", padding: 20, marginBottom: 30, marginTop: 10 }} >
+        Login
+      </Text>
 
       <View >
         <Text style={styles.label}>E-mail</Text>
@@ -97,12 +100,15 @@ function SignInScreen(props) {
           value={password}
         />
       </View>
+
       {tabErrorsSignin}
+
       <Button title="Connexion"
-        buttonStyle={{ borderColor: "black", borderWidth: 1 ,borderRadius: 20, paddingHorizontal: 20, backgroundColor: "white" }}
-        titleStyle={{ fontFamily: 'Heebo_300Light', color: 'black',fontSize: 15 }}
+        buttonStyle={{ borderColor: "black", borderWidth: 1, borderRadius: 20, paddingHorizontal: 20, backgroundColor: "white" }}
+        titleStyle={{ fontFamily: 'Heebo_300Light', color: 'black', fontSize: 15 }}
         onPress={() => signIn()}
       />
+
     </KeyboardAvoidingView >
   )
 };
@@ -151,7 +157,4 @@ function mapDispatchToProps(dispatch) {
   }
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(SignInScreen)
+export default connect(mapStateToProps, mapDispatchToProps)(SignInScreen)

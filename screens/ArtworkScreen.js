@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { View, Image, ScrollView, Text, StyleSheet, TouchableOpacity, Dimensions } from 'react-native'
 import { connect } from 'react-redux'
 import MyIcon from '../composants/myIcons';
+
 import {
     Heebo_100Thin,
     Heebo_300Light,
@@ -14,7 +15,6 @@ import {
 
 import { useFonts } from 'expo-font'
 import AppLoading from 'expo-app-loading'
-
 import { REACT_APP_URL_BACKEND } from "@env";
 
 const ArtworkScreen = (props) => {
@@ -32,11 +32,9 @@ const ArtworkScreen = (props) => {
     const [likedArtwork, setLikedArtwork] = useState(false)
     const [colorLike, setColorLike] = useState("black")
 
-    //on récupère l'artiste associé à l'artwork et on le met dans le store
     useEffect(() => {
-
         const getArtistDetail = async () => {
-            const data = await fetch(`${REACT_APP_URL_BACKEND}/get-artist-detail/${props.selectedArtwork._id}`); //192.168.1.16 ALICE //172.17.1.83 CAPSULE
+            const data = await fetch(`${REACT_APP_URL_BACKEND}/get-artist-detail/${props.selectedArtwork._id}`);
             const dataJSON = await data.json();
             props.setSelectedArtist(dataJSON.artist);
         };
@@ -45,16 +43,19 @@ const ArtworkScreen = (props) => {
             setLikedArtwork(true);
             setColorLike('#FF565E')
         }
-
         getArtistDetail();
     }, [])
 
 
-    //petites images de MoreArtworks
-    let moreArtworks;
+    //petites images de la section MoreArtworks
+    let moreArtworksImages;
+
     if (props.selectedArtist) {
-        moreArtworks = props.selectedArtist.artistArtwork.map((artwork, i) =>
+
+        moreArtworksImages = props.selectedArtist.artistArtwork.map((artwork, i) =>
+
             artwork.cloudinary !== props.selectedArtwork.cloudinary &&
+
             <TouchableOpacity key={i} onPress={() => openArtworkDetailFromSameArtist(artwork)}>
                 < Image
                     source={{ uri: artwork.cloudinary }}
@@ -68,38 +69,61 @@ const ArtworkScreen = (props) => {
 
     // Récupère donnée du artwork pour le store et redirige vers le ArtworkScreen de l'oeuvre cliquée
     const openArtworkDetailFromSameArtist = artwork => {
-
         props.setSelectedArtwork(artwork);
         props.navigation.navigate('ArtworkScreen');
     }
 
     // Toggle qui add et delete des oeuvres dans la artworklist sur le store quand on press sur le coeur du like + changement de couleur
     const addToCollection = async (id) => {
-        console.log('fonction addTocollection')
+
         if (likedArtwork == false) {
+
             const data = await fetch(`${REACT_APP_URL_BACKEND}/add-artworklist/`, {
                 method: "POST",
                 headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
                 body: `token=${props.token}&artworkId=${id}`
             });
 
-            const dataJSON = await data.json();
+            const dataJSON = await data.json(); //*** exploiter le résultat et déclencher le changement de couleur seulement si result === true
             setColorLike('#FF565E');
             props.addArtwork(props.selectedArtwork._id)
 
-
         } else {
+
             const data = await fetch(`${REACT_APP_URL_BACKEND}/delete-artworklist/`, {
                 method: "POST",
                 headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
                 body: `token=${props.token}&artworkId=${id}`
             });
-            const dataJSON = await data.json();
+            const dataJSON = await data.json(); //*** exploiter le résultat et déclencher le changement de couleur seulement si result === true
             setColorLike('black');
             props.deleteArtwork(props.selectedArtwork._id)
         }
 
         setLikedArtwork(!likedArtwork);
+    }
+
+    let medium = '';
+
+    switch (props.selectedArtwork.medium) {
+        case 'painting':
+            medium = 'Painting'
+            break;
+        case 'streetArt':
+            medium = 'Street Art'
+            break;
+        case 'digitalArt':
+            medium = 'Digital Art'
+            break;
+        case 'drawing':
+            medium = 'Drawing'
+            break;
+        case 'sculpture':
+            medium = 'Sculpture';
+            break;
+        case 'photography':
+            medium = 'Photography'
+            break;
     }
 
     if (!fontsLoaded) {
@@ -124,7 +148,6 @@ const ArtworkScreen = (props) => {
                             />
                         </TouchableOpacity>
                     </View>
-
 
                     <View style={styles.mainInfoContainer}>
                         <Text style={styles.name}>{props.selectedArtwork.name}</Text>
@@ -153,14 +176,13 @@ const ArtworkScreen = (props) => {
 
                     <View style={{ flexDirection: 'row' }}>
                         <Text style={styles.info}>Medium</Text>
-                        <Text style={styles.datainfo}>  {props.selectedArtwork.medium}</Text>
+                        <Text style={styles.datainfo}>  {medium}</Text>
                     </View>
 
                     <View style={{ flexDirection: 'row' }}>
                         <Text style={styles.info}>Technic</Text>
                         <Text style={styles.datainfo}> {props.selectedArtwork.technic}</Text>
                     </View>
-
 
                     <Text style={styles.description}>
                         {props.selectedArtwork.desc}
@@ -171,35 +193,13 @@ const ArtworkScreen = (props) => {
                     </Text>
 
                     <ScrollView showsHorizontalScrollIndicator={false} horizontal={true} style={styles.minipicturesContainer}>
-                        {moreArtworks}
+                        {moreArtworksImages}
                     </ScrollView>
                 </>
             }
         </ScrollView >
 
     )
-}
-
-function mapStateToProps(state) {
-    return { selectedArtwork: state.selectedArtwork, selectedArtist: state.selectedArtist, token: state.token, artworkList: state.artworkList }
-}
-
-function mapDispatchToProps(dispatch) {
-    return {
-        setSelectedArtist: function (artist) {
-            dispatch({ type: 'setSelectedArtist', artist })
-        },
-        setSelectedArtwork: function (artwork) {
-            dispatch({ type: "setSelectedArtwork", artwork })
-        },
-        addArtwork: function (artworkId) {
-            dispatch({ type: 'addArtwork', artworkId })
-        },
-        deleteArtwork: function (artworkId) {
-            dispatch({ type: 'deleteArtwork', artworkId })
-        },
-
-    }
 }
 
 const windowHeight = Dimensions.get('window').height;
@@ -272,5 +272,27 @@ const styles = StyleSheet.create({
         marginBottom: 70
     }
 })
+
+function mapStateToProps(state) {
+    return { selectedArtwork: state.selectedArtwork, selectedArtist: state.selectedArtist, token: state.token, artworkList: state.artworkList }
+}
+
+function mapDispatchToProps(dispatch) {
+    return {
+        setSelectedArtist: function (artist) {
+            dispatch({ type: 'setSelectedArtist', artist })
+        },
+        setSelectedArtwork: function (artwork) {
+            dispatch({ type: "setSelectedArtwork", artwork })
+        },
+        addArtwork: function (artworkId) {
+            dispatch({ type: 'addArtwork', artworkId })
+        },
+        deleteArtwork: function (artworkId) {
+            dispatch({ type: 'deleteArtwork', artworkId })
+        },
+
+    }
+}
 
 export default connect(mapStateToProps, mapDispatchToProps)(ArtworkScreen);

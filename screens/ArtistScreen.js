@@ -31,7 +31,6 @@ const ArtistScreen = (props) => {
         Heebo_900Black
     })
 
-    const [dataSource, setDataSource] = useState([]); // *** pas utilisé ?
     const [likedArtist, setLikedArtist] = useState(false);
     const [colorLike, setColorLike] = useState("black")
 
@@ -44,17 +43,10 @@ const ArtistScreen = (props) => {
 
     }, [])
 
-    /*useEffect(() => {
-     aller chercher l'artiste lié à l'oeuvre en BDD et le mettre dans le store
-     const data = fetch('/getArtist/:artworkId')
- }, [])*/
-
-
     // renderItem to use in the MasonryList componment to render a grid with two colum to display
     // the artworks of the artists (instead of a map, which does not work with flatlist and masonryList)
 
     const renderItem = ({ item }) => {
-
         return (
             <TouchableOpacity key={item._id} onPress={() => openArtworkDetail(item)}>
                 < Image
@@ -106,11 +98,11 @@ const ArtistScreen = (props) => {
 
     return (
         <ScrollView >
+
             <View style={styles.container}>
 
                 <View >
                     <ListItem containerStyle={{ flex: 1, marginLeft: 80, backgroundColor: "none" }}>
-
                         <Avatar rounded size="large" source={{ uri: props.selectedArtist.img }} />
                         <ListItem.Content>
                             <ListItem.Title style={styles.artist}>{props.selectedArtist.name}</ListItem.Title>
@@ -119,10 +111,9 @@ const ArtistScreen = (props) => {
                     </ListItem>
                 </View>
 
-
                 <Divider orientation="horizontal" inset={true} insetType="left" />
-                <View style={styles.mainInfoContainer}>
 
+                <View style={styles.mainInfoContainer}>
                     <Text style={{ fontFamily: 'Heebo_700Bold' }}>{props.selectedArtist.city}, {props.selectedArtist.country} </Text>
                     <TouchableOpacity style={styles.button} onPress={() => addToCollection(props.selectedArtist._id)}>
                         <MyIcon
@@ -134,24 +125,22 @@ const ArtistScreen = (props) => {
                     </TouchableOpacity>
                 </View>
 
-
-                <Text style={styles.moreArtworks}>
+                <Text style={styles.subtitle}>
                     BIO
                 </Text>
+
                 <Text style={styles.description}>
                     {props.selectedArtist.bio}
 
                 </Text>
 
-
-                <Text style={styles.moreArtworks}>
+                <Text style={styles.subtitle}>
                     ARTWORKS
                 </Text>
 
             </View>
+
             <View style={{ flex: 1, backgroundColor: '#FFF', }}>
-
-
                 <MasonryList
                     data={props.selectedArtist.artistArtwork}
                     keyExtractor={item => item.id}
@@ -162,39 +151,12 @@ const ArtistScreen = (props) => {
                         paddingHorizontal: 0,
                         alignSelf: 'stretch'
                     }}
-
                 />
-
             </View>
 
         </ScrollView>
-
-
     )
 }
-
-function mapStateToProps(state) {
-    return { selectedArtwork: state.selectedArtwork, selectedArtist: state.selectedArtist, token: state.token, artistList: state.artistList }
-}
-
-function mapDispatchToProps(dispatch) {
-    return {
-        setSelectedArtist: function (artist) {
-            dispatch({ type: 'setSelectedArtist', artist }) //*** pas utilisé
-        },
-        setSelectedArtwork: function (artwork) {
-            dispatch({ type: "setSelectedArtwork", artwork })
-        },
-        addArtist: function (artistId) {
-            dispatch({ type: 'addArtist', artistId })
-        },
-        deleteArtist: function (artistId) {
-            dispatch({ type: 'deleteArtist', artistId })
-        },
-    }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(ArtistScreen);
 
 const styles = StyleSheet.create({
     container: {
@@ -202,14 +164,6 @@ const styles = StyleSheet.create({
         padding: 22,
         paddingTop: 20,
         backgroundColor: '#FFF',
-    },
-    imageContainer: {
-        alignItems: 'center',
-        padding: 10,
-    },
-    image: {
-        width: "100%",
-        height: 500
     },
     button: {
         position: 'absolute',
@@ -227,44 +181,39 @@ const styles = StyleSheet.create({
     instagram: {
         fontFamily: 'Heebo_300Light'
     },
-    info: {
-        marginBottom: 25
-    },
     description: {
         marginBottom: 25,
         textAlign: 'justify',
         fontFamily: 'Heebo_300Light'
     },
-    moreArtworks: {
+    subtitle: {
         fontFamily: 'Heebo_700Bold',
         marginBottom: 12
-    },
-    minipicturesContainer: {
-        flexDirection: 'row'
     },
     minipicture: {
         justifyContent: 'center',
         alignItems: 'center',
         height: 300,
-
         margin: 3,
-    },
-    avatar: {
-        width: 80,
-        height: 80,
-
-    },
-    grid: {
-        marginTop: 12,
-        width: '33%',
-        flexDirection: 'row',
-        justifyContent: 'center',
-        paddingStart: 16,
-        paddingEnd: 16,
-        paddingTop: 8,
-        marginRight: 10,
-        paddingBottom: 8,
-        borderRadius: 8,
-    },
+    }
 })
 
+function mapStateToProps(state) {
+    return { selectedArtist: state.selectedArtist, token: state.token, artistList: state.artistList }
+}
+
+function mapDispatchToProps(dispatch) {
+    return {
+        setSelectedArtwork: function (artwork) {
+            dispatch({ type: "setSelectedArtwork", artwork })
+        },
+        addArtist: function (artistId) {
+            dispatch({ type: 'addArtist', artistId })
+        },
+        deleteArtist: function (artistId) {
+            dispatch({ type: 'deleteArtist', artistId })
+        },
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ArtistScreen);
