@@ -34,6 +34,8 @@
     "react-native-dotenv": "^3.3.0",
     "react-native-elements": "^3.4.2",
     "react-native-gesture-handler": "~1.10.2",
+    "react-native-image-slider-box": "^1.1.12",
+    "react-native-imaged-carousel-card": "^0.1.1",
     "react-native-keyboard-aware-scroll-view": "^0.9.5",
     "react-native-masonry": "^0.5.0-alpha.5",
     "react-native-modal-datetime-picker": "^13.0.0",
