@@ -37,7 +37,7 @@ function SignInScreen(props) {
 
   var signIn = async () => {
 
-    const data = await fetch(`${REACT_APP_URL_BACKEND}/sign-in`, {
+    const data = await fetch(`http://192.168.1.153:3000/sign-in`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
       body: `email=${email}&password=${password}`

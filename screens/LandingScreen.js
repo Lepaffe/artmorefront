@@ -40,7 +40,7 @@ function LandingScreen(props) {
       AsyncStorage.getItem('token2', async (err, value) => {
         console.log("Value ? ", value)
         if (value) {
-          var rawResponse = await fetch(`${REACT_APP_URL_BACKEND}/auto-loggedIn/${value}`);
+          var rawResponse = await fetch(`http://192.168.1.153:3000/auto-loggedIn/${value}`);
           const body = await rawResponse.json()
           if (body.result == true) {
             props.addToken(body.token)
