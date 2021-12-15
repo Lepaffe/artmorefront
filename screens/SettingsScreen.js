@@ -1,13 +1,10 @@
 import React, { useState, useEffect } from 'react';
-
 import { KeyboardAvoidingView, StyleSheet, Text, TextInput, View, Dimensions, ScrollView } from 'react-native';
 import { Button, Switch } from 'react-native-elements';
-
 import Category from '../composants/Category';
 import { connect } from 'react-redux';
 import { useFonts } from 'expo-font'
 import AppLoading from 'expo-app-loading'
-
 import { REACT_APP_URL_BACKEND } from "@env";
 
 import {
@@ -72,33 +69,6 @@ const categories = [
       },
 ]
 
-/*const mediums = [
-    {
-        name: 'painting',
-        img: 'https://images.pexels.com/photos/1585325/pexels-photo-1585325.jpeg?cs=srgb&dl=pexels-steve-johnson-1585325.jpg&fm=jpg'
-    },
-    {
-        name: 'sculpture',
-        img: 'https://images.pexels.com/photos/5665104/pexels-photo-5665104.jpeg?cs=srgb&dl=pexels-miggy-rivera-5665104.jpg&fm=jpg'
-    },
-    {
-        name: 'photography',
-        img: 'https://images.pexels.com/photos/1787235/pexels-photo-1787235.jpeg?cs=srgb&dl=pexels-luis-quintero-1787235.jpg&fm=jpg'
-    },
-    {
-        name: 'drawing',
-        img: 'https://images.pexels.com/photos/3778179/pexels-photo-3778179.jpeg?cs=srgb&dl=pexels-cottonbro-3778179.jpg&fm=jpg'
-    },
-    {
-        name: 'digitalArt',
-        img: 'https://images.pexels.com/photos/4238489/pexels-photo-4238489.jpeg?cs=srgb&dl=pexels-ivan-samkov-4238489.jpg&fm=jpg'
-    },
-    {
-        name: 'streetArt',
-        img: 'https://images.pexels.com/photos/2235182/pexels-photo-2235182.jpeg?cs=srgb&dl=pexels-braven-nguyen-2235182.jpg&fm=jpg'
-    }
-]*/
-
 function SettingsScreen(props) {
 
     let [fontsLoaded] = useFonts({
@@ -134,11 +104,12 @@ function SettingsScreen(props) {
         const getUserInfo = async () => {
             const data = await fetch(`${REACT_APP_URL_BACKEND}/get-user-info/${props.token}`);
             const dataJSON = await data.json();
+
             setCity(dataJSON.city)
             setEmail(dataJSON.email)
             setMediumPreferences(dataJSON.mediums)
             setCategoryPreferences(dataJSON.categories)
-            console.log(dataJSON.mediums)
+
             dataJSON.mediums.forEach(el => {
                 el === "painting" && setPainting(true)
                 el === "sculpture" && setSculpture
@@ -305,7 +276,6 @@ function SettingsScreen(props) {
     const toggleSwitchStreetArt = () => {
         setStreetArt(previousState => !previousState);
         if (mediumPreferences.includes("streetArt")) {
-            console.log(mediumPreferences)
             setMediumPreferences(mediumPreferences.filter(el => el != "streetArt"))
         } else {
             setMediumPreferences([...mediumPreferences, "streetArt"])
@@ -399,9 +369,18 @@ function SettingsScreen(props) {
                     <Text style={{ fontFamily: 'Heebo_300Light', fontSize: 20 }}>Category preferences</Text>
 
                     <View style={{ flexDirection: "row", flexWrap: 'wrap', justifyContent: 'center' }}>
+
                         {categories.map(category => {
                             let isSelected = categoryPreferences.some(el => category.name == el)
-                            return (<Category key={category.name} name={category.name} img={category.img} addCategory={addCategory} removeCategory={removeCategory} isSelected={isSelected} />)
+                            return (
+                                <Category
+                                    key={category.name}
+                                    name={category.name}
+                                    img={category.img}
+                                    addCategory={addCategory}
+                                    removeCategory={removeCategory}
+                                    isSelected={isSelected}
+                                />)
                         })}
                     </View >
 
@@ -420,11 +399,7 @@ function SettingsScreen(props) {
                     <Text style={{ fontFamily: 'Heebo_300Light', fontSize: 20, marginBottom: 25 }}>Medium preferences</Text>
 
                     <View style={{ width: '90%', justifyContent: 'space-around' }}>
-                        <View style={{
-                            flexDirection: 'row',
-                            alignItems: 'center',
-                            justifyContent: "flex-start"
-                        }}>
+                        <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: "flex-start" }}>
                             <Text style={{ fontFamily: 'Heebo_300Light', marginLeft: 80, marginRight: 60, marginBottom: 8, fontSize: 16 }}>Painting</Text>
                             <Switch
                                 trackColor={{ false: "#767577", true: "rgba(58, 187, 109, 0.2)" }}
@@ -435,11 +410,8 @@ function SettingsScreen(props) {
                                 style={{ marginRight: 80, marginBottom: 8, }}
                             />
                         </View>
-                        <View style={{
-                            flexDirection: 'row',
-                            alignItems: 'center',
-                            justifyContent: "space-between"
-                        }}>
+
+                        <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: "flex-start" }}>
                             <Text style={{ fontFamily: 'Heebo_300Light', marginLeft: 80, marginBottom: 8, fontSize: 16 }}>Sculpture</Text>
                             <Switch
                                 trackColor={{ false: "#767577", true: "rgba(58, 187, 109, 0.2)" }}
@@ -450,11 +422,8 @@ function SettingsScreen(props) {
                                 style={{ marginRight: 80, marginBottom: 8 }}
                             />
                         </View>
-                        <View style={{
-                            flexDirection: 'row',
-                            alignItems: 'center',
-                            justifyContent: "space-between"
-                        }}>
+
+                        <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: "flex-start" }}>
                             <Text style={{ fontFamily: 'Heebo_300Light', marginLeft: 80, marginBottom: 8, fontSize: 16 }}>Photography</Text>
                             <Switch
                                 trackColor={{ false: "#767577", true: "rgba(58, 187, 109, 0.2)" }}
@@ -465,11 +434,8 @@ function SettingsScreen(props) {
                                 style={{ marginRight: 80, marginBottom: 8 }}
                             />
                         </View>
-                        <View style={{
-                            flexDirection: 'row',
-                            alignItems: 'center',
-                            justifyContent: "space-between"
-                        }}>
+
+                        <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: "flex-start" }}>
                             <Text style={{ fontFamily: 'Heebo_300Light', marginLeft: 80, marginBottom: 8, fontSize: 16 }}>Drawing</Text>
                             <Switch
                                 trackColor={{ false: "#767577", true: "rgba(58, 187, 109, 0.2)" }}
@@ -480,11 +446,8 @@ function SettingsScreen(props) {
                                 style={{ marginRight: 80, marginBottom: 8 }}
                             />
                         </View>
-                        <View style={{
-                            flexDirection: 'row',
-                            alignItems: 'center',
-                            justifyContent: "space-between"
-                        }}>
+
+                        <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: "flex-start" }}>
                             <Text style={{ fontFamily: 'Heebo_300Light', marginLeft: 80, marginBottom: 8, fontSize: 16 }}>Digital Art</Text>
                             <Switch
                                 trackColor={{ false: "#767577", true: "rgba(58, 187, 109, 0.2)" }}
@@ -495,11 +458,8 @@ function SettingsScreen(props) {
                                 style={{ marginRight: 80, marginBottom: 8 }}
                             />
                         </View>
-                        <View style={{
-                            flexDirection: 'row',
-                            alignItems: 'center',
-                            justifyContent: "space-between"
-                        }}>
+
+                        <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: "flex-start" }}>
                             <Text style={{ fontFamily: 'Heebo_300Light', marginLeft: 80, fontSize: 16, marginBottom: 15 }}>Street Art</Text>
                             <Switch
                                 trackColor={{ false: "#767577", true: "rgba(58, 187, 109, 0.2)" }}
@@ -523,7 +483,9 @@ function SettingsScreen(props) {
                     />
 
                 </View>
+
             </ScrollView>
+
         </KeyboardAvoidingView >
     )
 };

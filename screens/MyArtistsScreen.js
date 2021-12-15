@@ -1,8 +1,9 @@
-import React, { useEffect, useState, useRef } from 'react'
-import { View, StyleSheet, Image, TouchableOpacity, Text, ScrollView, } from 'react-native'
-import { Card, ListItem, Button, Icon, Avatar } from 'react-native-elements'
+import React, { useEffect, useState } from 'react'
+import { View, StyleSheet, TouchableOpacity, Text, ScrollView, } from 'react-native'
+import { ListItem, Avatar } from 'react-native-elements'
 import { REACT_APP_URL_BACKEND } from "@env";
 import { connect } from 'react-redux'
+import { useIsFocused } from '@react-navigation/native';
 
 import {
     Heebo_100Thin,
@@ -30,139 +31,64 @@ function MyArtistsScreen(props) {
     })
 
     const [artistCollection, setArtistCollection] = useState([])
+    const isFocused = useIsFocused();
 
     useEffect(() => {
         const getArtistCollection = async () => {
-            const data = await fetch(`${REACT_APP_URL_BACKEND}/get-artist-collection/${props.token}`); //192.168.1.16 ALICE //172.17.1.83 CAPSULE
+            const data = await fetch(`${REACT_APP_URL_BACKEND}/get-artist-collection/${props.token}`);
             const dataJSON = await data.json();
             setArtistCollection(dataJSON.artistCollection.artistList);
-            
+
         }
         getArtistCollection();
-    }, [props.artistList])
 
-    let list = [...artistCollection]
-   
+    }, [isFocused])
+
+    const openArtistDetail = (artist) => {
+        props.setSelectedArtist(artist)
+        props.navigation.navigate('ArtistScreen')
+    }
 
     if (!fontsLoaded) {
         return <AppLoading />
     }
 
-    const openArtistDetail = (artist) => {
-        props.setSelectedArtist(artist)
-        props.navigation.navigate('ArtistScreen')
-        
-    
-      }
-
     return (
         <ScrollView style={{ backgroundColor: '#FFF' }}>
+
             <View style={{ flex: 1, alignItems: 'center', paddingTop: 25, paddingBottom: 15, backgroundColor: '#FFF', }}>
-                <Text style={{ fontFamily: 'Heebo_300Light' }}> My Artists</Text>
+                <Text style={{ fontFamily: 'Heebo_300Light' }}>My Artists</Text>
             </View>
+
             <View>
-                {list.map((artist, i) => (
+                {artistCollection.map((artist, i) => (
                     <TouchableOpacity key={i} onPress={() => openArtistDetail(artist)}>
-                    <ListItem  bottomDivider>
-                        <Avatar source={{ uri: artist.img }} />
-                        <ListItem.Content>
-                            <ListItem.Title>{artist.name}</ListItem.Title>
-                            <ListItem.Subtitle>{artist.instagram}</ListItem.Subtitle>
-                        </ListItem.Content>
-                    </ListItem>
+                        <ListItem bottomDivider>
+                            <Avatar source={{ uri: artist.img }} />
+                            <ListItem.Content>
+                                <ListItem.Title>{artist.name}</ListItem.Title>
+                                <ListItem.Subtitle>{artist.instagram}</ListItem.Subtitle>
+                            </ListItem.Content>
+                        </ListItem>
                     </TouchableOpacity>
                 ))}
             </View>
+
         </ScrollView>
     );
 }
 
 
 function mapStateToProps(state) {
-    return { token: state.token, artistList: state.artistList, selectedArtist: state.selectedArtist}
+    return { token: state.token, artistList: state.artistList }
 }
 
 function mapDispatchToProps(dispatch) {
     return {
         setSelectedArtist: function (artist) {
             dispatch({ type: 'setSelectedArtist', artist })
-        },
-        setSelectedArtwork: function (artwork) {
-            dispatch({ type: "setSelectedArtwork", artwork })
         }
     }
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(MyArtistsScreen);
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        margin: 22,
-        marginTop: 20,
-
-    },
-    imageContainer: {
-        alignItems: 'center',
-        padding: 10,
-    },
-    image: {
-        width: "100%",
-        height: 500
-    },
-    button: {
-        position: 'absolute',
-        bottom: -8,
-        right: 0
-    },
-    mainInfoContainer: {
-        marginTop: 10,
-        marginBottom: 20,
-        alignItems: 'center'
-    },
-    name: {
-        fontSize: 25,
-        fontWeight: 'bold'
-    },
-    artist: {
-        fontSize: 20
-    },
-    info: {
-        marginBottom: 25
-    },
-    description: {
-        marginBottom: 25,
-        textAlign: 'justify'
-    },
-    moreArtworks: {
-        fontWeight: 'bold',
-        marginBottom: 12
-    },
-    minipicturesContainer: {
-        flexDirection: 'row'
-    },
-    minipicture: {
-        justifyContent: 'center',
-        alignItems: 'center',
-        height: 300,
-
-        margin: 3,
-    },
-    avatar: {
-        width: 80,
-        height: 80,
-
-    },
-    grid: {
-        marginTop: 12,
-        width: '33%',
-        flexDirection: 'row',
-        justifyContent: 'center',
-        paddingStart: 16,
-        paddingEnd: 16,
-        paddingTop: 8,
-        marginRight: 10,
-        paddingBottom: 8,
-        borderRadius: 8,
-    },
-})

@@ -23,7 +23,6 @@ import { REACT_APP_URL_BACKEND } from "@env";
 
 function PersonalInfoScreen(props) {
 
-
   let [fontsLoaded] = useFonts({
     Heebo_100Thin,
     Heebo_300Light,
@@ -41,7 +40,9 @@ function PersonalInfoScreen(props) {
   const [birthdayDisplay, setBirthdayDisplay] = useState('');
   const [city, setCity] = useState('');
   const [email, setEmail] = useState('');
+
   const [listErrorsSignUp, setErrorsSignUp] = useState([])
+
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
   const [isEmailValid, setIsEmailValid] = useState(false);
   const [messageMail, setMessageMail] = useState('');
@@ -95,11 +96,10 @@ function PersonalInfoScreen(props) {
 
     if (isEmailValid && isPasswordValid) {
 
-      console.log('SignUp activated')
       let mediums = JSON.stringify(props.medium)
       let categories = JSON.stringify(props.category)
 
-      const data = await fetch(`${REACT_APP_URL_BACKEND}/sign-up`, { //192.168.1.16 ALICE //172.17.1.83 CAPSULE
+      const data = await fetch(`${REACT_APP_URL_BACKEND}/sign-up`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
         body: `firstName=${firstName}&lastName=${lastName}&birthday=${birthday}&email=${email}&city=${city}&password=${password}&mediums=${mediums}&categories=${categories}`
@@ -111,12 +111,10 @@ function PersonalInfoScreen(props) {
         props.addToken(dataJSON.token)
         AsyncStorage.setItem('token2', dataJSON.token)
         props.navigation.navigate('BottomNav', { screen: 'DailyScreen' })
+
       } else {
         setErrorsSignUp(dataJSON.error)
       }
-      console.log("je suis le futur token",dataJSON.token)
-    } else {
-      console.log('email ou password non valide')
     }
   }
 
@@ -145,9 +143,13 @@ function PersonalInfoScreen(props) {
 
   return (
     <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === "ios" ? "padding" : "height"}>
+
       <ScrollView showsVerticalScrollIndicator={false}>
+
         <Text style={{ fontFamily: 'Heebo_300Light', fontSize: 25, textAlign: "center", marginTop: 40, marginBottom: 30 }} >Almost there </Text>
+
         <View style={styles.inputsContainer}>
+
           <Text style={styles.label}>First name</Text>
           <TextInput
             style={styles.input}
@@ -176,7 +178,7 @@ function PersonalInfoScreen(props) {
             </TouchableOpacity>
           </View>
 
-          <TextInput //format date
+          <TextInput
             style={styles.input}
             onChangeText={(val) => setBirthday(val)}
             value={birthdayDisplay}
@@ -196,6 +198,7 @@ function PersonalInfoScreen(props) {
             onChangeText={(value) => validateEmail(value)}
             value={email}
           />
+
           <Text style={{ color: colorMessageMail, textAlign: 'center' }} >{messageMail}</Text>
 
           <Text style={styles.label}>Password</Text>
@@ -209,6 +212,7 @@ function PersonalInfoScreen(props) {
         </View>
 
         {tabErrorsSignUp}
+
         <View style={{ alignItems: 'center' }}>
           <Button title="Create account"
             buttonStyle={{ borderColor: "black", borderWidth: 1, borderRadius: 20, marginVertical: 20, marginRight: 0, paddingHorizontal: 15, backgroundColor: "white" }}
@@ -220,8 +224,11 @@ function PersonalInfoScreen(props) {
             onPress={() => signUp()}
           />
         </View>
+
         <View style={{ height: 80 }} />
+
       </ScrollView>
+
     </KeyboardAvoidingView >
   );
 }

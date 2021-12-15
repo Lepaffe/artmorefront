@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Image, SafeAreaView, Dimensions } from 'react-native';
 import MyIcon from '../composants/myIcons';
 import { connect } from 'react-redux'
-//import Carousel from 'react-native-snap-carousel';
+
 import {
   Heebo_100Thin,
   Heebo_300Light,
@@ -32,7 +32,7 @@ function DailyScreen(props) {
 
   const [dailyList, setDailyList] = useState([]);
   const [likedArtwork, setLikedArtwork] = useState(false)
-  const [colorLike, setColorLike] = useState(["black","black","black","black" ])
+  const [colorLike, setColorLike] = useState(["black", "black", "black", "black"])
 
   useEffect(() => {
 
@@ -42,7 +42,7 @@ function DailyScreen(props) {
       const dailyListBack = dataJSON.artworksWithArtists;
       setDailyList(dailyListBack);
     }
-    
+
     getDailySelection();
 
   }, [])
@@ -60,34 +60,39 @@ function DailyScreen(props) {
 
   const addToCollection = async (artwork, i) => {
     if (likedArtwork == false) {
+
       const data = await fetch(`${REACT_APP_URL_BACKEND}/add-artworklist/`, {
-          method: "POST",
-          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-          body: `token=${props.token}&artworkId=${artwork._id}`
+        method: "POST",
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: `token=${props.token}&artworkId=${artwork._id}`
       });
 
-      const dataJSON = await data.json();
-      copyColorLike= [...colorLike]
-      copyColorLike.splice(i,1, '#FF565E')
-      setColorLike(copyColorLike)
-       
-       props.addArtwork(artwork._id)
-       
+      const dataJSON = await data.json(); //*** résultat à exploiter
 
-} else {
-  const data = await fetch(`${REACT_APP_URL_BACKEND}/delete-artworklist/`,{
-      method: "POST",
-      headers: {'Content-Type':'application/x-www-form-urlencoded'},
-      body:`token=${props.token}&artworkId=${artwork._id}`
-  });
-      const dataJSON = await data.json();
-      copyColorLike= [...colorLike]
-      copyColorLike.splice(i,1, 'black')
+      let copyColorLike = [...colorLike]
+      copyColorLike.splice(i, 1, '#FF565E')
+      setColorLike(copyColorLike)
+
+      props.addArtwork(artwork._id)
+
+    } else {
+
+      const data = await fetch(`${REACT_APP_URL_BACKEND}/delete-artworklist/`, {
+        method: "POST",
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: `token=${props.token}&artworkId=${artwork._id}`
+      });
+
+      const dataJSON = await data.json(); //*** résultat à exploiter
+
+      let copyColorLike = [...colorLike]
+      copyColorLike.splice(i, 1, 'black')
+      setColorLike(copyColorLike)
+
       props.deleteArtwork(artwork._id)
-      setColorLike(copyColorLike)
-}
+    }
 
-  setLikedArtwork(!likedArtwork);
+    setLikedArtwork(!likedArtwork);
 
   }
 
@@ -104,7 +109,7 @@ function DailyScreen(props) {
         horizontal={true}
       >
         {dailyList.map((el, i) => {
-         
+
           return (
             <View key={el.artwork._id} style={styles.itemDaily}>
 
@@ -211,10 +216,10 @@ function mapDispatchToProps(dispatch) {
       dispatch({ type: 'setSelectedArtist', artist })
     },
     addArtwork: function (artworkId) {
-        dispatch({ type: 'addArtwork', artworkId })
+      dispatch({ type: 'addArtwork', artworkId })
     },
     deleteArtwork: function (artworkId) {
-        dispatch({ type: 'deleteArtwork', artworkId })
+      dispatch({ type: 'deleteArtwork', artworkId })
     },
 
   }

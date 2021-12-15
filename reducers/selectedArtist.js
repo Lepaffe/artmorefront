@@ -1,9 +1,12 @@
 export default function (selectedArtist = null, action) {
+
     if (action.type === 'setSelectedArtist') {
         return action.artist
-    } else if (action.type === 'resetStore'){ 
+
+    } else if (action.type === 'resetSelectedArtist') {
         return null
-    }else {
+
+    } else {
         return selectedArtist
     }
 }

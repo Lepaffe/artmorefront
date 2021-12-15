@@ -4,9 +4,7 @@ import { connect } from 'react-redux'
 import * as ImagePicker from 'expo-image-picker'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { AntDesign } from '@expo/vector-icons'
-
 import { ListItem } from 'react-native-elements';
-
 import MyIcon from '../composants/myIcons';
 import { REACT_APP_URL_BACKEND } from "@env";
 
@@ -41,22 +39,19 @@ const ProfileScreen = (props) => {
 
     useEffect(() => {
 
-        //on récupère le nom de l'utilisateur
-        const getUsername = async () => {
+        const getInfo = async () => {
             const data = await fetch(`${REACT_APP_URL_BACKEND}/get-username/${props.token}`);
             const dataJSON = await data.json();
             setFirstName(dataJSON.firstName)
             setLastName(dataJSON.lastName)
             setImage(dataJSON.img)
-
         };
-        getUsername();
+        getInfo();
 
 
     }, [])
 
 
-    //au clic sur add Image, on modifie la photo et on l'envoie au backend
     const addImage = async () => {
         //on demande l'accès à la caméra
         const checkForCameraRollPermission = async () => {
@@ -101,7 +96,13 @@ const ProfileScreen = (props) => {
 
     const logout = () => {
         AsyncStorage.clear()
-        props.resetStore()
+        props.resetArtistList()
+        props.resetArtworkList()
+        props.resetCategorySignUp()
+        props.resetMediumSignUp()
+        props.resetSelectedArtist()
+        props.resetSelectedArtwork()
+        props.resetToken()
         props.navigation.navigate('LoginScreen')
     }
 
@@ -122,10 +123,10 @@ const ProfileScreen = (props) => {
 
                 </View>
 
-
                 <View style={styles.mainInfoContainer}>
                     <Text style={styles.name}>{firstName} {lastName}</Text>
                 </View>
+
             </View>
 
 
@@ -141,7 +142,6 @@ const ProfileScreen = (props) => {
                             color="rgb(136, 136, 156)"
                         />
                         <ListItem.Title style={styles.list} > {'Settings'} </ListItem.Title>
-
                     </ListItem>
 
                     <ListItem containerStyle={{ marginTop: 10, paddingTop: 3 }} key={'4'} onPress={() => props.navigation.navigate('StatisticsScreen')}>
@@ -153,7 +153,6 @@ const ProfileScreen = (props) => {
                             color="rgb(136, 136, 156)"
                         />
                         <ListItem.Title style={styles.list} > {'Statistics'} </ListItem.Title>
-
                     </ListItem>
 
                     <ListItem containerStyle={{ marginTop: 10, paddingTop: 3 }} key={'0'} onPress={() => props.navigation.navigate('TopNav', { screen: 'my Collection' })} >
@@ -165,7 +164,6 @@ const ProfileScreen = (props) => {
                             color="rgb(136, 136, 156)"
                         />
                         <ListItem.Title style={styles.list} > {'My Collection'} </ListItem.Title>
-
                     </ListItem>
                     <ListItem key={'1'} containerStyle={{ marginTop: 10, paddingTop: 3 }} onPress={() => props.navigation.navigate('TopNav', { screen: 'my Artists' })}>
                         <MyIcon
@@ -176,7 +174,6 @@ const ProfileScreen = (props) => {
                             color="rgb(136, 136, 156)"
                         />
                         <ListItem.Title style={styles.list} > {'My Artists'} </ListItem.Title>
-
                     </ListItem>
                     <ListItem key={'2'} containerStyle={{ marginTop: 10, paddingTop: 3 }} onPress={() => props.navigation.navigate('ExhibitionScreen')}>
                         <MyIcon
@@ -187,7 +184,6 @@ const ProfileScreen = (props) => {
                             color="rgb(136, 136, 156)"
                         />
                         <ListItem.Title style={styles.list} > {'Exhibitions'} </ListItem.Title>
-                        {/* <ListItem.Chevron /> */}
                     </ListItem>
                     <ListItem key={'3'} containerStyle={{ marginTop: 10 ,paddingTop: 3 }} onPress={() => props.navigation.navigate('DailyScreen')} r>
                         <MyIcon
@@ -198,7 +194,6 @@ const ProfileScreen = (props) => {
                             color="rgb(136, 136, 156)"
                         />
                         <ListItem.Title style={styles.list} > {'Daily Selection'} </ListItem.Title>
-
                     </ListItem>
 
                     
@@ -211,8 +206,8 @@ const ProfileScreen = (props) => {
                             color="rgb(136, 136, 156)"
                         />
                         <ListItem.Title style={styles.list} > {'Log out'} </ListItem.Title>
-
                     </ListItem>
+
                 </View>
 
             </View>
@@ -221,20 +216,6 @@ const ProfileScreen = (props) => {
 
     )
 }
-
-function mapStateToProps(state) {
-    return ({ token: state.token })
-}
-
-function mapDispatchToProps(dispatch) {
-    return {
-        resetStore: function () {
-          dispatch({ type: 'resetStore' })
-      },
-    }
-  }
-
-export default connect(mapStateToProps, mapDispatchToProps)(ProfileScreen);
 
 const styles = StyleSheet.create({
     container: {
@@ -264,22 +245,10 @@ const styles = StyleSheet.create({
         alignItems: "center",
         justifyContent: 'center'
     },
-    menuItem: {
-        backgroundColor: 'transparent',
-    },
     userHead: {
         alignItems: 'center',
         justifyContent: 'center',
     },
-    imageContainer: {
-        alignItems: 'center',
-        padding: 10,
-    },
-    image: {
-        width: "100%",
-        height: 500
-    },
-
     mainInfoContainer: {
         marginTop: 20,
         alignItems: 'center'
@@ -287,41 +256,43 @@ const styles = StyleSheet.create({
     name: {
         fontSize: 20,
         fontFamily: 'Heebo_700Bold'
-
     },
     list: {
         fontSize: 17,
         color: 'grey',
         fontFamily: 'Heebo_300Light'
-    },
-    artist: {
-        fontSize: 20
-    },
-    info: {
-        marginBottom: 25
-    },
-    description: {
-        marginBottom: 25,
-        textAlign: 'justify'
-    },
-    moreArtworks: {
-        fontWeight: 'bold',
-        marginBottom: 12
-    },
-    minipicturesContainer: {
-        flexDirection: 'row'
-    },
-    minipicture: {
-        justifyContent: 'center',
-        alignItems: 'center',
-
-        height: 200,
-
-        margin: 5,
-    },
-    avatar: {
-        width: 100,
-        height: 100,
-
     }
 })
+
+function mapStateToProps(state) {
+    return ({ token: state.token })
+}
+
+
+function mapDispatchToProps(dispatch) {
+    return {
+        resetArtworkList: function () {
+            dispatch({ type: 'resetArtworkList' })
+        },
+        resetArtistList: function () {
+            dispatch({ type: 'resetArtistList' })
+        },
+        resetCategorySignUp: function () {
+            dispatch({ type: 'resetCategorySignUp' })
+        },
+        resetMediumSignUp: function () {
+            dispatch({ type: 'resetMediumSignUp' })
+        },
+        resetSelectedArtist: function () {
+            dispatch({ type: 'resetSelectedArtist' })
+        },
+        resetSelectedArtwork: function () {
+            dispatch({ type: 'resetSelectedArtwork' })
+        },
+        resetToken: function () {
+            dispatch({ type: 'resetToken' })
+        },
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ProfileScreen);

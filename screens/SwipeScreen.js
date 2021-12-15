@@ -5,20 +5,20 @@ import Swiper from 'react-native-deck-swiper'
 import { connect } from 'react-redux';
 import { useIsFocused } from '@react-navigation/native';
 
+
 import { REACT_APP_URL_BACKEND } from "@env";
 
 const SwipeScreen = (props) => {
 
     const [artworkList, setArtworkList] = useState([])
     const [favArtwork, setFavArtwork] = useState(false)
+
     const isFocused = useIsFocused();
-
-
     const swipeRef = useRef(null);
 
     useEffect(() => {
         const getArtworkList = async () => {
-            const data = await fetch(`${REACT_APP_URL_BACKEND}/get-artwork-list/${props.token}`); //192.168.1.16 ALICE //172.17.1.83 CAPSULE
+            const data = await fetch(`${REACT_APP_URL_BACKEND}/get-artwork-list/${props.token}`);
             const dataJSON = await data.json();
             setArtworkList(dataJSON.artworks);
         }
@@ -27,49 +27,45 @@ const SwipeScreen = (props) => {
     }, [isFocused])
 
     const handleLike = async (cardIndex) => {
-       // console.log('like', cardIndex, artworkList[cardIndex])
+
         const data = await fetch(`${REACT_APP_URL_BACKEND}/like`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
             body: `token=${props.token}&artworkId=${artworkList[cardIndex]._id}`
         });
-        const dataJSON = await data.json();
+
+        const dataJSON = await data.json(); //*** pas utilisé
     }
 
     const handleDislike = async (cardIndex) => {
-     //   console.log('dislike', artworkList[cardIndex])
+
         const data = await fetch(`${REACT_APP_URL_BACKEND}/dislike`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
             body: `token=${props.token}&artworkId=${artworkList[cardIndex]._id}`
         });
-        const dataJSON = await data.json();
+
+        const dataJSON = await data.json(); //*** pas utilisé
     }
 
     const openArtworkDetail = (cardIndex) => {
-       // console.log('openArtworkDetail', artworkList[cardIndex])
         props.setSelectedArtwork(artworkList[cardIndex])
         props.navigation.navigate('ArtworkScreen')
     }
 
     const addArtworkToCollection = async (cardIndex) => {
-        
-            const data = await fetch(`${REACT_APP_URL_BACKEND}/add-artworklist/`, {
-                method: "POST",
-                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                body: `token=${props.token}&artworkId=${artworkList[cardIndex]._id}`
-            });
 
-            const dataJSON = await data.json();
-             
-             props.addArtwork(artworkList[cardIndex]._id)
-             
+        const data = await fetch(`${REACT_APP_URL_BACKEND}/add-artworklist/`, {
+            method: "POST",
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: `token=${props.token}&artworkId=${artworkList[cardIndex]._id}`
+        });
 
-    
+        const dataJSON = await data.json(); //*** pas utilisé
+
+        props.addArtwork(artworkList[cardIndex]._id)
 
         setFavArtwork(!favArtwork);
-       // console.log('addArtworkToCollection', artworkList[cardIndex])
-        
     }
 
     return (
@@ -138,21 +134,6 @@ const SwipeScreen = (props) => {
         </View >
     )
 }
-function mapStateToProps(state) {
-    return { token: state.token , artworkList: state.artworkList}
-}
-
-function mapDispatchToProps(dispatch) {
-    return {
-        setSelectedArtwork: function (artwork) {
-            dispatch({ type: "setSelectedArtwork", artwork })
-        },
-        addArtwork: function (artworkId) {
-            dispatch({ type: 'addArtwork', artworkId })
-        }
-    }
-}
-export default connect(mapStateToProps, mapDispatchToProps)(SwipeScreen);
 
 const styles = StyleSheet.create({
     container: {
@@ -182,3 +163,20 @@ const styles = StyleSheet.create({
         elevation: 7
     }
 })
+
+function mapStateToProps(state) {
+    return { token: state.token, artworkList: state.artworkList }
+}
+
+function mapDispatchToProps(dispatch) {
+    return {
+        setSelectedArtwork: function (artwork) {
+            dispatch({ type: "setSelectedArtwork", artwork })
+        },
+        addArtwork: function (artworkId) {
+            dispatch({ type: 'addArtwork', artworkId })
+        }
+    }
+}
+export default connect(mapStateToProps, mapDispatchToProps)(SwipeScreen);
+

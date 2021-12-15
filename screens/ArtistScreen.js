@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react'
-import { View, Image, ScrollView, Text, StyleSheet, TouchableOpacity, SafeAreaView, FlatList } from 'react-native'
+import { View, Image, ScrollView, Text, StyleSheet, TouchableOpacity } from 'react-native'
 import { connect } from 'react-redux'
 import { Avatar, ListItem, Divider } from 'react-native-elements';
 import MyIcon from '../composants/myIcons';
-// masonryList to display the images in a grid
-import MasonryList from '@react-native-seoul/masonry-list';
+import MasonryList from '@react-native-seoul/masonry-list'; // masonryList to display the images in a grid
 import { REACT_APP_URL_BACKEND } from "@env";
 
 import {
@@ -31,14 +30,16 @@ const ArtistScreen = (props) => {
         Heebo_800ExtraBold,
         Heebo_900Black
     })
-    useEffect(() => {
 
+    const [likedArtist, setLikedArtist] = useState(false);
+    const [colorLike, setColorLike] = useState("black")
+
+    useEffect(() => {
 
         if (props.artistList.includes(props.selectedArtist._id)) {
             setLikedArtist(true);
             setColorLike('#FF565E')
         }
-
 
     }, [])
 
@@ -46,7 +47,6 @@ const ArtistScreen = (props) => {
     // the artworks of the artists (instead of a map, which does not work with flatlist and masonryList)
 
     const renderItem = ({ item }) => {
-
         return (
             <TouchableOpacity key={item._id} onPress={() => openArtworkDetail(item)}>
                 < Image
@@ -59,20 +59,7 @@ const ArtistScreen = (props) => {
     };
 
 
-
-
-    /*useEffect(() => {
-        aller chercher l'artiste lié à l'oeuvre en BDD et le mettre dans le store
-        const data = fetch('/getArtist/:artworkId')
-    }, [])*/
-    const [dataSource, setDataSource] = useState([]);
-    const [likedArtist, setLikedArtist] = useState(false);
-    const [colorLike, setColorLike] = useState("black")
-
-
-
     // Toggle qui add et delete des oeuvres dans la artistlist sur le store quand on press sur le coeur du like + changement de couleur
-
     let addToCollection = async (id) => {
         if (likedArtist == false) {
             const data = await fetch(`${REACT_APP_URL_BACKEND}/add-artistlist/`, {
@@ -80,7 +67,7 @@ const ArtistScreen = (props) => {
                 headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
                 body: `token=${props.token}&artistId=${id}`
             });
-            const dataJSON = await data.json();
+            const dataJSON = await data.json(); //***  exploiter le résultat pour enclencher l'action si result == true 
             setColorLike('#FF565E');
             props.addArtist(props.selectedArtist._id)
         } else {
@@ -89,7 +76,7 @@ const ArtistScreen = (props) => {
                 headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
                 body: `token=${props.token}&artistId=${id}`
             });
-            const dataJSON = await data.json();
+            const dataJSON = await data.json(); //***  exploiter le résultat pour enclencher l'action si result == true 
             setColorLike('black');
             props.deleteArtist(props.selectedArtist._id)
         }
@@ -100,7 +87,6 @@ const ArtistScreen = (props) => {
 
     // Récupère donnée du artwork pour le store et redirige vers le ArtworkScreen de l'oeuvre cliquée
     const openArtworkDetail = artwork => {
-
         props.setSelectedArtwork(artwork);
         props.navigation.navigate('ArtworkScreen');
     }
@@ -112,11 +98,11 @@ const ArtistScreen = (props) => {
 
     return (
         <ScrollView >
+
             <View style={styles.container}>
 
                 <View >
                     <ListItem containerStyle={{ flex: 1, marginLeft: 80, backgroundColor: "none" }}>
-
                         <Avatar rounded size="large" source={{ uri: props.selectedArtist.img }} />
                         <ListItem.Content>
                             <ListItem.Title style={styles.artist}>{props.selectedArtist.name}</ListItem.Title>
@@ -125,10 +111,9 @@ const ArtistScreen = (props) => {
                     </ListItem>
                 </View>
 
-
                 <Divider orientation="horizontal" inset={true} insetType="left" />
-                <View style={styles.mainInfoContainer}>
 
+                <View style={styles.mainInfoContainer}>
                     <Text style={{ fontFamily: 'Heebo_700Bold' }}>{props.selectedArtist.city}, {props.selectedArtist.country} </Text>
                     <TouchableOpacity style={styles.button} onPress={() => addToCollection(props.selectedArtist._id)}>
                         <MyIcon
@@ -140,24 +125,22 @@ const ArtistScreen = (props) => {
                     </TouchableOpacity>
                 </View>
 
-
-                <Text style={styles.moreArtworks}>
+                <Text style={styles.subtitle}>
                     BIO
                 </Text>
+
                 <Text style={styles.description}>
                     {props.selectedArtist.bio}
 
                 </Text>
 
-
-                <Text style={styles.moreArtworks}>
+                <Text style={styles.subtitle}>
                     ARTWORKS
                 </Text>
 
             </View>
+
             <View style={{ flex: 1, backgroundColor: '#FFF', }}>
-
-
                 <MasonryList
                     data={props.selectedArtist.artistArtwork}
                     keyExtractor={item => item.id}
@@ -168,45 +151,12 @@ const ArtistScreen = (props) => {
                         paddingHorizontal: 0,
                         alignSelf: 'stretch'
                     }}
-
                 />
-
-
-
             </View>
 
-
-
-
-
         </ScrollView>
-
-
     )
 }
-
-function mapStateToProps(state) {
-    return { selectedArtwork: state.selectedArtwork, selectedArtist: state.selectedArtist, token: state.token, artistList: state.artistList }
-}
-
-function mapDispatchToProps(dispatch) {
-    return {
-        setSelectedArtist: function (artist) {
-            dispatch({ type: 'setSelectedArtist', artist })
-        },
-        setSelectedArtwork: function (artwork) {
-            dispatch({ type: "setSelectedArtwork", artwork })
-        },
-        addArtist: function (artistId) {
-            dispatch({ type: 'addArtist', artistId })
-        },
-        deleteArtist: function (artistId) {
-            dispatch({ type: 'deleteArtist', artistId })
-        },
-    }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(ArtistScreen);
 
 const styles = StyleSheet.create({
     container: {
@@ -214,16 +164,6 @@ const styles = StyleSheet.create({
         padding: 22,
         paddingTop: 20,
         backgroundColor: '#FFF',
-
-
-    },
-    imageContainer: {
-        alignItems: 'center',
-        padding: 10,
-    },
-    image: {
-        width: "100%",
-        height: 500
     },
     button: {
         position: 'absolute',
@@ -241,44 +181,39 @@ const styles = StyleSheet.create({
     instagram: {
         fontFamily: 'Heebo_300Light'
     },
-    info: {
-        marginBottom: 25
-    },
     description: {
         marginBottom: 25,
         textAlign: 'justify',
         fontFamily: 'Heebo_300Light'
     },
-    moreArtworks: {
+    subtitle: {
         fontFamily: 'Heebo_700Bold',
         marginBottom: 12
-    },
-    minipicturesContainer: {
-        flexDirection: 'row'
     },
     minipicture: {
         justifyContent: 'center',
         alignItems: 'center',
         height: 300,
-
         margin: 3,
-    },
-    avatar: {
-        width: 80,
-        height: 80,
-
-    },
-    grid: {
-        marginTop: 12,
-        width: '33%',
-        flexDirection: 'row',
-        justifyContent: 'center',
-        paddingStart: 16,
-        paddingEnd: 16,
-        paddingTop: 8,
-        marginRight: 10,
-        paddingBottom: 8,
-        borderRadius: 8,
-    },
+    }
 })
 
+function mapStateToProps(state) {
+    return { selectedArtist: state.selectedArtist, token: state.token, artistList: state.artistList }
+}
+
+function mapDispatchToProps(dispatch) {
+    return {
+        setSelectedArtwork: function (artwork) {
+            dispatch({ type: "setSelectedArtwork", artwork })
+        },
+        addArtist: function (artistId) {
+            dispatch({ type: 'addArtist', artistId })
+        },
+        deleteArtist: function (artistId) {
+            dispatch({ type: 'deleteArtist', artistId })
+        },
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ArtistScreen);
