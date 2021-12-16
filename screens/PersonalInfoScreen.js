@@ -243,8 +243,8 @@ function PersonalInfoScreen(props) {
             onChangeText={(value) => validateEmail(value)}
             value={email}
           />
-
           <Text style={{ color: colorMessageMail, textAlign: 'center' }} >{messageMail}</Text>
+          
           {isVisible && (
           <Text style={styles.label}>Password</Text>
           )}
@@ -257,9 +257,8 @@ function PersonalInfoScreen(props) {
             value={password}
           />
           }
-          {isVisible &&
           <Text style={{ color: colorMessagePassword, textAlign: 'center' }} >{messagePassword}</Text>
-          }
+          
         </View>
 
         {tabErrorsSignUp}
