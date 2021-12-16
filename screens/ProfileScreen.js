@@ -134,7 +134,7 @@ const ProfileScreen = (props) => {
 
                 <View>
 
-                    <ListItem  key={'1'} containerStyle={{ marginTop: 10 }} onPress={() => props.navigation.navigate('SettingsScreen')}>
+                    <ListItem key={'1'} containerStyle={{ paddingTop: 18, backgroundColor: '#FFF' }} onPress={() => props.navigation.navigate('SettingsScreen')}>
                         <MyIcon
                             type='Ionicons'
                             name="ios-settings-outline"
@@ -145,7 +145,7 @@ const ProfileScreen = (props) => {
                         <ListItem.Title style={styles.list} > {'Settings'} </ListItem.Title>
                     </ListItem>
 
-                    <ListItem key={'2'} containerStyle={{ marginTop: 6 }}  onPress={() => props.navigation.navigate('StatisticsScreen')}>
+                    <ListItem key={'2'} containerStyle={{ paddingTop: 14 }} onPress={() => props.navigation.navigate('StatisticsScreen')}>
                         <MyIcon
                             type='Ionicons'
                             name="md-stats-chart"
@@ -166,7 +166,7 @@ const ProfileScreen = (props) => {
                         />
                         <ListItem.Title style={styles.list} > {'My Collection'} </ListItem.Title>
                     </ListItem>
-                    <ListItem key={'4'} containerStyle={{ marginTop: 6 }} onPress={() => props.navigation.navigate('TopNav', { screen: 'my Artists' })}>
+                    <ListItem key={'4'} containerStyle={{ paddingTop: 14 }} onPress={() => props.navigation.navigate('TopNav', { screen: 'my Artists' })}>
                         <MyIcon
                             type='MaterialCommunityIcons'
                             name="account-heart-outline"
@@ -176,7 +176,7 @@ const ProfileScreen = (props) => {
                         />
                         <ListItem.Title style={styles.list} > {'My Artists'} </ListItem.Title>
                     </ListItem>
-                    <ListItem key={'5'} containerStyle={{ marginTop: 6 }} onPress={() => props.navigation.navigate('ExhibitionScreen')}>
+                    <ListItem key={'5'} containerStyle={{ paddingTop: 14 }} onPress={() => props.navigation.navigate('ExhibitionScreen')}>
                         <MyIcon
                             type='AntDesign'
                             name="calendar"
@@ -186,7 +186,7 @@ const ProfileScreen = (props) => {
                         />
                         <ListItem.Title style={styles.list} > {'Exhibitions'} </ListItem.Title>
                     </ListItem>
-                    <ListItem key={'6'} containerStyle={{ marginTop: 6 }} onPress={() => props.navigation.navigate('DailyScreen')} r>
+                    <ListItem key={'6'} containerStyle={{ paddingTop: 14 }} onPress={() => props.navigation.navigate('DailyScreen')} r>
                         <MyIcon
                             type='Ionicons'
                             name="ios-eye-outline"
@@ -197,8 +197,8 @@ const ProfileScreen = (props) => {
                         <ListItem.Title style={styles.list} > {'Daily Selection'} </ListItem.Title>
                     </ListItem>
 
-                    
-                    <ListItem key={'7'} containerStyle={{ marginTop: 10 }}  onPress={() => logout()}>
+
+                    <ListItem key={'7'} containerStyle={{ paddingTop: 14 }} onPress={() => logout()}>
                         <MyIcon
                             type='Ionicons'
                             name="log-out"
@@ -223,7 +223,7 @@ const styles = StyleSheet.create({
         flex: 1,
         margin: 0,
         paddingTop: 20,
-        backgroundColor: "white"
+        backgroundColor: "#FFF"
     },
     containerImage: {
         elevation: 2,

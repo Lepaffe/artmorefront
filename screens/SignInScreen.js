@@ -49,7 +49,7 @@ function SignInScreen(props) {
       props.addToken(body.token)
       props.loadArtist(body.artistList)
       props.loadArtwork(body.artworkList)
-      // Store le token dans le LocalStorage
+      // On envoie au local storage "token2" qui stockera la valeur du body.token
       AsyncStorage.setItem('token2', body.token)
 
       props.navigation.navigate('BottomNav', { screen: 'DailyScreen' })
@@ -64,7 +64,9 @@ function SignInScreen(props) {
     }
   }
 
-  // voir ce qu'il y a dans le localStorage
+  // Cette fonction est l'équivalent d'un console.log(localstorage)
+  // Elle peut donc être supprimée
+  // Je l'ai trouvé sur internet 
   AsyncStorage.getAllKeys((err, keys) => {
     AsyncStorage.multiGet(keys, (error, stores) => {
       stores.map((result, i, store) => {

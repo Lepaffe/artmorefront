@@ -92,7 +92,7 @@ function CategoryScreen(props) {
     },
     {
       name: 'Digital',
-      img: 'https://res.cloudinary.com/artplusmore/image/upload/v1639575121/pexels-photo-3977529_yhslxr.jpg'
+      img: 'https://res.cloudinary.com/artplusmore/image/upload/v1639590336/pexels-photo-2783848_jyddpn.jpg'
     },
   ]
 

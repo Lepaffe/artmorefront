@@ -1,3 +1,4 @@
+console.disableYellowBox=true;
 import React, { useEffect, useState } from 'react';
 import { ScrollView, View, StyleSheet, KeyboardAvoidingView, Text, TouchableOpacity, TextInput, Dimensions } from 'react-native';
 import { Button } from 'react-native-elements'
@@ -18,7 +19,7 @@ import {
 
 import { useFonts } from 'expo-font'
 import AppLoading from 'expo-app-loading'
-
+import { useIsFocused } from '@react-navigation/native';
 import { REACT_APP_URL_BACKEND } from "@env";
 
 function PersonalInfoScreen(props) {
@@ -49,26 +50,32 @@ function PersonalInfoScreen(props) {
   const [isPasswordValid, setIsPasswordValid] = useState(false);
   const [messagePassword, setMessagePassword] = useState('');
   const [isVisible, setIsVisible]=useState(true);
+  const isFocused = useIsFocused();
   //au chargement on verifie si le user a utiliser GoogleSignIn ou pas 
  
 
   useEffect (()=>{
-    if (props.tmpGoogleUser !== {}){
+    console.log(props.tmpGoogleUser, isFocused);
+    if (props.tmpGoogleUser){
+      console.log('coucouggle')
       setFirstName(props.tmpGoogleUser.firstName);
       setLastName(props.tmpGoogleUser.lastName);
       validateEmail(props.tmpGoogleUser.email);
       setIsPasswordValid(true);
-      setMessagePassword('Sign up via Google');
+      setMessagePassword('');
       setIsVisible(false);
     } else {
+      console.log('coucou')
       setFirstName('');
       setLastName('');
       validateEmail('');
       setIsPasswordValid(false);
+      setMessageMail('');
+      setIsEmailValid(false);
       setMessagePassword('');
       setIsVisible(true);
     }
-  }, [])
+  }, [isFocused])
 
   const showDatePicker = () => {
     setDatePickerVisibility(true);
@@ -122,7 +129,7 @@ function PersonalInfoScreen(props) {
       let categories = JSON.stringify(props.category)
       console.log('tmpGgleUser', props.tmpGoogleUser);
       
-      if (props.tmpGoogleUser.firstName){
+      if (props.tmpGoogleUser){
 
         const dataGgle = await fetch(`${REACT_APP_URL_BACKEND}/sign-up-google`, { //192.168.1.16 ALICE //172.17.1.83 CAPSULE
           method: 'POST',
@@ -141,11 +148,12 @@ function PersonalInfoScreen(props) {
         dataJSON = await data.json();
 
       }
-      
+
       props.deleteTmpGoogleUser();
       if (dataJSON.result) {
 
         props.addToken(dataJSON.token)
+        // On envoie au local storage "token2" qui stockera la valeur du datJSON.token
         AsyncStorage.setItem('token2', dataJSON.token);
         
         props.navigation.navigate('BottomNav', { screen: 'DailyScreen' })
@@ -155,7 +163,9 @@ function PersonalInfoScreen(props) {
       }
     }
   }
-
+  // Cette fonction est l'équivalent d'un console.log(localstorage)
+  // Elle peut donc être supprimée
+  // Je l'ai trouvé sur internet 
   AsyncStorage.getAllKeys((err, keys) => {
     AsyncStorage.multiGet(keys, (error, stores) => {
       stores.map((result, i, store) => {
@@ -178,7 +188,7 @@ function PersonalInfoScreen(props) {
   if (!fontsLoaded) {
     return <AppLoading />
   }
-  console.log('isVisible',isVisible, props.tmpGoogleUser);
+  console.log('isVisible',isEmailValid, props.tmpGoogleUser);
   return (
     <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === "ios" ? "padding" : "height"}>
 
@@ -236,22 +246,22 @@ function PersonalInfoScreen(props) {
             onChangeText={(value) => validateEmail(value)}
             value={email}
           />
-
           <Text style={{ color: colorMessageMail, textAlign: 'center' }} >{messageMail}</Text>
-          {/* {isVisible && ( */}
+          
+          {isVisible && (
           <Text style={styles.label}>Password</Text>
-          {/* )} */}
+          )}
 
-        {/* {isVisible && */}
+         {isVisible &&
           <TextInput
             style={styles.input}
             secureTextEntry={true}
             onChangeText={(value) => validatePassword(value)}
             value={password}
           />
-          {/* } */}
+          }
           <Text style={{ color: colorMessagePassword, textAlign: 'center' }} >{messagePassword}</Text>
-
+          
         </View>
 
         {tabErrorsSignUp}

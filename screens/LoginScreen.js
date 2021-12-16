@@ -11,7 +11,7 @@ import * as WebBrowser from 'expo-web-browser';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { connect } from 'react-redux'
-import { REACT_APP_URL_BACKEND } from "@env";
+import { REACT_APP_URL_BACKEND, REACT_APP_GGLE_SIGNIN_KEY } from "@env";
 
 
 
@@ -44,10 +44,9 @@ function LoginScreen(props) {
   // load la requete qui renvoie une fonction promptAsync qui permettra l'appel depuis le bouton, l'objet response 
   //qui sera rempli à la fin de l'execution de la requete. Requet est à null quand la requete n'est pas en cours.
   const [request, response, promptAsync] = Google.useAuthRequest({
-    expoClientId: '248288746032-j461feh983b0v0jn3kcmnd7t0bhkg9vg.apps.googleusercontent.com', 
-    iosClientId: '248288746032-j461feh983b0v0jn3kcmnd7t0bhkg9vg.apps.googleusercontent.com',
-    // androidClientId: '248288746032-j461feh983b0v0jn3kcmnd7t0bhkg9vg.apps.googleusercontent.com',
-    // webClientId: '248288746032-j461feh983b0v0jn3kcmnd7t0bhkg9vg.apps.googleusercontent.com',
+    expoClientId: `${REACT_APP_GGLE_SIGNIN_KEY}.apps.googleusercontent.com`, 
+    iosClientId: `${REACT_APP_GGLE_SIGNIN_KEY}.apps.googleusercontent.com`,
+   
     redirectUri: makeRedirectUri({
         useProxy 
       // scheme: 'https://auth.expo.io/@artmore/artmore'
@@ -130,7 +129,8 @@ function LoginScreen(props) {
       
     }    
   }
-  
+  console.log(images);
+
   if (!fontsLoaded) {
     return <AppLoading />
   }

@@ -1,7 +1,7 @@
 
 import * as React from 'react';
 import { Appbar } from 'react-native-paper';
-import { View, Text, Share } from 'react-native';
+import { Image, View, Text, Share } from 'react-native';
 import { Button } from 'react-native-elements';
 import MyIcon from './myIcons'; // impot composant MyIcon
 
@@ -71,7 +71,13 @@ const MyAppBar = (props) => {
         <Appbar.BackAction onPress={() => { props.navigation.goBack() }} />}
       {/* <Appbar.BackAction onPress={()=>{console.log('toto', props.name, props.navigation.getState());
                                        props.navigation.goBack()}} /> */}
-      <Appbar.Content titleStyle={{ color: 'black', textAlign: 'center', fontFamily: 'Heebo_700Bold', fontSize: 30 }} title="Art + More" subtitle=" " />
+      <Appbar.Content titleStyle={{ color: 'black', textAlign: 'center', fontFamily: 'Heebo_700Bold', fontSize: 30 }} 
+                      title={<Image source={require("../assets/logo2.jpg")}
+                                    style={{
+                                                width: 120,
+                                                height: 40,
+                                            }} />}
+                      subtitle=" " />
       
       {(props.route.name !== 'ProfileScreen'
         && props.route.name !== 'SignInScreen'
