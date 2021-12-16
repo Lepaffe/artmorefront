@@ -130,6 +130,7 @@ function LoginScreen(props) {
       
     }    
   }
+  console.log(images);
   
   if (!fontsLoaded) {
     return <AppLoading />
