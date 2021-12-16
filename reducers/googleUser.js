@@ -1,4 +1,4 @@
-export default function (tmpGoogleUser = {}, action) {
+export default function (tmpGoogleUser = null, action) {
     if (action.type === 'addTmpGgleUser') {
         let user = {
             firstName: action.user.given_name,
@@ -8,7 +8,7 @@ export default function (tmpGoogleUser = {}, action) {
         }
         return user
     } else if (action.type === 'deleteTmpGoogleUser'){ 
-         return {}
+         return null
     }else {
         return tmpGoogleUser
     }

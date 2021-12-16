@@ -1,3 +1,4 @@
+console.disableYellowBox=true;
 import React, { useEffect, useState } from 'react';
 import { ScrollView, View, StyleSheet, KeyboardAvoidingView, Text, TouchableOpacity, TextInput, Dimensions } from 'react-native';
 import { Button } from 'react-native-elements'
@@ -18,7 +19,7 @@ import {
 
 import { useFonts } from 'expo-font'
 import AppLoading from 'expo-app-loading'
-
+import { useIsFocused } from '@react-navigation/native';
 import { REACT_APP_URL_BACKEND } from "@env";
 
 function PersonalInfoScreen(props) {
@@ -49,11 +50,14 @@ function PersonalInfoScreen(props) {
   const [isPasswordValid, setIsPasswordValid] = useState(false);
   const [messagePassword, setMessagePassword] = useState('');
   const [isVisible, setIsVisible]=useState(true);
+  const isFocused = useIsFocused();
   //au chargement on verifie si le user a utiliser GoogleSignIn ou pas 
  
 
   useEffect (()=>{
-    if (props.tmpGoogleUser !== {}){
+    console.log(props.tmpGoogleUser, isFocused);
+    if (props.tmpGoogleUser){
+      console.log('coucouggle')
       setFirstName(props.tmpGoogleUser.firstName);
       setLastName(props.tmpGoogleUser.lastName);
       validateEmail(props.tmpGoogleUser.email);
@@ -61,6 +65,7 @@ function PersonalInfoScreen(props) {
       setMessagePassword('Sign up via Google');
       setIsVisible(false);
     } else {
+      console.log('coucou')
       setFirstName('');
       setLastName('');
       validateEmail('');
@@ -68,7 +73,7 @@ function PersonalInfoScreen(props) {
       setMessagePassword('');
       setIsVisible(true);
     }
-  }, [])
+  }, [isFocused])
 
   const showDatePicker = () => {
     setDatePickerVisibility(true);
@@ -238,20 +243,21 @@ function PersonalInfoScreen(props) {
           />
 
           <Text style={{ color: colorMessageMail, textAlign: 'center' }} >{messageMail}</Text>
-          {/* {isVisible && ( */}
+          {isVisible && (
           <Text style={styles.label}>Password</Text>
-          {/* )} */}
+          )}
 
-        {/* {isVisible && */}
+         {isVisible &&
           <TextInput
             style={styles.input}
             secureTextEntry={true}
             onChangeText={(value) => validatePassword(value)}
             value={password}
           />
-          {/* } */}
+          }
+          {isVisible &&
           <Text style={{ color: colorMessagePassword, textAlign: 'center' }} >{messagePassword}</Text>
-
+          }
         </View>
 
         {tabErrorsSignUp}
