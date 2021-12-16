@@ -70,6 +70,8 @@ function PersonalInfoScreen(props) {
       setLastName('');
       validateEmail('');
       setIsPasswordValid(false);
+      setMessageMail('');
+      setIsEmailValid(false);
       setMessagePassword('');
       setIsVisible(true);
     }
@@ -127,7 +129,7 @@ function PersonalInfoScreen(props) {
       let categories = JSON.stringify(props.category)
       console.log('tmpGgleUser', props.tmpGoogleUser);
       
-      if (props.tmpGoogleUser.firstName){
+      if (props.tmpGoogleUser){
 
         const dataGgle = await fetch(`${REACT_APP_URL_BACKEND}/sign-up-google`, { //192.168.1.16 ALICE //172.17.1.83 CAPSULE
           method: 'POST',
@@ -146,7 +148,7 @@ function PersonalInfoScreen(props) {
         dataJSON = await data.json();
 
       }
-      
+
       props.deleteTmpGoogleUser();
       if (dataJSON.result) {
 
@@ -183,7 +185,7 @@ function PersonalInfoScreen(props) {
   if (!fontsLoaded) {
     return <AppLoading />
   }
-  console.log('isVisible',isVisible, props.tmpGoogleUser);
+  console.log('isVisible',isEmailValid, props.tmpGoogleUser);
   return (
     <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === "ios" ? "padding" : "height"}>
 
