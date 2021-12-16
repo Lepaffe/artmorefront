@@ -65,7 +65,7 @@ const categories = [
       },
       {
         name: 'Digital',
-        img: 'https://res.cloudinary.com/artplusmore/image/upload/v1639558392/pexels-photo-5308359_po3xrh.jpg'
+        img: 'https://res.cloudinary.com/artplusmore/image/upload/v1639590336/pexels-photo-2783848_jyddpn.jpg'
       },
 ]
 
