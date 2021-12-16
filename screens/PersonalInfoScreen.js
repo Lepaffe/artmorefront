@@ -146,6 +146,7 @@ function PersonalInfoScreen(props) {
       if (dataJSON.result) {
 
         props.addToken(dataJSON.token)
+        // On envoie au local storage "token2" qui stockera la valeur du datJSON.token
         AsyncStorage.setItem('token2', dataJSON.token);
         
         props.navigation.navigate('BottomNav', { screen: 'DailyScreen' })
@@ -155,7 +156,9 @@ function PersonalInfoScreen(props) {
       }
     }
   }
-
+  // Cette fonction est l'équivalent d'un console.log(localstorage)
+  // Elle peut donc être supprimée
+  // Je l'ai trouvé sur internet 
   AsyncStorage.getAllKeys((err, keys) => {
     AsyncStorage.multiGet(keys, (error, stores) => {
       stores.map((result, i, store) => {
