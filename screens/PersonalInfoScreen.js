@@ -62,7 +62,7 @@ function PersonalInfoScreen(props) {
       setLastName(props.tmpGoogleUser.lastName);
       validateEmail(props.tmpGoogleUser.email);
       setIsPasswordValid(true);
-      setMessagePassword('Sign up via Google');
+      setMessagePassword('');
       setIsVisible(false);
     } else {
       console.log('coucou')
