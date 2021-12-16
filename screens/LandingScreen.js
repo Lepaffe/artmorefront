@@ -71,7 +71,7 @@ function LandingScreen(props) {
         <Image style={{
           width: 300,
           height: 140,
-        }} source={require('../assets/logo.jpg')} />
+        }} source={require('../assets/masklogo.png')} />
       </FadeInView>
 
     </View >
