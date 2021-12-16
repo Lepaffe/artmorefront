@@ -40,7 +40,7 @@ useEffect(() => {
       AsyncStorage.getItem('token2', async (err, value) => {
         console.log("Value ? ", value)
         if (value) {
-          var rawResponse = await fetch(`http://172.17.1.83:3000/auto-loggedIn/${value}`);
+          var rawResponse = await fetch(`${REACT_APP_URL_BACKEND}/auto-loggedIn/${value}`);
           const body = await rawResponse.json()
           setAppReady(true);
           if (body.result == true) {
