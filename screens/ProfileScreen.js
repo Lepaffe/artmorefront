@@ -86,6 +86,7 @@ const ProfileScreen = (props) => {
                 body: data
             })
             const resJSON = await res.json()
+            console.log('resJSON.image', resJSON.img);
             resJSON.img && setImage(resJSON.img);
         };
     }
@@ -113,7 +114,7 @@ const ProfileScreen = (props) => {
 
                 <View style={styles.containerImage}>
 
-                    <Image source={{ uri: image }} style={{ width: 150, height: 150 }} />
+                    <Image source={{ uri: image}} style={{ width: 150, height: 150 }} />
 
                     <View style={styles.uploadBtnContainer}>
                         <TouchableOpacity onPress={addImage} style={styles.uploadBtn} >
