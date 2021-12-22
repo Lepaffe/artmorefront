@@ -123,11 +123,12 @@ function ExhibitionScreen(props) {
 
   if (datalist.length > 0) {
 
-    exhibitionsList = datalist.map(item => {
+    exhibitionsList = datalist.map((item,i) => {
 
       let isFav = myExpoList.some(expo => item.title === expo.title)
       return (
         < Expo
+          key={i}
           isFav={isFav}
           addExpo={addExpo}
           deleteExpo={deleteExpo}

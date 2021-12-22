@@ -66,10 +66,10 @@ const StatisticsScreen = (props) => {
 
                 <View style={styles.categoriesContainer}>
                     {movementsPourcentage.length > 0 &&
-                        movementsPourcentage.map(movement => {
+                        movementsPourcentage.map((movement,i) => {
                             if (movement.pourcentage != 0) {
                                 return (
-                                    <View style={styles.category}>
+                                    <View key={i} style={styles.category}>
                                         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                                             <Image style={styles.image} source={{ uri: movement.img }} />
                                             <Text style={styles.categoryText}>{movement.name}</Text>
@@ -91,9 +91,9 @@ const StatisticsScreen = (props) => {
                 <View style={styles.categoriesContainer}>
 
                     {categoriesPourcentage.length > 0 &&
-                        categoriesPourcentage.map(category => {
+                        categoriesPourcentage.map((category,i) => {
                             if (category.pourcentage != 0) {
-                                return (<View style={styles.category}>
+                                return (<View key={i} style={styles.category}>
                                     <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                                         <Image style={styles.image} source={{ uri: category.img }} />
                                         <Text style={styles.categoryText}>{category.name}</Text>

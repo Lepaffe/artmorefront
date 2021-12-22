@@ -39,6 +39,7 @@ function DailyScreen(props) {
       const dataJSON = await data.json();
       const dailyListBack = dataJSON.artworksWithArtists;
       setDailyList(dailyListBack);
+      
     }
 
     getDailySelection();
@@ -81,7 +82,7 @@ function DailyScreen(props) {
   if (!fontsLoaded) {
     return <AppLoading />
   }
-
+  console.log('dailyList',dailyList)
   return (
     <SafeAreaView style={styles.container}>
       <Text style={styles.dailyText}>Daily selection</Text>
