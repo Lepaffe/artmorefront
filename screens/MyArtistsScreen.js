@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react'
-import { View, StyleSheet, TouchableOpacity, Text, ScrollView, } from 'react-native'
+import { View, TouchableOpacity, Text, ScrollView, } from 'react-native'
 import { ListItem, Avatar } from 'react-native-elements'
 import { REACT_APP_URL_BACKEND } from "@env";
 import { connect } from 'react-redux'
-import { useIsFocused } from '@react-navigation/native';
 
 import {
     Heebo_100Thin,
@@ -31,17 +30,16 @@ function MyArtistsScreen(props) {
     })
 
     const [artistCollection, setArtistCollection] = useState([])
-    const isFocused = useIsFocused();
 
     useEffect(() => {
         const getArtistCollection = async () => {
             const data = await fetch(`${REACT_APP_URL_BACKEND}/get-artist-collection/${props.token}`);
             const dataJSON = await data.json();
-            setArtistCollection(dataJSON.artistCollection.artistList);
+            setArtistCollection(dataJSON.artistCollection);
         }
         getArtistCollection();
 
-    }, [isFocused])
+    }, [props.artistList])
 
     const openArtistDetail = (artist) => {
         props.setSelectedArtist(artist)

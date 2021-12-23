@@ -43,6 +43,7 @@ const ArtworkScreen = (props) => {
             setLikedArtwork(true);
             setColorLike('#FF565E')
         }
+
         getArtistDetail();
     }, [])
 
@@ -84,20 +85,26 @@ const ArtworkScreen = (props) => {
                 body: `token=${props.token}&artworkId=${id}`
             });
 
-            const dataJSON = await data.json(); //*** exploiter le résultat et déclencher le changement de couleur seulement si result === true
-            setColorLike('#FF565E');
-            props.addArtwork(props.selectedArtwork._id)
+            const dataJSON = await data.json();
+
+            if (dataJSON.result) {
+                setColorLike('#FF565E');
+                props.addArtwork(props.selectedArtwork._id)
+            }
 
         } else {
 
             const data = await fetch(`${REACT_APP_URL_BACKEND}/delete-artworklist/`, {
-                method: "POST",
+                method: "DELETE",
                 headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
                 body: `token=${props.token}&artworkId=${id}`
             });
-            const dataJSON = await data.json(); //*** exploiter le résultat et déclencher le changement de couleur seulement si result === true
-            setColorLike('black');
-            props.deleteArtwork(props.selectedArtwork._id)
+            const dataJSON = await data.json();
+
+            if (dataJSON.result) {
+                setColorLike('black');
+                props.deleteArtwork(props.selectedArtwork._id)
+            }
         }
 
         setLikedArtwork(!likedArtwork);
@@ -153,7 +160,10 @@ const ArtworkScreen = (props) => {
                         <Text style={styles.name}>{props.selectedArtwork.name}</Text>
 
                         <View style={styles.artistinfo}>
-                            <Text onPress={() => props.navigation.navigate('ArtistScreen')} style={styles.artist}>{props.selectedArtist.name}</Text>
+                            <Text
+                                onPress={() => props.navigation.navigate('ArtistScreen')}
+                                style={styles.artist}>{props.selectedArtist.name}
+                            </Text>
                             <Text style={styles.instagram}>{props.selectedArtist.instagram}</Text>
                         </View>
 

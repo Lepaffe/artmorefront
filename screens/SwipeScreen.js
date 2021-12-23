@@ -11,7 +11,7 @@ import { REACT_APP_URL_BACKEND } from "@env";
 const SwipeScreen = (props) => {
 
     const [artworkList, setArtworkList] = useState([])
-    const [favArtwork, setFavArtwork] = useState(false)
+    //const [favArtwork, setFavArtwork] = useState(false)
 
     const isFocused = useIsFocused();
     const swipeRef = useRef(null);
@@ -34,7 +34,6 @@ const SwipeScreen = (props) => {
             body: `token=${props.token}&artworkId=${artworkList[cardIndex]._id}`
         });
 
-        const dataJSON = await data.json(); //*** pas utilisé
     }
 
     const handleDislike = async (cardIndex) => {
@@ -45,7 +44,6 @@ const SwipeScreen = (props) => {
             body: `token=${props.token}&artworkId=${artworkList[cardIndex]._id}`
         });
 
-        const dataJSON = await data.json(); //*** pas utilisé
     }
 
     const openArtworkDetail = (cardIndex) => {
@@ -61,11 +59,12 @@ const SwipeScreen = (props) => {
             body: `token=${props.token}&artworkId=${artworkList[cardIndex]._id}`
         });
 
-        const dataJSON = await data.json(); //*** pas utilisé
+        const dataJSON = await data.json();
 
-        props.addArtwork(artworkList[cardIndex]._id)
-
-        setFavArtwork(!favArtwork);
+        if (dataJSON.result) {
+            props.addArtwork(artworkList[cardIndex]._id)
+            //setFavArtwork(!favArtwork); 
+        }
     }
 
     return (
@@ -73,6 +72,7 @@ const SwipeScreen = (props) => {
         <View style={styles.container}>
 
             <View style={styles.swiperContainer}>
+
                 {artworkList.length > 1 &&
                     (<Swiper
                         ref={swipeRef}
@@ -99,7 +99,6 @@ const SwipeScreen = (props) => {
                     />)}
 
             </View >
-
 
             <View style={styles.buttonContainer}>
 
@@ -165,7 +164,7 @@ const styles = StyleSheet.create({
 })
 
 function mapStateToProps(state) {
-    return { token: state.token, artworkList: state.artworkList }
+    return { token: state.token }
 }
 
 function mapDispatchToProps(dispatch) {

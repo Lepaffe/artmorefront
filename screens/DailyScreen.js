@@ -39,7 +39,6 @@ function DailyScreen(props) {
       const dataJSON = await data.json();
       const dailyListBack = dataJSON.artworksWithArtists;
       setDailyList(dailyListBack);
-      
     }
 
     getDailySelection();
@@ -65,24 +64,32 @@ function DailyScreen(props) {
       body: `token=${props.token}&artworkId=${artwork._id}`
     });
 
-    props.addArtwork(artwork._id)
+    const dataJSON = await data.json();
+
+    if (dataJSON.result) {
+      props.addArtwork(artwork._id)
+    }
   }
 
   const removeFromCollection = async (artwork) => {
 
     const data = await fetch(`${REACT_APP_URL_BACKEND}/delete-artworklist/`, {
-      method: "POST",
+      method: "DELETE",
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
       body: `token=${props.token}&artworkId=${artwork._id}`
     });
 
-    props.deleteArtwork(artwork._id)
+    const dataJSON = await data.json();
+
+    if (dataJSON.result) {
+      props.deleteArtwork(artwork._id)
+    }
   }
 
   if (!fontsLoaded) {
     return <AppLoading />
   }
-  console.log('dailyList',dailyList)
+
   return (
     <SafeAreaView style={styles.container}>
       <Text style={styles.dailyText}>Daily selection</Text>
@@ -91,6 +98,8 @@ function DailyScreen(props) {
       <ScrollView horizontal={true} >
 
         {dailyList.map(el => {
+
+          let isFav = props.artworkList.includes(el.artwork._id)
 
           return (
             <DailyArtwork
@@ -101,7 +110,7 @@ function DailyScreen(props) {
               removeFromCollection={removeFromCollection}
               artwork={el.artwork}
               artist={el.artist}
-              isFav={el.isFav}
+              isFav={isFav}
             />
           )
         })}

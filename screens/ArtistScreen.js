@@ -61,24 +61,35 @@ const ArtistScreen = (props) => {
 
     // Toggle qui add et delete des oeuvres dans la artistlist sur le store quand on press sur le coeur du like + changement de couleur
     let addToCollection = async (id) => {
+
         if (likedArtist == false) {
             const data = await fetch(`${REACT_APP_URL_BACKEND}/add-artistlist/`, {
                 method: "POST",
                 headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
                 body: `token=${props.token}&artistId=${id}`
             });
-            const dataJSON = await data.json(); //***  exploiter le résultat pour enclencher l'action si result == true 
-            setColorLike('#FF565E');
-            props.addArtist(props.selectedArtist._id)
+
+            const dataJSON = await data.json();
+
+            if (dataJSON.result) {
+                setColorLike('#FF565E');
+                props.addArtist(props.selectedArtist._id)
+            }
+
         } else {
+
             const data = await fetch(`${REACT_APP_URL_BACKEND}/delete-artistlist/`, {
-                method: "POST",
+                method: "DELETE",
                 headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
                 body: `token=${props.token}&artistId=${id}`
             });
-            const dataJSON = await data.json(); //***  exploiter le résultat pour enclencher l'action si result == true 
-            setColorLike('black');
-            props.deleteArtist(props.selectedArtist._id)
+
+            const dataJSON = await data.json();
+
+            if (dataJSON.result) {
+                setColorLike('black');
+                props.deleteArtist(props.selectedArtist._id)
+            }
         }
 
         setLikedArtist(!likedArtist);
@@ -90,7 +101,6 @@ const ArtistScreen = (props) => {
         props.setSelectedArtwork(artwork);
         props.navigation.navigate('ArtworkScreen');
     }
-
 
     if (!fontsLoaded) {
         return <AppLoading />

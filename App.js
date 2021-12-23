@@ -1,8 +1,6 @@
 import { LogBox } from 'react-native';
-//LogBox.ignoreLogs(['Warning: ...']);
 LogBox.ignoreAllLogs();
 
-import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 
 // COPOSANTS NAVIGATION
@@ -23,16 +21,17 @@ import SignInScreen from './screens/SignInScreen';
 import SwipeScreen from './screens/SwipeScreen';
 import DailyScreen from './screens/DailyScreen';
 import ExhibitionScreen from './screens/ExhibitionScreen';
-
 import CollectionScreen from './screens/CollectionScreen';
 import MyArtistsScreen from './screens/MyArtistsScreen';
 
 import ArtworkScreen from './screens/ArtworkScreen';
 import ArtistScreen from './screens/ArtistScreen';
+
 import ProfileScreen from './screens/ProfileScreen';
 import SettingsScreen from './screens/SettingsScreen'
 import StatisticsScreen from './screens/StatisticsScreen';
 
+//REDUCERS
 import selectedArtwork from './reducers/selectedArtwork'
 import selectedArtist from './reducers/selectedArtist'
 import mediumSignUp from './reducers/mediumSignUp';
@@ -46,7 +45,7 @@ import MyIcon from './composants/myIcons'; // impot composant MyIcon
 import { Provider } from 'react-redux';
 import { createStore, combineReducers } from 'redux';
 
-const store = createStore(combineReducers({ selectedArtwork, selectedArtist, categorySignUp, mediumSignUp, token, artistList, artworkList,tmpGoogleUser }));
+const store = createStore(combineReducers({ selectedArtwork, selectedArtist, categorySignUp, mediumSignUp, token, artistList, artworkList, tmpGoogleUser }));
 
 const Stack = createStackNavigator();
 const BottomTab = createBottomTabNavigator();

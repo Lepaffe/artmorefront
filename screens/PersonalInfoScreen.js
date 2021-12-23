@@ -1,4 +1,3 @@
-console.disableYellowBox = true;
 import React, { useEffect, useState } from 'react';
 import { ScrollView, View, StyleSheet, KeyboardAvoidingView, Text, TouchableOpacity, TextInput, Dimensions } from 'react-native';
 import { Button } from 'react-native-elements'
@@ -49,30 +48,31 @@ function PersonalInfoScreen(props) {
   const [messageMail, setMessageMail] = useState('');
   const [isPasswordValid, setIsPasswordValid] = useState(false);
   const [messagePassword, setMessagePassword] = useState('');
+
   const [isVisible, setIsVisible] = useState(true);
+
   const isFocused = useIsFocused();
-  //au chargement on verifie si le user a utiliser GoogleSignIn ou pas 
 
-
+  //au chargement on verifie si le user a utilisé GoogleSignIn ou pas 
   useEffect(() => {
-    console.log(props.tmpGoogleUser, isFocused);
     if (props.tmpGoogleUser) {
-      console.log('coucouggle')
       setFirstName(props.tmpGoogleUser.firstName);
       setLastName(props.tmpGoogleUser.lastName);
       validateEmail(props.tmpGoogleUser.email);
       setIsPasswordValid(true);
-      setMessagePassword('Sign up via Google');
+      //setMessagePassword('');
       setIsVisible(false);
-    } else {
+    } /*else { 
       console.log('coucou')
-      setFirstName('');
+      setFirstName('');   // ce sont déjà les états de base
       setLastName('');
       validateEmail('');
       setIsPasswordValid(false);
+      setMessageMail('');
+      setIsEmailValid(false);
       setMessagePassword('');
       setIsVisible(true);
-    }
+    }*/
   }, [isFocused])
 
   const showDatePicker = () => {
@@ -121,38 +121,39 @@ function PersonalInfoScreen(props) {
   const signUp = async () => {
 
     if (isEmailValid && isPasswordValid) {
+
       var dataJSON = {};
-      console.log('SignUp activated')
       let mediums = JSON.stringify(props.medium)
       let categories = JSON.stringify(props.category)
-      console.log('tmpGgleUser', props.tmpGoogleUser);
 
-      if (props.tmpGoogleUser.firstName) {
+      if (props.tmpGoogleUser) {
 
-        const dataGgle = await fetch(`${REACT_APP_URL_BACKEND}/sign-up-google`, { //192.168.1.16 ALICE //172.17.1.83 CAPSULE
+        const dataGgle = await fetch(`${REACT_APP_URL_BACKEND}/sign-up-google`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
           body: `firstName=${firstName}&lastName=${lastName}&birthday=${birthday}&img=${props.tmpGoogleUser.img}&email=${email}&city=${city}&mediums=${mediums}&categories=${categories}`
         });
+
         dataJSON = await dataGgle.json();
+
+        props.deleteTmpGoogleUser();
 
       } else {
 
-        const data = await fetch(`${REACT_APP_URL_BACKEND}/sign-up`, { //192.168.1.16 ALICE //172.17.1.83 CAPSULE
+        const data = await fetch(`${REACT_APP_URL_BACKEND}/sign-up`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
           body: `firstName=${firstName}&lastName=${lastName}&birthday=${birthday}&email=${email}&city=${city}&password=${password}&mediums=${mediums}&categories=${categories}`
         });
+
         dataJSON = await data.json();
 
       }
 
-      props.deleteTmpGoogleUser();
       if (dataJSON.result) {
 
         props.addToken(dataJSON.token)
         AsyncStorage.setItem('token2', dataJSON.token);
-
         props.navigation.navigate('BottomNav', { screen: 'DailyScreen' })
 
       } else {
@@ -160,15 +161,6 @@ function PersonalInfoScreen(props) {
       }
     }
   }
-
-  AsyncStorage.getAllKeys((err, keys) => {
-    AsyncStorage.multiGet(keys, (error, stores) => {
-      stores.map((result, i, store) => {
-        console.log({ [store[i][0]]: store[i][1] });
-        return true;
-      });
-    });
-  });
 
   let tabErrorsSignUp = listErrorsSignUp.map((error, i) => {
     return (<Text style={{ marginTop: 20 }} key={i}>{error}</Text>)
@@ -183,7 +175,7 @@ function PersonalInfoScreen(props) {
   if (!fontsLoaded) {
     return <AppLoading />
   }
-  console.log('isVisible', isVisible, props.tmpGoogleUser);
+
   return (
     <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === "ios" ? "padding" : "height"}>
 
@@ -241,7 +233,6 @@ function PersonalInfoScreen(props) {
             onChangeText={(value) => validateEmail(value)}
             value={email}
           />
-
           <Text style={{ color: colorMessageMail, textAlign: 'center' }} >{messageMail}</Text>
 
           {isVisible && (
@@ -256,9 +247,8 @@ function PersonalInfoScreen(props) {
               value={password}
             />
           }
-          {isVisible &&
-            <Text style={{ color: colorMessagePassword, textAlign: 'center' }} >{messagePassword}</Text>
-          }
+          <Text style={{ color: colorMessagePassword, textAlign: 'center' }} >{messagePassword}</Text>
+
         </View>
 
         {tabErrorsSignUp}

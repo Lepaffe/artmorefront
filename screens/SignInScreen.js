@@ -49,32 +49,21 @@ function SignInScreen(props) {
       props.addToken(body.token)
       props.loadArtist(body.artistList)
       props.loadArtwork(body.artworkList)
-      // On envoie au local storage "token2" qui stockera la valeur du body.token
       AsyncStorage.setItem('token2', body.token)
 
       props.navigation.navigate('BottomNav', { screen: 'DailyScreen' })
 
     } else {
+
       setErrorsSignin(body.error)
-      if (body.error.includes('Go back and Signin via Google')){
-         setTimeout(() => {
-          props.navigation.navigate('LoginScreen')}
-        , 2000);
+
+      if (body.error.includes('Go back and Signin via Google')) {
+        setTimeout(() => {
+          props.navigation.navigate('LoginScreen')
+        }, 2000);
       }
     }
   }
-
-  // Cette fonction est l'équivalent d'un console.log(localstorage)
-  // Elle peut donc être supprimée
-  // Je l'ai trouvé sur internet 
-  AsyncStorage.getAllKeys((err, keys) => {
-    AsyncStorage.multiGet(keys, (error, stores) => {
-      stores.map((result, i, store) => {
-        console.log({ [store[i][0]]: store[i][1] });
-        return true;
-      });
-    });
-  });
 
   var tabErrorsSignin = listErrorsSignin.map((error, i) => {
     return (<Text style={{ color: "rgba(255, 86, 94,0.8)", textAlign: 'center' }}>{error}</Text>)
@@ -148,9 +137,6 @@ const styles = StyleSheet.create({
   }
 });
 
-function mapStateToProps(state) {
-  return { token: state.token }
-}
 
 function mapDispatchToProps(dispatch) {
   return {
@@ -166,4 +152,4 @@ function mapDispatchToProps(dispatch) {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(SignInScreen)
+export default connect(null, mapDispatchToProps)(SignInScreen)

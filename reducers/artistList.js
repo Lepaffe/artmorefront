@@ -6,6 +6,9 @@ export default function (artistList = [], action) {
         var artistListCopy = [...artistList, action.artistId]
         return artistListCopy
 
+    } else if (action.type === 'deleteArtist') {
+        return artistList.filter(e => e !== action.artistId)
+
     } else if (action.type === 'resetArtistList') {
         return []
     }

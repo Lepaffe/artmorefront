@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import { Text, TouchableOpacity, View } from 'react-native';
+import React from 'react'
+import { TouchableOpacity, View } from 'react-native';
 import { ListItem, Avatar } from 'react-native-elements'
 import Icon from 'react-native-vector-icons/FontAwesome'
 
@@ -18,7 +18,6 @@ import AppLoading from 'expo-app-loading'
 
 function Expo(props) {
 
-    //const [color, setColor] = useState('black')
     let [fontsLoaded] = useFonts({
         Heebo_100Thin,
         Heebo_300Light,
@@ -37,9 +36,6 @@ function Expo(props) {
     if (props.isFav) {
         color = "orange"
     }
-
-
-    // props.isFav && setColor('orange')
 
     if (!fontsLoaded) {
         return <AppLoading />

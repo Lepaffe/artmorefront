@@ -79,7 +79,8 @@ function ExhibitionScreen(props) {
 
   const addExpo = async (title, place, address, date_start, date_end, img, city) => {
 
-    const data = await fetch(`${REACT_APP_URL_BACKEND}/add-exhibitions/${props.token}`, {
+
+    const data = await fetch(`${REACT_APP_URL_BACKEND}/add-exhibitions`, {
       method: "POST",
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
       body: `token=${props.token}&title=${title}&place=${place}&address=${address}&date_start=${date_start}&date_end=${date_end}&img=${img}&city=${city}`
@@ -123,7 +124,7 @@ function ExhibitionScreen(props) {
 
   if (datalist.length > 0) {
 
-    exhibitionsList = datalist.map((item,i) => {
+    exhibitionsList = datalist.map((item, i) => {
 
       let isFav = myExpoList.some(expo => item.title === expo.title)
       return (
@@ -157,8 +158,12 @@ function ExhibitionScreen(props) {
 
       <View style={{ flexDirection: "row" }} >
 
-        {listTab.map((e,i) => (
-          <TouchableOpacity key={i} style={[styles.btnTab, status === e.name && styles.btnTabActive]} onPress={() => setStatusFilter(e.name)}>
+        {listTab.map((e, i) => (
+          <TouchableOpacity
+            key={i}
+            style={[styles.btnTab, status === e.name && styles.btnTabActive]}
+            onPress={() => setStatusFilter(e.name)}
+          >
             <Text style={styles.textTab}>{e.name}</Text>
           </TouchableOpacity>
         ))

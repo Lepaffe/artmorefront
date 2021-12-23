@@ -40,7 +40,7 @@ const ProfileScreen = (props) => {
     useEffect(() => {
 
         const getInfo = async () => {
-            const data = await fetch(`${REACT_APP_URL_BACKEND}/get-username/${props.token}`);
+            const data = await fetch(`${REACT_APP_URL_BACKEND}/get-user-info-profile/${props.token}`);
             const dataJSON = await data.json();
             setFirstName(dataJSON.firstName)
             setLastName(dataJSON.lastName)
@@ -82,18 +82,14 @@ const ProfileScreen = (props) => {
             });
 
             const res = await fetch(`${REACT_APP_URL_BACKEND}/update-avatar/${props.token}`, {
-                method: 'POST',
+                method: 'PUT',
                 body: data
             })
             const resJSON = await res.json()
-            console.log('resJSON.image', resJSON.img);
             resJSON.img && setImage(resJSON.img);
         };
     }
 
-    if (!fontsLoaded) {
-        return <AppLoading />
-    }
 
     const logout = () => {
         AsyncStorage.clear()
@@ -107,6 +103,9 @@ const ProfileScreen = (props) => {
         props.navigation.navigate('LoginScreen')
     }
 
+    if (!fontsLoaded) {
+        return <AppLoading />
+    }
     return (
         < View style={styles.container}>
 
@@ -114,7 +113,7 @@ const ProfileScreen = (props) => {
 
                 <View style={styles.containerImage}>
 
-                    <Image source={{ uri: image}} style={{ width: 150, height: 150 }} />
+                    <Image source={{ uri: image }} style={{ width: 150, height: 150 }} />
 
                     <View style={styles.uploadBtnContainer}>
                         <TouchableOpacity onPress={addImage} style={styles.uploadBtn} >
@@ -135,7 +134,11 @@ const ProfileScreen = (props) => {
 
                 <View>
 
-                    <ListItem key={'1'} containerStyle={{ paddingTop: 18, backgroundColor: '#FFF' }} onPress={() => props.navigation.navigate('SettingsScreen')}>
+                    <ListItem
+                        key={'1'}
+                        containerStyle={{ paddingTop: 18, backgroundColor: '#FFF' }}
+                        onPress={() => props.navigation.navigate('SettingsScreen')}
+                    >
                         <MyIcon
                             type='Ionicons'
                             name="ios-settings-outline"

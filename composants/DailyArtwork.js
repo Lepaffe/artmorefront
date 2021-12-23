@@ -1,24 +1,20 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { View, Text, TouchableOpacity, Image, StyleSheet, Dimensions } from 'react-native'
 import MyIcon from '../composants/myIcons';
 
 const DailyArtwork = (props) => {
 
-    const [isFav, setIsFav] = useState(props.isFav)
-
     const handleClick = (artwork) => {
 
-        if (isFav) {
+        if (props.isFav) {
             props.removeFromCollection(artwork)
         } else {
             props.addToCollection(artwork)
         }
-
-        setIsFav(!isFav)
     }
 
     let color = 'black'
-    if (isFav) {
+    if (props.isFav) {
         color = '#FF565E'
     }
 

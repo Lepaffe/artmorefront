@@ -2,8 +2,8 @@
   "expo": {
     "name": "artmorefront",
     "slug": "artmore",
-    "owner":"artmore",
-    "scheme":"https://auth.expo.io/@artmore/artmore",
+    "owner": "artmore",
+    "scheme": "https://auth.expo.io/@artmore/artmore",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",

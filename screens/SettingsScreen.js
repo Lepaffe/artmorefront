@@ -22,51 +22,51 @@ const categories = [
     {
         name: 'Abstract',
         img: 'https://res.cloudinary.com/artplusmore/image/upload/v1639557979/pexels-photo-2693212_fjvesn.jpg'
-      },
-      {
+    },
+    {
         name: 'Landscape',
         img: 'https://res.cloudinary.com/artplusmore/image/upload/v1639558028/pexels-photo-2356059_nonufa.jpg'
-      },
-      {
+    },
+    {
         name: 'Portrait',
         img: 'https://res.cloudinary.com/artplusmore/image/upload/v1639558067/pexels-photo-3657140_sb1u6d.jpg'
-      },
-      {
+    },
+    {
         name: 'Animal',
         img: 'https://res.cloudinary.com/artplusmore/image/upload/v1639558110/pexels-photo-1076758_ah9dyf.jpg'
-      },
-      {
+    },
+    {
         name: 'EverydayLife',
         img: 'https://res.cloudinary.com/artplusmore/image/upload/v1639558134/pexels-photo-6127025_fbi7vr.jpg'
-      },
-      {
+    },
+    {
         name: 'PopArt',
         img: 'https://res.cloudinary.com/artplusmore/image/upload/v1639558186/pop-art-2706464_960_720_s704vd.jpg'
-      },
-      {
+    },
+    {
         name: 'Nude',
         img: 'https://res.cloudinary.com/artplusmore/image/upload/v1639558246/pexels-photo-230675_smp64w.jpg'
-      },
-      {
+    },
+    {
         name: 'Nature',
         img: 'https://res.cloudinary.com/artplusmore/image/upload/v1639558276/pexels-photo-3225517_cvgkgg.jpg'
-      },
-      {
+    },
+    {
         name: 'Urban',
         img: 'https://res.cloudinary.com/artplusmore/image/upload/v1639558306/pexels-photo-417023_oa6nlg.jpg'
-      },
-      {
+    },
+    {
         name: 'StillLife',
         img: 'https://res.cloudinary.com/artplusmore/image/upload/v1639558361/Nature_morte__28Paul_C_C3_A9zanne_29__283332859798_29_zoil8w.jpg'
-      },
-      {
+    },
+    {
         name: 'Monumental',
         img: 'https://res.cloudinary.com/artplusmore/image/upload/v1639558392/pexels-photo-5308359_po3xrh.jpg'
-      },
-      {
+    },
+    {
         name: 'Digital',
         img: 'https://res.cloudinary.com/artplusmore/image/upload/v1639590336/pexels-photo-2783848_jyddpn.jpg'
-      },
+    },
 ]
 
 function SettingsScreen(props) {
@@ -83,12 +83,9 @@ function SettingsScreen(props) {
 
     const [city, setCity] = useState('');
     const [password, setPassword] = useState('');
-    const [email, setEmail] = useState('');
     const [categoryPreferences, setCategoryPreferences] = useState([])
     const [mediumPreferences, setMediumPreferences] = useState([]);
 
-    const [isEmailValid, setIsEmailValid] = useState(false);
-    const [messageMail, setMessageMail] = useState('');
     const [isPasswordValid, setIsPasswordValid] = useState(false);
     const [messagePassword, setMessagePassword] = useState('');
 
@@ -102,11 +99,10 @@ function SettingsScreen(props) {
     useEffect(() => {
 
         const getUserInfo = async () => {
-            const data = await fetch(`${REACT_APP_URL_BACKEND}/get-user-info/${props.token}`);
+            const data = await fetch(`${REACT_APP_URL_BACKEND}/get-user-info-settings/${props.token}`);
             const dataJSON = await data.json();
 
             setCity(dataJSON.city)
-            setEmail(dataJSON.email)
             setMediumPreferences(dataJSON.mediums)
             setCategoryPreferences(dataJSON.categories)
 
@@ -124,19 +120,6 @@ function SettingsScreen(props) {
 
     }, [])
 
-    const validateEmail = (value) => {
-        const emailRegex = /^\w+([.-]?\w+)@\w+([.-]?\w+)(.\w\w+)+$/
-        const email = value;
-        setEmail(value)
-
-        if (emailRegex.test(email)) {
-            setIsEmailValid(true);
-            setMessageMail('Valid e-mail');
-        } else {
-            setIsEmailValid(false);
-            setMessageMail('Invalid e-mail');
-        }
-    };
 
     const validatePassword = (value) => {
         const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/
@@ -163,22 +146,6 @@ function SettingsScreen(props) {
         setCity(dataJSON.city)
     }
 
-    const changeEmail = async () => {
-
-        if (isEmailValid) {
-
-            const data = await fetch(`${REACT_APP_URL_BACKEND}/update-email/${props.token}`, {
-                method: 'PUT',
-                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                body: `email=${email}`
-            })
-            const dataJSON = await data.json();
-            if (dataJSON.email) {
-                setEmail(dataJSON.email)
-                setMessageMail('')
-            }
-        }
-    }
 
     const changePassword = async () => {
 
@@ -283,9 +250,6 @@ function SettingsScreen(props) {
     }
 
 
-    let colorMessageMail = "rgba(255, 86, 94,0.8)"
-    if (isEmailValid) colorMessageMail = "rgba(58, 187, 109, 0.6)";
-
     let colorMessagePassword = "rgba(255, 86, 94,0.8)"
     if (isPasswordValid) colorMessagePassword = "rgba(58, 187, 109, 0.6)";
 
@@ -321,27 +285,6 @@ function SettingsScreen(props) {
 
                 </View>
 
-                <View style={{ alignItems: 'center', marginTop: 60 }}>
-                    <Text style={styles.label}>E-mail</Text>
-                    <TextInput
-                        style={styles.input}
-                        onChangeText={(value) => validateEmail(value)}
-                        value={email}
-                    />
-
-                    {messageMail ? <Text style={{ color: colorMessageMail, textAlign: 'center', marginBottom: 8 }} >{messageMail}</Text> : null}
-
-
-                    <Button title="Change my e-mail"
-                        buttonStyle={{ width: 150, borderRadius: 25, paddingHorizontal: 20, backgroundColor: "rgba(38, 50, 56, 0.8)" }}
-                        titleStyle={{
-                            fontFamily: 'Heebo_300Light',
-                            fontSize: 10
-                        }}
-                        onPress={() => changeEmail()}
-                    />
-                </View>
-
 
                 <View style={{ alignItems: 'center', marginTop: 60 }}>
                     <Text style={styles.label}>Password</Text>
@@ -353,7 +296,10 @@ function SettingsScreen(props) {
                         value={password}
                     />
 
-                    {messagePassword ? <Text style={{ color: colorMessagePassword, textAlign: 'center', marginBottom: 8 }} >{messagePassword}</Text> : null}
+                    {messagePassword ?
+                        <Text style={{ color: colorMessagePassword, textAlign: 'center', marginBottom: 8 }} >{messagePassword}</Text>
+                        : null
+                    }
 
                     <Button title="Change my password"
                         buttonStyle={{ width: 150, borderRadius: 25, paddingHorizontal: 20, backgroundColor: "rgba(38, 50, 56, 0.8)" }}
@@ -399,10 +345,11 @@ function SettingsScreen(props) {
                     <Text style={{ fontFamily: 'Heebo_300Light', fontSize: 20, marginBottom: 25 }}>Medium preferences</Text>
 
                     <View style={{ width: '90%', justifyContent: 'space-around' }}>
-                        <View style={{ 
-                            flexDirection: 'row', 
-                            alignItems: 'center', 
-                            justifyContent: "space-between" }}>
+                        <View style={{
+                            flexDirection: 'row',
+                            alignItems: 'center',
+                            justifyContent: "space-between"
+                        }}>
                             <Text style={{ fontFamily: 'Heebo_300Light', marginLeft: 80, marginRight: 60, marginBottom: 8, fontSize: 16 }}>Painting</Text>
                             <Switch
                                 trackColor={{ false: "#767577", true: "rgba(58, 187, 109, 0.2)" }}
@@ -414,10 +361,11 @@ function SettingsScreen(props) {
                             />
                         </View>
 
-                        <View style={{ 
-                            flexDirection: 'row', 
-                            alignItems: 'center', 
-                            justifyContent: "space-between" }}>
+                        <View style={{
+                            flexDirection: 'row',
+                            alignItems: 'center',
+                            justifyContent: "space-between"
+                        }}>
                             <Text style={{ fontFamily: 'Heebo_300Light', marginLeft: 80, marginBottom: 8, fontSize: 16 }}>Sculpture</Text>
                             <Switch
                                 trackColor={{ false: "#767577", true: "rgba(58, 187, 109, 0.2)" }}
@@ -429,10 +377,11 @@ function SettingsScreen(props) {
                             />
                         </View>
 
-                        <View style={{ 
-                            flexDirection: 'row', 
-                            alignItems: 'center', 
-                            justifyContent: "space-between" }}>
+                        <View style={{
+                            flexDirection: 'row',
+                            alignItems: 'center',
+                            justifyContent: "space-between"
+                        }}>
                             <Text style={{ fontFamily: 'Heebo_300Light', marginLeft: 80, marginBottom: 8, fontSize: 16 }}>Photography</Text>
                             <Switch
                                 trackColor={{ false: "#767577", true: "rgba(58, 187, 109, 0.2)" }}
@@ -444,10 +393,11 @@ function SettingsScreen(props) {
                             />
                         </View>
 
-                        <View style={{ 
-                            flexDirection: 'row', 
-                            alignItems: 'center', 
-                            justifyContent: "space-between" }}>
+                        <View style={{
+                            flexDirection: 'row',
+                            alignItems: 'center',
+                            justifyContent: "space-between"
+                        }}>
                             <Text style={{ fontFamily: 'Heebo_300Light', marginLeft: 80, marginBottom: 8, fontSize: 16 }}>Drawing</Text>
                             <Switch
                                 trackColor={{ false: "#767577", true: "rgba(58, 187, 109, 0.2)" }}
@@ -459,10 +409,11 @@ function SettingsScreen(props) {
                             />
                         </View>
 
-                        <View style={{ 
-                            flexDirection: 'row', 
-                            alignItems: 'center', 
-                            justifyContent: "space-between" }}>
+                        <View style={{
+                            flexDirection: 'row',
+                            alignItems: 'center',
+                            justifyContent: "space-between"
+                        }}>
                             <Text style={{ fontFamily: 'Heebo_300Light', marginLeft: 80, marginBottom: 8, fontSize: 16 }}>Digital Art</Text>
                             <Switch
                                 trackColor={{ false: "#767577", true: "rgba(58, 187, 109, 0.2)" }}
@@ -474,10 +425,11 @@ function SettingsScreen(props) {
                             />
                         </View>
 
-                        <View style={{ 
-                            flexDirection: 'row', 
-                            alignItems: 'center', 
-                            justifyContent: "space-between" }}>
+                        <View style={{
+                            flexDirection: 'row',
+                            alignItems: 'center',
+                            justifyContent: "space-between"
+                        }}>
                             <Text style={{ fontFamily: 'Heebo_300Light', marginLeft: 80, fontSize: 16, marginBottom: 15 }}>Street Art</Text>
                             <Switch
                                 trackColor={{ false: "#767577", true: "rgba(58, 187, 109, 0.2)" }}

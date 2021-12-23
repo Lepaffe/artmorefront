@@ -65,8 +65,9 @@ const StatisticsScreen = (props) => {
             {hasUserAlreadyLiked ?
 
                 <View style={styles.categoriesContainer}>
+
                     {movementsPourcentage.length > 0 &&
-                        movementsPourcentage.map((movement,i) => {
+                        movementsPourcentage.map((movement, i) => {
                             if (movement.pourcentage != 0) {
                                 return (
                                     <View key={i} style={styles.category}>
@@ -78,6 +79,7 @@ const StatisticsScreen = (props) => {
                                     </View>)
                             }
                         })}
+
                 </View>
 
                 :
@@ -91,7 +93,7 @@ const StatisticsScreen = (props) => {
                 <View style={styles.categoriesContainer}>
 
                     {categoriesPourcentage.length > 0 &&
-                        categoriesPourcentage.map((category,i) => {
+                        categoriesPourcentage.map((category, i) => {
                             if (category.pourcentage != 0) {
                                 return (<View key={i} style={styles.category}>
                                     <View style={{ flexDirection: 'row', alignItems: 'center' }}>

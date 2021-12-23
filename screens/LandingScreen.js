@@ -38,7 +38,7 @@ function LandingScreen(props) {
     async function autoLog() {
       //récupération du token nommé "token2" dans le local storage via le get
       AsyncStorage.getItem('token2', async (err, value) => {
-        console.log("Valeur du token dans le local storage : ", value)
+
         // S'il y a bien une valeur pour "token2" on appelle la route "autologgedIn" qui va nous rediriger sur la Daily
         if (value) {
           var rawResponse = await fetch(`${REACT_APP_URL_BACKEND}/auto-loggedIn/${value}`);
@@ -47,10 +47,12 @@ function LandingScreen(props) {
             props.addToken(body.token)
             props.loadArtist(body.artistList)
             props.loadArtwork(body.artworkList)
+
             setTimeout(() => {
               props.navigation.navigate('BottomNav', { screen: 'DailyScreen' })
             }, 3000)
           }
+
           // S'il n'y a pas de valeur dans le local storage on est redirigé sur le login
         } else {
           setTimeout(() => {
@@ -68,19 +70,16 @@ function LandingScreen(props) {
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: '#FFFFFF', flexDirection: 'row' }}>
 
       <FadeInView >
-        <Image style={{
-          width: 300,
-          height: 140,
-        }} source={require('../assets/masklogo.png')} />
+        <Image
+          style={{ width: 300, height: 140 }}
+          source={require('../assets/masklogo.png')}
+        />
       </FadeInView>
 
     </View >
   )
 }
 
-function mapStateToProps(state) {
-  return { token: state.token }
-}
 
 function mapDispatchToProps(dispatch) {
   return {
@@ -97,6 +96,6 @@ function mapDispatchToProps(dispatch) {
 }
 
 export default connect(
-  mapStateToProps,
+  null,
   mapDispatchToProps
 )(LandingScreen)

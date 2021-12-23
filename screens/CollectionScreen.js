@@ -3,7 +3,6 @@ import { View, StyleSheet, Image, TouchableOpacity, Text, ScrollView } from 'rea
 import MasonryList from '@react-native-seoul/masonry-list';
 import { REACT_APP_URL_BACKEND } from "@env";
 import { connect } from 'react-redux'
-import { useIsFocused } from '@react-navigation/native';
 
 import {
     Heebo_100Thin,
@@ -31,19 +30,17 @@ function CollectionScreen(props) {
     })
 
     const [collection, setCollection] = useState([])
-    const isFocused = useIsFocused();
 
     useEffect(() => {
 
         const getCollection = async () => {
             const data = await fetch(`${REACT_APP_URL_BACKEND}/get-collection/${props.token}`);
             const dataJSON = await data.json();
-            setCollection(dataJSON.collection.artworkList);
-
+            setCollection(dataJSON.collection);
         }
         getCollection();
 
-    }, [isFocused])
+    }, [props.artworkList])
 
 
     // renderItem to use in the MasonryList componment to render a grid with two colum to display
@@ -102,7 +99,7 @@ const styles = StyleSheet.create({
 })
 
 function mapStateToProps(state) {
-    return { token: state.token }
+    return { token: state.token, artworkList: state.artworkList }
 }
 function mapDispatchToProps(dispatch) {
     return {

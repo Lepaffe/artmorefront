@@ -8,9 +8,7 @@ export default function (artworkList = [], action) {
         return artworkListCopy
 
     } else if (action.type === 'deleteArtwork') {
-        var artworkListCopy = [...artworkList]
-        artworkListCopy = artworkListCopy.filter(e => e !== action.artworkId)
-        return artworkListCopy
+        return artworkList.filter(e => e !== action.artworkId)
 
     } else if (action.type === 'resetArtworkList') {
         return []
