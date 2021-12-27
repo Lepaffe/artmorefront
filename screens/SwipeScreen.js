@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react'
 import { View, StyleSheet, Image, TouchableOpacity } from 'react-native'
-import { AntDesign, Entypo } from '@expo/vector-icons'
+import MyIcon from '../composants/myIcons'
 import Swiper from 'react-native-deck-swiper'
 import { connect } from 'react-redux';
 import { useIsFocused } from '@react-navigation/native';
@@ -102,30 +102,30 @@ const SwipeScreen = (props) => {
 
             <View style={styles.buttonContainer}>
 
-                <TouchableOpacity style={styles.button}>
-                    <Entypo
+                <TouchableOpacity style={styles.button} onPress={() => swipeRef.current.swipeLeft()}>
+                    <MyIcon 
+                        type='Entypo'
                         name="cross"
                         size={24}
                         color="rgba(255, 86, 94, 0.7)"
-                        onPress={() => swipeRef.current.swipeLeft()}
                     />
                 </TouchableOpacity>
 
-                <TouchableOpacity style={styles.button}>
-                    <AntDesign
+                <TouchableOpacity style={styles.button} onPress={() => swipeRef.current.swipeBottom()}>
+                    <MyIcon 
+                        type='AntDesign'
                         name="hearto"
                         size={20}
                         color='#FF565E'
-                        onPress={() => swipeRef.current.swipeBottom()}
                     />
                 </TouchableOpacity>
 
-                <TouchableOpacity style={styles.button}>
-                    <AntDesign
+                <TouchableOpacity style={styles.button} onPress={() => swipeRef.current.swipeRight()}>
+                    <MyIcon 
+                        type='AntDesign'
                         name="check"
                         size={24}
-                        color="rgba(58, 187, 109, 0.7)"
-                        onPress={() => swipeRef.current.swipeRight()}
+                        color="rgba(58, 187, 109, 0.7)" 
                     />
                 </TouchableOpacity>
 
