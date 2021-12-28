@@ -2,7 +2,7 @@ import React from 'react'
 import { TouchableOpacity, View } from 'react-native';
 import { ListItem, Avatar } from 'react-native-elements'
 import Icon from 'react-native-vector-icons/FontAwesome'
-
+import MyIcon from './myIcons';
 import {
     Heebo_100Thin,
     Heebo_300Light,
@@ -52,15 +52,15 @@ function Expo(props) {
                     <ListItem.Subtitle style={{ fontFamily: 'Heebo_300Light', marginVertical: 5 }}>{props.address}</ListItem.Subtitle>
                     <ListItem.Subtitle style={{ fontFamily: 'Heebo_400Regular', fontSize: 12 }}>From {props.date_start} to {props.date_end}</ListItem.Subtitle>
                     <View style={{ alignSelf: 'flex-end' }} >
-                        <TouchableOpacity>
-                            <Icon style={{ marginEnd: 10 }}
+                        <TouchableOpacity onPress={() => handleClickAddExpo(props.title, props.place, props.address, props.date_start, props.date_end, props.img, props.city)}>
+                            <MyIcon 
+                                type='FontAwesome'
+                                Icon style={{ marginEnd: 10 }}
                                 name="plus"
                                 size={20}
                                 color={color}
-                                contentStyle={{ margin: 20 }}
-                                onPress={() => handleClickAddExpo(props.title, props.place, props.address, props.date_start, props.date_end, props.img, props.city)}
-                            >
-                            </Icon>
+                            />
+                            
                         </TouchableOpacity>
                     </View>
                 </ListItem.Content>

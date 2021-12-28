@@ -3,7 +3,6 @@ import { View, Image, Text, StyleSheet, TouchableOpacity } from 'react-native'
 import { connect } from 'react-redux'
 import * as ImagePicker from 'expo-image-picker'
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { AntDesign } from '@expo/vector-icons'
 import { ListItem } from 'react-native-elements';
 import MyIcon from '../composants/myIcons';
 import { REACT_APP_URL_BACKEND } from "@env";
@@ -117,7 +116,7 @@ const ProfileScreen = (props) => {
 
                     <View style={styles.uploadBtnContainer}>
                         <TouchableOpacity onPress={addImage} style={styles.uploadBtn} >
-                            <AntDesign name="camera" size={20} color="black" />
+                            <MyIcon type='AntDesign' name="camera" size={20} color="black" />
                         </TouchableOpacity>
                     </View>
 

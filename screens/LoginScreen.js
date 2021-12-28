@@ -2,8 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { View, Platform, StyleSheet, Text, ImageBackground } from 'react-native';
 import { Button } from 'react-native-elements';
 
-import Icon from 'react-native-vector-icons/FontAwesome';
-
+import MyIcon from '../composants/myIcons';
 import * as Google from 'expo-auth-session/providers/google';
 import { makeRedirectUri } from 'expo-auth-session';
 import * as WebBrowser from 'expo-web-browser';
@@ -137,7 +136,8 @@ function LoginScreen(props) {
           onPress={() => promptAsync({ useProxy: true })}
           disabled={!request}
           icon={
-            <Icon style={styles.icon}
+            <MyIcon style={styles.icon}
+              type='FontAwesome'
               name="google"
               size={20}
               color="grey"

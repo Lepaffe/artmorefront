@@ -3,7 +3,7 @@ import { ScrollView, View, StyleSheet, KeyboardAvoidingView, Text, TouchableOpac
 import { Button } from 'react-native-elements'
 import { connect } from 'react-redux'
 import DateTimePickerModal from "react-native-modal-datetime-picker";
-import { AntDesign } from '@expo/vector-icons';
+import MyIcon from '../composants/myIcons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import {
@@ -60,10 +60,10 @@ function PersonalInfoScreen(props) {
       setLastName(props.tmpGoogleUser.lastName);
       validateEmail(props.tmpGoogleUser.email);
       setIsPasswordValid(true);
-      //setMessagePassword('');
+      setMessagePassword('');
       setIsVisible(false);
-    } /*else { 
-      console.log('coucou')
+    } else { 
+      
       setFirstName('');   // ce sont déjà les états de base
       setLastName('');
       validateEmail('');
@@ -72,7 +72,7 @@ function PersonalInfoScreen(props) {
       setIsEmailValid(false);
       setMessagePassword('');
       setIsVisible(true);
-    }*/
+    }
   }, [isFocused])
 
   const showDatePicker = () => {
@@ -209,7 +209,7 @@ function PersonalInfoScreen(props) {
           <View style={{ flexDirection: 'row' }}>
             <Text style={styles.label}>Date of birth </Text>
             <TouchableOpacity onPress={showDatePicker} style={{ marginTop: 10, marginLeft: 5 }}>
-              <AntDesign name="calendar" size={24} color="rgb(213, 208, 205)" />
+              <MyIcon type='AntDesign' name="calendar" size={24} color="rgb(213, 208, 205)" />
             </TouchableOpacity>
           </View>
 
