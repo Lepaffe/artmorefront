@@ -45,6 +45,7 @@ function LoginScreen(props) {
 
   //on met le traitement dans un useEffect pour ne l'executer que quand response est modifié
   useEffect(() => {
+
     if (response) {
       if (response.type == 'success') {
         //on recupère le token pour  envoyer la requete de recup des infos

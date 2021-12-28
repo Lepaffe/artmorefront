@@ -32,6 +32,7 @@ function MyArtistsScreen(props) {
     const [artistCollection, setArtistCollection] = useState([])
 
     useEffect(() => {
+
         const getArtistCollection = async () => {
             const data = await fetch(`${REACT_APP_URL_BACKEND}/get-artist-collection/${props.token}`);
             const dataJSON = await data.json();
