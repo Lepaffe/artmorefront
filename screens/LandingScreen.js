@@ -36,6 +36,7 @@ function LandingScreen(props) {
   useEffect(() => {
 
     async function autoLog() {
+
       //récupération du token nommé "token2" dans le local storage via le get
       AsyncStorage.getItem('token2', async (err, value) => {
 

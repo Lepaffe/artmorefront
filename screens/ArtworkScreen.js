@@ -33,6 +33,7 @@ const ArtworkScreen = (props) => {
     const [colorLike, setColorLike] = useState("black")
 
     useEffect(() => {
+
         const getArtistDetail = async () => {
             const data = await fetch(`${REACT_APP_URL_BACKEND}/get-artist-detail/${props.selectedArtwork._id}`);
             const dataJSON = await data.json();

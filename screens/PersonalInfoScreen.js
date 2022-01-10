@@ -62,8 +62,8 @@ function PersonalInfoScreen(props) {
       setIsPasswordValid(true);
       setMessagePassword('');
       setIsVisible(false);
-    } else { 
-      
+    } else {
+
       setFirstName('');   // ce sont déjà les états de base
       setLastName('');
       validateEmail('');

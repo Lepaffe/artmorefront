@@ -45,6 +45,7 @@ function CategoryScreen(props) {
     props.navigation.navigate('PersonalInfoScreen')
   }
 
+
   const categories = [
     {
       name: 'Abstract',

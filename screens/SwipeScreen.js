@@ -17,6 +17,7 @@ const SwipeScreen = (props) => {
     const swipeRef = useRef(null);
 
     useEffect(() => {
+
         const getArtworkList = async () => {
             const data = await fetch(`${REACT_APP_URL_BACKEND}/get-artwork-list/${props.token}`);
             const dataJSON = await data.json();
@@ -103,7 +104,7 @@ const SwipeScreen = (props) => {
             <View style={styles.buttonContainer}>
 
                 <TouchableOpacity style={styles.button} onPress={() => swipeRef.current.swipeLeft()}>
-                    <MyIcon 
+                    <MyIcon
                         type='Entypo'
                         name="cross"
                         size={24}
@@ -112,7 +113,7 @@ const SwipeScreen = (props) => {
                 </TouchableOpacity>
 
                 <TouchableOpacity style={styles.button} onPress={() => swipeRef.current.swipeBottom()}>
-                    <MyIcon 
+                    <MyIcon
                         type='AntDesign'
                         name="hearto"
                         size={20}
@@ -121,11 +122,11 @@ const SwipeScreen = (props) => {
                 </TouchableOpacity>
 
                 <TouchableOpacity style={styles.button} onPress={() => swipeRef.current.swipeRight()}>
-                    <MyIcon 
+                    <MyIcon
                         type='AntDesign'
                         name="check"
                         size={24}
-                        color="rgba(58, 187, 109, 0.7)" 
+                        color="rgba(58, 187, 109, 0.7)"
                     />
                 </TouchableOpacity>
 
