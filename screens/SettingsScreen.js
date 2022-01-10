@@ -108,7 +108,7 @@ function SettingsScreen(props) {
 
             dataJSON.mediums.forEach(el => {
                 el === "painting" && setPainting(true)
-                el === "sculpture" && setSculpture
+                el === "sculpture" && setSculpture (true)
                 el === "photography" && setPhotography(true)
                 el === "drawing" && setDrawing(true)
                 el === "digitalArt" && setDigitalArt(true)
@@ -317,7 +317,7 @@ function SettingsScreen(props) {
                     <View style={{ flexDirection: "row", flexWrap: 'wrap', justifyContent: 'center' }}>
 
                         {categories.map(category => {
-                            let isSelected = categoryPreferences.some(el => category.name == el)
+                            let isSelected = categoryPreferences.some(el => category.name === el)
                             return (
                                 <Category
                                     key={category.name}

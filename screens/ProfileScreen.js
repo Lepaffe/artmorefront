@@ -72,7 +72,7 @@ const ProfileScreen = (props) => {
 
         if (!_image.cancelled) {
 
-            var data = new FormData();
+            let data = new FormData();
 
             data.append('avatar', {
                 uri: _image.uri,

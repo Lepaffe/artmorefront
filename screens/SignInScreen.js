@@ -35,7 +35,7 @@ function SignInScreen(props) {
   const [password, setPassword] = useState('');
   const [listErrorsSignin, setErrorsSignin] = useState([])
 
-  var signIn = async () => {
+  const signIn = async () => {
 
     const data = await fetch(`${REACT_APP_URL_BACKEND}/sign-in`, {
       method: 'POST',
@@ -45,7 +45,7 @@ function SignInScreen(props) {
 
     const body = await data.json()
 
-    if (body.result == true) {
+    if (body.result === true) {
       props.addToken(body.token)
       props.loadArtist(body.artistList)
       props.loadArtwork(body.artworkList)
@@ -65,7 +65,7 @@ function SignInScreen(props) {
     }
   }
 
-  var tabErrorsSignin = listErrorsSignin.map((error, i) => {
+  let tabErrorsSignin = listErrorsSignin.map((error, i) => {
     return (<Text style={{ color: "rgba(255, 86, 94,0.8)", textAlign: 'center' }}>{error}</Text>)
   })
 

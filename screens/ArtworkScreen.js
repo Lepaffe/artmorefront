@@ -77,7 +77,7 @@ const ArtworkScreen = (props) => {
     // Toggle qui add et delete des oeuvres dans la artworklist sur le store quand on press sur le coeur du like + changement de couleur
     const addToCollection = async (id) => {
 
-        if (likedArtwork == false) {
+        if (likedArtwork === false) {
 
             const data = await fetch(`${REACT_APP_URL_BACKEND}/add-artworklist/`, {
                 method: "POST",

@@ -112,7 +112,7 @@ function CategoryScreen(props) {
 
           {categories.map(category => {
 
-            let isSelected = categoryPreferences.some(el => category.name == el)
+            let isSelected = categoryPreferences.some(el => category.name === el)
             return (
               <Category
                 key={category.name}

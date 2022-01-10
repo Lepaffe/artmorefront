@@ -53,8 +53,8 @@ function ExhibitionScreen(props) {
   useEffect(() => {
 
     async function loadAllExpo() {
-      var rawResponse = await fetch(`${REACT_APP_URL_BACKEND}/get-exhibitions/${props.token}`);
-      var response = await rawResponse.json();
+      let rawResponse = await fetch(`${REACT_APP_URL_BACKEND}/get-exhibitions/${props.token}`);
+      let response = await rawResponse.json();
 
       if (response.listExpoBack && response.userCity) {
         setListExpo(response.listExpoBack);
@@ -67,8 +67,8 @@ function ExhibitionScreen(props) {
     loadAllExpo();
 
     async function loadMyExpo() {
-      var rawResponse = await fetch(`${REACT_APP_URL_BACKEND}/get-my-exhibitions/${props.token}`);
-      var response = await rawResponse.json();
+      let rawResponse = await fetch(`${REACT_APP_URL_BACKEND}/get-my-exhibitions/${props.token}`);
+      let response = await rawResponse.json();
       response.userExpoList && setMyExpoList(response.userExpoList);
     }
     loadMyExpo();
@@ -120,7 +120,7 @@ function ExhibitionScreen(props) {
     setStatus(status)
   }
 
-  var exhibitionsList = <LinearProgress style={{ margin: 30, width: 300 }} color="rgba(213, 208, 205, 0.7)" />
+  let exhibitionsList = <LinearProgress style={{ margin: 30, width: 300 }} color="rgba(213, 208, 205, 0.7)" />
 
   if (datalist.length > 0) {
 

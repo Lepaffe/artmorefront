@@ -3,7 +3,7 @@ export default function (artistList = [], action) {
         return action.artistList
 
     } else if (action.type === 'addArtist') {
-        var artistListCopy = [...artistList, action.artistId]
+        let artistListCopy = [...artistList, action.artistId]
         return artistListCopy
 
     } else if (action.type === 'deleteArtist') {

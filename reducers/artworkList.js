@@ -4,7 +4,7 @@ export default function (artworkList = [], action) {
         return action.artworkList
 
     } else if (action.type === 'addArtwork') {
-        var artworkListCopy = [...artworkList, action.artworkId]
+        let artworkListCopy = [...artworkList, action.artworkId]
         return artworkListCopy
 
     } else if (action.type === 'deleteArtwork') {

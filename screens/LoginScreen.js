@@ -46,7 +46,7 @@ function LoginScreen(props) {
   //on met le traitement dans un useEffect pour ne l'executer que quand response est modifié
   useEffect(() => {
     if (response) {
-      if (response.type == 'success') {
+      if (response.type === 'success') {
         //on recupère le token pour  envoyer la requete de recup des infos
         const { authentication: { accessToken } } = response;
         //on appelle la fonciton de récuperation des infos
@@ -80,7 +80,7 @@ function LoginScreen(props) {
         },
       });
 
-    var user = await userinfo.json();
+    let user = await userinfo.json();
 
     // on verifie si le user est déjà dans la base  signIn ou SignUp
     const data = await fetch(`${REACT_APP_URL_BACKEND}/sign-in-google`, {

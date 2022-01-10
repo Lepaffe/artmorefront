@@ -122,7 +122,7 @@ function PersonalInfoScreen(props) {
 
     if (isEmailValid && isPasswordValid) {
 
-      var dataJSON = {};
+      let dataJSON = {};
       let mediums = JSON.stringify(props.medium)
       let categories = JSON.stringify(props.category)
 

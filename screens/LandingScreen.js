@@ -41,9 +41,9 @@ function LandingScreen(props) {
 
         // S'il y a bien une valeur pour "token2" on appelle la route "autologgedIn" qui va nous rediriger sur la Daily
         if (value) {
-          var rawResponse = await fetch(`${REACT_APP_URL_BACKEND}/auto-loggedIn/${value}`);
+          let rawResponse = await fetch(`${REACT_APP_URL_BACKEND}/auto-loggedIn/${value}`);
           const body = await rawResponse.json()
-          if (body.result == true) {
+          if (body.result === true) {
             props.addToken(body.token)
             props.loadArtist(body.artistList)
             props.loadArtwork(body.artworkList)
